@@ -1,0 +1,100 @@
+/* ===== ZOCO — shared stylesheet ===== */
+:root{
+  --cobalt:#1E4E9C;  --cobalt-hi:#4A7BC8;
+  --ruby:#B72A40;    --ruby-hi:#E05468;
+  --amber:#E39B22;   --amber-hi:#F6C25B;
+  --emerald:#1E7A66; --emerald-hi:#3FA88F;
+  --rose:#B84A72;    --rose-hi:#DD7BA0;
+  --violet:#6B3D85;  --violet-hi:#9563B0;
+  --lead:#26201B; --stone:#EFE5D2; --stone-deep:#E3D5BB;
+  --wa:#1FA855;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Archivo',sans-serif;background:var(--stone);color:var(--lead);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px}
+img{max-width:100%;display:block}
+
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+/* ---- glass pane primitive ---- */
+.g{position:relative;background:
+    linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,0) 45%),
+    radial-gradient(circle at 32% 26%,var(--hi),var(--c) 72%);
+   --c:var(--cobalt);--hi:var(--cobalt-hi)}
+.g-ruby{--c:var(--ruby);--hi:var(--ruby-hi)}
+.g-amber{--c:var(--amber);--hi:var(--amber-hi)}
+.g-emerald{--c:var(--emerald);--hi:var(--emerald-hi)}
+.g-rose{--c:var(--rose);--hi:var(--rose-hi)}
+.g-violet{--c:var(--violet);--hi:var(--violet-hi)}
+
+/* ---- rose window ---- */
+.rose-win{width:190px;height:190px;border-radius:50%;position:relative;flex:none;
+  background:
+    radial-gradient(circle, var(--amber-hi) 0 9%, transparent 9%),
+    radial-gradient(circle, transparent 0 10%, var(--lead) 10% 12%, transparent 12% 34%, var(--lead) 34% 36%, transparent 36% 62%, var(--lead) 62% 64%, transparent 64% 92%, var(--lead) 92%),
+    repeating-conic-gradient(var(--lead) 0 2.2deg, transparent 2.2deg 30deg),
+    conic-gradient(var(--cobalt) 0 30deg, var(--ruby) 30deg 60deg, var(--amber) 60deg 90deg, var(--emerald) 90deg 120deg, var(--violet) 120deg 150deg, var(--rose) 150deg 180deg, var(--cobalt) 180deg 210deg, var(--amber) 210deg 240deg, var(--ruby) 240deg 270deg, var(--emerald) 270deg 300deg, var(--rose) 300deg 330deg, var(--violet) 330deg 360deg);
+  box-shadow:0 0 0 6px var(--lead), 0 0 0 10px var(--stone-deep), 0 12px 34px rgba(38,32,27,.32), 0 0 50px rgba(227,155,34,.22);
+}
+.rose-win::after{content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 32% 24%,rgba(255,255,255,.32),rgba(255,255,255,0) 55%)}
+.rose-win.small{width:110px;height:110px;box-shadow:0 0 0 4px var(--lead), 0 0 0 7px var(--stone-deep), 0 8px 20px rgba(38,32,27,.32), 0 0 30px rgba(227,155,34,.28)}
+
+/* ---- mosaic band ---- */
+.mband{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}
+.mband div{height:14px;border-radius:2px}
+
+/* ---- site header / nav ---- */
+.sitehead{background:var(--lead);color:var(--stone)}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.brand{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem;letter-spacing:.1em;color:var(--stone);text-shadow:0 0 20px rgba(227,155,34,.45);text-decoration:none}
+.navlinks{display:flex;gap:22px;font-size:.82rem;font-weight:500;list-style:none}
+.navlinks a{text-decoration:none;color:var(--stone);opacity:.78;padding-bottom:3px;border-bottom:2px solid transparent}
+.navlinks a:hover,.navlinks a.active{opacity:1;border-color:var(--amber)}
+.navcta{background:var(--ruby);color:#fff;text-decoration:none;font-weight:600;font-size:.8rem;border-radius:8px;padding:8px 15px;box-shadow:0 3px 9px rgba(183,42,64,.4)}
+.burger{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:6px}
+.burger span{width:22px;height:2px;background:var(--stone)}
+
+/* ---- generic section ---- */
+section{padding:52px 0}
+.eyebrow{font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ruby);margin-bottom:8px}
+h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:600}
+.section-title{font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.15;margin-bottom:10px}
+.section-title b{color:var(--cobalt);font-weight:700}
+.lede{font-size:.95rem;opacity:.85;max-width:60ch}
+
+/* ---- buttons ---- */
+.btn{display:inline-block;text-decoration:none;border:none;border-radius:9px;padding:12px 20px;font-weight:600;font-size:.88rem;font-family:'Archivo',sans-serif;cursor:pointer}
+.btn-ruby{background:var(--ruby);color:#fff;box-shadow:0 4px 12px rgba(183,42,64,.4)}
+.btn-ghost-dark{background:transparent;border:2px solid var(--lead);color:var(--lead)}
+.btn-ghost-light{background:transparent;border:2px solid var(--stone);color:var(--stone)}
+.btn-wa{background:var(--wa);color:#fff;box-shadow:0 3px 10px rgba(31,168,85,.35)}
+.btnrow{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* ---- cards ---- */
+.card{background:#fff;border:1px solid rgba(38,32,27,.14);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(38,32,27,.07)}
+.dia{width:15px;height:15px;transform:rotate(45deg);border:1.5px solid var(--lead)}
+
+/* ---- footer ---- */
+footer{margin-top:20px;background:var(--lead);color:var(--stone);padding:36px 0 42px}
+footer .fin{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-start}
+footer .flogo{font-family:'Fraunces',serif;font-weight:700;letter-spacing:.1em;font-size:1.15rem;text-shadow:0 0 18px rgba(227,155,34,.4)}
+footer p{font-size:.76rem;opacity:.72;max-width:40ch;margin-top:8px}
+footer a{color:var(--amber-hi);text-decoration:none}
+.footlinks{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem}
+.footlinks a{opacity:.85}
+
+.badge{display:inline-block;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(239,229,210,.4);border-radius:20px;padding:5px 12px;color:var(--stone)}
+.badge.on-stone{border-color:rgba(38,32,27,.3);color:var(--lead)}
+.badge.hal{border-color:var(--emerald-hi);color:var(--emerald-hi)}
+.badge.hal.on-stone{border-color:var(--emerald);color:var(--emerald)}
+.badgerow{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+
+@media (max-width:720px){
+  .navlinks{position:fixed;inset:64px 0 auto 0;background:var(--lead);flex-direction:column;padding:18px 20px;gap:16px;transform:translateY(-130%);transition:transform .25s ease;z-index:40}
+  .navlinks.open{transform:translateY(0)}
+  .burger{display:flex}
+  .navcta{display:none}
+}

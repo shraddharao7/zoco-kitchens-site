@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Zoco | Hyderabad</title>
+<meta name="description" content="Zoco's delivery menu: shawarma tacos, lamb birria, kofta, quesadillas, and more. Middle Eastern × Mexican fusion, 100% halal, Hyderabad.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .mhero{background:var(--lead);color:var(--stone);padding:34px 0 30px}
+  .mhero h1{font-size:clamp(1.8rem,5.5vw,2.6rem)}
+  .mhero p{font-size:.9rem;opacity:.82;margin-top:8px;max-width:50ch}
+  .menugroup{margin-bottom:40px}
+  .menugroup h2{font-size:1.15rem;color:var(--cobalt);display:flex;align-items:center;gap:10px}
+  .menugroup h2::after{content:"";flex:1;height:1px;background:rgba(38,32,27,.2)}
+  .mi{display:flex;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px dashed rgba(38,32,27,.2)}
+  .mi:last-child{border-bottom:none}
+  .mi .nm{font-weight:600;font-size:.95rem}
+  .mi .veg{display:inline-block;width:9px;height:9px;border:1.5px solid var(--emerald);border-radius:2px;position:relative;margin-right:7px}
+  .mi .veg::after{content:"";position:absolute;inset:1.5px;border-radius:50%;background:var(--emerald)}
+  .mi .ds{font-size:.78rem;opacity:.68;line-height:1.45;margin-top:3px;max-width:46ch}
+  .mi .pr{font-family:'Fraunces',serif;font-weight:700;white-space:nowrap;font-size:1rem}
+  .legend{display:flex;gap:18px;font-size:.76rem;opacity:.75;margin:6px 0 30px;flex-wrap:wrap}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .cta-strip{background:var(--lead);color:var(--stone);border-radius:14px;padding:26px;text-align:center;margin-top:10px}
+  .cta-strip h3{font-size:1.2rem}
+  .cta-strip p{font-size:.85rem;opacity:.82;margin:8px 0 16px}
+</style>
+</head>
+<body>
+
+<div class="sitehead">
+  <div class="mband">
+    <div class="g"></div><div class="g g-ruby"></div><div class="g g-amber"></div><div class="g g-emerald"></div>
+    <div class="g g-violet"></div><div class="g g-rose"></div><div class="g g-amber"></div><div class="g"></div>
+    <div class="g g-ruby"></div><div class="g g-emerald"></div>
+  </div>
+  <div class="wrap">
+    <nav class="navbar">
+      <a href="index.html" class="brand">ZOCO</a>
+      <ul class="navlinks" id="navlinks">
+        <li><a href="index.html">Our Story</a></li>
+        <li><a href="menu.html" class="active">Menu</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="careers.html">Careers</a></li>
+      </ul>
+      <a class="navcta" href="#order">Order now</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</div>
+
+<div class="mhero">
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--amber-hi)">The menu</div>
+    <h1>Tacos, kofta, and everything <span style="color:var(--amber-hi)">in between</span></h1>
+    <p>Familiar words up front, the fusion story in the description. Every dish is halal. Order through Swiggy or Zomato for delivery.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <section style="padding-bottom:0">
+    <div class="legend">
+      <span><span class="veg"></span> Vegetarian</span>
+      <span>All items 100% halal · No pork, no beef</span>
+    </div>
+
+    <div class="menugroup">
+      <h2>Tacos &amp; Handhelds</h2>
+      <div class="mi"><div><div class="nm">Chicken Shawarma Tacos</div><div class="ds">The 1930 original, reversed — spit-style chicken, toum, pickled onion on corn tortillas. Our signature.</div></div><div class="pr">₹425</div></div>
+      <div class="mi"><div><div class="nm">Lamb Birria Tacos</div><div class="ds">Slow lamb, consommé for dipping, pistachio crumble.</div></div><div class="pr">₹495</div></div>
+      <div class="mi"><div><div class="nm">Harissa Grilled Chicken Tacos</div><div class="ds">Smoky harissa marinade, green herb sauce, radish.</div></div><div class="pr">₹399</div></div>
+      <div class="mi"><div><div class="nm">Prawn Tacos</div><div class="ds">Chargrilled prawns, chipotle-tomato salsa, lime crema.</div></div><div class="pr">₹475</div></div>
+      <div class="mi"><div><div class="nm">Lamb Kofta Tacos</div><div class="ds">Spiced lamb mince, tahini drizzle, pickled cabbage.</div></div><div class="pr">₹449</div></div>
+      <div class="mi"><div><div class="nm"><span class="veg"></span>Falafel Tacos</div><div class="ds">Crisp falafel, tahini crema, herb salad.</div></div><div class="pr">₹349</div></div>
+    </div>
+
+    <div class="menugroup">
+      <h2>Bowls &amp; Quesadillas</h2>
+      <div class="mi"><div><div class="nm"><span class="veg"></span>Mejadra Burrito Bowl</div><div class="ds">Spiced rice and lentils, roasted vegetables, tahini, pickled onion.</div></div><div class="pr">₹349</div></div>
+      <div class="mi"><div><div class="nm"><span class="veg"></span>Za'atar Paneer Quesadilla</div><div class="ds">Charred paneer, za'atar, three cheeses, zhoug drizzle.</div></div><div class="pr">₹375</div></div>
+      <div class="mi"><div><div class="nm">Chicken Shawarma Quesadilla</div><div class="ds">Shredded shawarma chicken, melted cheese, toum.</div></div><div class="pr">₹399</div></div>
+      <div class="mi"><div><div class="nm"><span class="veg"></span>Halloumi Street Corn</div><div class="ds">Grilled halloumi, elote-style corn, sumac, lime.</div></div><div class="pr">₹299</div></div>
+    </div>
+
+    <div class="menugroup">
+      <h2>Small Plates</h2>
+      <div class="mi"><div><div class="nm">Lamb Croquettes</div><div class="ds">Spiced lamb, crisp shell, pomegranate molasses dip.</div></div><div class="pr">₹349</div></div>
+      <div class="mi"><div><div class="nm"><span class="veg"></span>Hummus &amp; Chips</div><div class="ds">House hummus, warm pita chips, chili oil.</div></div><div class="pr">₹249</div></div>
+      <div class="mi"><div><div class="nm">Chicken Adana Skewers</div><div class="ds">Char-grilled, sumac onion, toum.</div></div><div class="pr">₹329</div></div>
+    </div>
+
+    <div class="menugroup">
+      <h2>Sweet</h2>
+      <div class="mi"><div><div class="nm">Baklava Churros</div><div class="ds">Churros in orange-blossom honey, crushed pistachio.</div></div><div class="pr">₹295</div></div>
+      <div class="mi"><div><div class="nm">Rose Milk Cake</div><div class="ds">Tres-leches style, rose water, cardamom.</div></div><div class="pr">₹275</div></div>
+    </div>
+
+    <div class="menugroup">
+      <h2>Drinks</h2>
+      <div class="mi"><div><div class="nm">Jamaica Agua Fresca</div><div class="ds">Hibiscus, lime, mint — the flower both kitchens share.</div></div><div class="pr">₹149</div></div>
+      <div class="mi"><div><div class="nm">Rose Milk</div><div class="ds">Classic Hyderabadi rose milk, house-made.</div></div><div class="pr">₹129</div></div>
+      <div class="mi"><div><div class="nm">Mint Limonada</div><div class="ds">Fresh mint, lime, soda.</div></div><div class="pr">₹129</div></div>
+    </div>
+  </section>
+
+  <section id="order" style="padding-top:0">
+    <div class="cta-strip">
+      <h3>Ready to order?</h3>
+      <p>Zoco delivers across Hyderabad through Swiggy and Zomato.</p>
+      <div class="btnrow" style="justify-content:center">
+        <a class="btn btn-ruby" href="#">Order on Swiggy</a>
+        <a class="btn btn-ghost-light" href="#">Order on Zomato</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="fin">
+      <div>
+        <div class="flogo">ZOCO</div>
+        <p>Where Beirut meets Mexico City. Premium halal cloud kitchen, Hyderabad.</p>
+      </div>
+      <div>
+        <div class="footlinks"><a href="index.html">Our Story</a><a href="about.html">About</a><a href="careers.html">Careers</a></div>
+        <p style="margin-top:12px">hello@zocokitchens.com</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const burger=document.getElementById('burger'),nav=document.getElementById('navlinks');
+  burger?.addEventListener('click',()=>nav.classList.toggle('open'));
+</script>
+</body>
+</html>
