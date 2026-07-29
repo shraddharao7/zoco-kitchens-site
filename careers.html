@@ -1,177 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Careers — Zoco | Founding Kitchen Team, Hyderabad</title>
-<meta name="description" content="Zoco is hiring its founding kitchen team in Hyderabad. Head Chef, Sous Chef, and Kitchen Helper roles. Middle Eastern × Mexican fusion, 100% halal, paid trial days.">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Careers — ZOCO | Join the founding kitchen team, Hyderabad</title>
+<meta name="description" content="Zoco is hiring its founding kitchen team in Hyderabad. Head Chef, Sous Chef and Kitchen Helper. Paid trial days, staff meals every shift, terms in writing.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zocokitchens.com/careers.html">
+<meta property="og:title" content="Join the founding kitchen team at ZOCO">
+<meta property="og:description" content="Middle Eastern × Mexican, Hyderabad. Eighteen dishes already engineered and costed. Paid trial days, staff meals every shift, terms in writing. Apply on WhatsApp.">
+<meta property="og:site_name" content="ZOCO">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  .chero{background:var(--lead);color:var(--stone);padding:38px 0}
-  .chero h1{font-size:clamp(1.9rem,6vw,2.9rem);max-width:17ch}
-  .chero h1 b{color:var(--amber-hi)}
-  .chero p{margin:14px 0 20px;font-size:.92rem;opacity:.86;max-width:52ch}
-  .why{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .why .card h3{font-size:1rem;margin:9px 0 5px}
-  .why .card p{font-size:.82rem;opacity:.78}
-  .role{background:#fff;border:1px solid rgba(38,32,27,.16);border-radius:14px;overflow:hidden;margin-bottom:16px;box-shadow:0 8px 22px rgba(38,32,27,.08)}
-  .rband{height:9px}
-  .rin{padding:20px 20px 18px}
-  .rtop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
-  .rtop h3{font-size:1.2rem}
-  .pay{font-family:'Fraunces',serif;font-weight:700;color:var(--cobalt);white-space:nowrap}
-  .rmeta{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;opacity:.6;margin:3px 0 10px}
-  .rin>p{font-size:.85rem;margin-bottom:10px}
-  .rin ul{list-style:none;margin:0 0 14px}
-  .rin li{font-size:.82rem;padding-left:18px;position:relative;margin-bottom:6px}
-  .rin li::before{content:"";position:absolute;left:2px;top:6px;width:7px;height:7px;transform:rotate(45deg);background:var(--amber)}
-  .steps{counter-reset:s}
-  .step{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
-  .snum{counter-increment:s;flex:none;width:34px;height:34px;border-radius:50%;border:3px solid var(--lead);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;color:#fff;font-size:.95rem}
-  .snum::before{content:counter(s)}
-  .step h4{font-size:.98rem}
-  .step p{font-size:.82rem;opacity:.8}
-  @media (max-width:720px){.why{grid-template-columns:1fr}}
+  :root{--ink:#141E33;--midnight:#152A52;--talavera:#2C4A77;--oxblood:#7E2A20;
+        --rust:#B0532F;--marigold:#EFA63A;--cream:#F4EBDA;--sand:#E8DAC0;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:'Figtree',sans-serif;-webkit-font-smoothing:antialiased;}
+  a{color:var(--rust);text-decoration:none}
+  a:hover{color:var(--oxblood)}
+  ::selection{background:var(--marigold);color:var(--ink)}
+  p{text-wrap:pretty}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 48px}
+  .wide{max-width:1240px;margin:0 auto;padding:0 48px}
+  .zc-h{font-family:'Fraunces',serif;font-weight:700;letter-spacing:-.015em;line-height:1.08;margin:0;color:var(--ink)}
+  .zc-h .l2{display:block;font-weight:600;color:var(--rust);padding-left:.62em}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--rust);margin:0 0 10px}
+  .eyebrow::after{content:"";display:block;width:34px;height:1.5px;background:var(--rust);margin-top:10px}
+  nav{position:sticky;top:0;z-index:50;background:var(--ink);color:var(--cream);display:flex;align-items:center;
+      justify-content:space-between;padding:0 48px;height:70px}
+  nav .links{display:flex;align-items:center;gap:34px;font-size:14.5px;font-weight:500}
+  nav .links a{color:var(--cream);padding:6px 0;border-bottom:1.5px solid transparent}
+  nav .links a:hover{color:var(--marigold)}
+  nav .links a.on{color:var(--marigold);border-bottom-color:var(--marigold)}
+  .btn{background:var(--rust);color:var(--cream);border-radius:999px;font-weight:600;display:inline-block;
+       box-shadow:0 2px 4px rgba(20,30,51,.2),0 12px 26px -9px rgba(176,83,47,.75);
+       transition:transform .2s cubic-bezier(.2,.7,.3,1),box-shadow .25s,background .2s}
+  .btn:hover{transform:translateY(-2px);background:var(--oxblood);color:var(--cream);
+             box-shadow:0 3px 7px rgba(20,30,51,.22),0 16px 30px -10px rgba(126,42,32,.6)}
+  .band{background:var(--sand);border-top:1px solid rgba(20,30,51,.32);border-bottom:1px solid rgba(20,30,51,.32)}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:0 34px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px}
+  .cell{border-top:1px solid rgba(20,30,51,.28);padding:22px 0 30px}
+  .role{border-top:1.5px solid var(--ink);padding:24px 0 0;display:flex;flex-direction:column}
+  .role h3{font-family:'Fraunces',serif;font-weight:600;font-size:23px;margin:0 0 4px}
+  .role .meta{font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--rust);margin-bottom:14px}
+  .role p{font-size:14.5px;line-height:1.62;margin:0 0 24px;flex:1}
+  h2.sec{font-family:'Fraunces',serif;font-weight:600;font-size:28px;margin:0 0 30px}
+  footer{background:var(--ink);color:var(--cream);padding:60px 48px 44px}
+  footer a,footer span.l{color:var(--cream);opacity:.82}
+  footer a:hover{opacity:1;color:var(--cream)}
+  @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:no-preference){
+    .r{opacity:0;animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards}
+    .r:nth-child(1){animation-delay:.05s}.r:nth-child(2){animation-delay:.12s}
+    .r:nth-child(3){animation-delay:.19s}.r:nth-child(4){animation-delay:.26s}
+  }
+  @media (max-width:860px){
+    .wrap,.wide{padding:0 24px} nav{padding:0 20px;height:62px} nav .links{gap:16px;font-size:13px}
+    nav .links a.hide{display:none} .grid4,.grid3{grid-template-columns:1fr;gap:0}
+    .zc-h{font-size:34px !important} footer{padding:44px 24px 32px}
+    footer .fwrap{flex-direction:column;align-items:flex-start !important;gap:26px !important}
+    footer .fcol{align-items:flex-start !important}
+  }
 </style>
 </head>
 <body>
 
-<div class="sitehead">
-  <div class="mband">
-    <div class="g"></div><div class="g g-ruby"></div><div class="g g-amber"></div><div class="g g-emerald"></div>
-    <div class="g g-violet"></div><div class="g g-rose"></div><div class="g g-amber"></div><div class="g"></div>
-    <div class="g g-ruby"></div><div class="g g-emerald"></div>
+<nav>
+  <a href="index.html" style="display:flex;align-items:center;gap:12px;color:var(--cream)">
+    <svg width="24" height="31" viewBox="0 0 44 56" fill="none"><path d="M2 54 L2 20 C2 11 8 7.5 13 5.8 C18 4 20.5 3.3 22 0.5 C23.5 3.3 26 4 31 5.8 C36 7.5 42 11 42 20 L42 54 Z" stroke="#F4EBDA" stroke-width="2.5" fill="none"/><path d="M22 24 L24.4 31.6 L32 34 L24.4 36.4 L22 44 L19.6 36.4 L12 34 L19.6 31.6 Z" fill="#EFA63A"/></svg>
+    <span style="font-family:'Fraunces',serif;font-weight:700;font-size:21px;letter-spacing:.18em">ZOCO</span>
+  </a>
+  <div class="links">
+    <a class="hide" href="index.html">Our Story</a>
+    <a class="hide" href="index.html">The Food</a>
+    <a class="hide" href="index.html">About</a>
+    <a class="on" href="careers.html">Careers</a>
+    <a class="btn" href="https://www.swiggy.com" target="_blank" rel="noopener" style="padding:10px 24px;font-size:14.5px">Order now</a>
   </div>
-  <div class="wrap">
-    <nav class="navbar">
-      <a href="index.html" class="brand">ZOCO</a>
-      <ul class="navlinks" id="navlinks">
-        <li><a href="index.html">Our Story</a></li>
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="careers.html" class="active">Careers</a></li>
-      </ul>
-      <a class="navcta" href="#roles">See roles</a>
-      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </nav>
-  </div>
-</div>
+</nav>
 
-<div class="chero">
-  <div class="wrap">
-    <div class="eyebrow" style="color:var(--amber-hi)">Hiring · Hyderabad</div>
-    <h1>Build the kitchen. <b>Own the fire.</b></h1>
-    <p>Zoco is a new premium cloud kitchen cooking Middle Eastern × Mexican fusion — shawarma tacos, birria, kofta. We're hiring our founding team of three.</p>
-    <div class="btnrow">
-      <a class="btn btn-ruby" href="#roles">See open roles</a>
-      <a class="btn btn-ghost-light" href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20joining%20Zoco%27s%20kitchen%20team">WhatsApp us</a>
-    </div>
-    <div class="badgerow">
-      <span class="badge hal">100% Halal Kitchen</span>
-      <span class="badge">Paid trial days</span>
-      <span class="badge">Staff meals daily</span>
-      <span class="badge">Weekly off</span>
-    </div>
-  </div>
-</div>
-
-<div class="wrap">
-  <section>
-    <div class="eyebrow">Why cook at Zoco</div>
-    <h2 class="section-title">A small team, a <b>serious</b> brand</h2>
-    <p class="lede" style="margin-bottom:20px">The menu is engineered, the packaging is designed, the launch is planned — we need the people who'll run the fire.</p>
-    <div class="why">
-      <div class="card"><div class="dia g g-amber"></div><h3>Founding team, not staff #400</h3><p>You're chef #1, #2, or #3. Set up the kitchen, shape the SOPs, help hire the people who come after you.</p></div>
-      <div class="card"><div class="dia g g-ruby"></div><h3>Recipes are ready</h3><p>Gram-level recipe cards for every dish. Strong grill skills matter more than knowing Mexican food — we'll train the fusion side.</p></div>
-      <div class="card"><div class="dia g g-emerald"></div><h3>Growth that's real</h3><p>The plan is multiple outlets. The founding head chef becomes the lead chef who trains every kitchen after this one.</p></div>
-      <div class="card"><div class="dia g g-violet"></div><h3>Respect, in practice</h3><p>Paid trial days. Salary stated upfront. Daily staff meals from our own menu. FoSTaC certification sponsored.</p></div>
+<main>
+  <section class="wrap" style="padding-top:80px;padding-bottom:56px">
+    <div class="eyebrow">Careers</div>
+    <h1 class="zc-h r" style="font-size:48px;margin:0 0 22px">Join the founding<span class="l2">kitchen team.</span></h1>
+    <p class="r" style="font-size:17.5px;line-height:1.65;max-width:620px;margin:0 0 14px">Eighteen dishes, engineered and costed to gram-level recipe cards. Brand built, suppliers lined up, launch planned to the day. What happens next happens in the kitchen.</p>
+    <p class="r" style="font-size:16px;line-height:1.65;max-width:620px;margin:0 0 30px;opacity:.84">Come in at the start and you set the standard everyone after you cooks to.</p>
+    <div style="display:flex;gap:0 26px;flex-wrap:wrap;font-size:12.5px;font-weight:600;letter-spacing:.1em;
+                text-transform:uppercase;border-top:1px solid rgba(20,30,51,.28);border-bottom:1px solid rgba(20,30,51,.28);padding:14px 0">
+      <span>Paid trial days</span><span>Staff meals every shift</span><span>Weekly off</span><span>FoSTaC sponsored</span>
     </div>
   </section>
 
-  <section id="roles" style="padding-top:0">
-    <div class="eyebrow">Open roles</div>
-    <h2 class="section-title">Join the <b>founding</b> team</h2>
-    <p class="lede" style="margin-bottom:22px">All roles: Hyderabad · 6-day week with rotating weekly off · salary depends on experience.</p>
-
-    <div class="role">
-      <div class="rband g"></div>
-      <div class="rin">
-        <div class="rtop"><h3>Head Chef</h3><div class="pay">₹30,000–40,000/mo</div></div>
-        <div class="rmeta">Full time · Founding role</div>
-        <p>You own the kitchen: quality, consistency, batch prep, and the team.</p>
-        <ul>
-          <li>3–5 years in reputed restaurants or cloud kitchen chains</li>
-          <li>Grill / Middle Eastern / continental background preferred</li>
-          <li>Comfortable running a shawarma spit, plancha, and fryer stations</li>
-          <li>You'll help hire your own sous and helper</li>
-        </ul>
-        <a class="btn btn-wa" href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27m%20applying%20for%20the%20Head%20Chef%20role%20at%20Zoco.%20My%20experience%3A%20">Apply on WhatsApp</a>
-      </div>
+  <section class="wide" style="padding-top:26px;padding-bottom:76px">
+    <h2 class="sec">Why cook at Zoco</h2>
+    <div class="grid4">
+      <div class="cell"><h3 style="font-family:'Fraunces',serif;font-weight:600;font-size:18px;margin:0 0 10px">A founding role</h3><p style="font-size:14px;line-height:1.62;margin:0">You are in at the start. The way the kitchen runs on day one is the way you decide to run it.</p></div>
+      <div class="cell"><h3 style="font-family:'Fraunces',serif;font-weight:600;font-size:18px;margin:0 0 10px">The recipes are ready</h3><p style="font-size:14px;line-height:1.62;margin:0">Eighteen dishes, engineered and costed before you walk in. You cook to the cards and then improve them.</p></div>
+      <div class="cell"><h3 style="font-family:'Fraunces',serif;font-weight:600;font-size:18px;margin:0 0 10px">Real growth</h3><p style="font-size:14px;line-height:1.62;margin:0">When Zoco opens more kitchens, the people who opened this one will run them.</p></div>
+      <div class="cell"><h3 style="font-family:'Fraunces',serif;font-weight:600;font-size:18px;margin:0 0 10px">How we treat people</h3><p style="font-size:14px;line-height:1.62;margin:0">Paid trials, terms in writing before you start, FoSTaC certification covered, and a weekly off that actually happens.</p></div>
     </div>
+  </section>
 
-    <div class="role">
-      <div class="rband g g-ruby"></div>
-      <div class="rin">
-        <div class="rtop"><h3>Sous Chef / Commi</h3><div class="pay">₹22,000–30,000/mo</div></div>
-        <div class="rmeta">Full time</div>
-        <p>Second in command: batch components, assembly line, and holding the station when it's loud.</p>
-        <ul>
-          <li>2–3 years kitchen experience, any strong cuisine background</li>
-          <li>Fast, clean, consistent — you cook the same dish the same way twice</li>
-          <li>Wants to grow into a head chef role as we scale</li>
-        </ul>
-        <a class="btn btn-wa" href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27m%20applying%20for%20the%20Sous%20Chef%20role%20at%20Zoco.%20My%20experience%3A%20">Apply on WhatsApp</a>
-      </div>
-    </div>
-
-    <div class="role">
-      <div class="rband g g-emerald"></div>
-      <div class="rin">
-        <div class="rtop"><h3>Kitchen Helper</h3><div class="pay">₹13,000–16,000/mo</div></div>
-        <div class="rmeta">Full time</div>
-        <p>The kitchen runs on you: prep support, washing, cleaning, receiving deliveries.</p>
-        <ul>
-          <li>Experience in any commercial kitchen is a plus, not a must</li>
-          <li>Reliable, punctual, takes hygiene seriously</li>
-          <li>Path to grow into a cook role if you want it</li>
-        </ul>
-        <a class="btn btn-wa" href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27m%20applying%20for%20the%20Kitchen%20Helper%20role%20at%20Zoco.">Apply on WhatsApp</a>
+  <section class="band" style="padding:80px 0">
+    <div class="wide">
+      <h2 class="sec">Open roles</h2>
+      <div class="grid3">
+        <div class="role">
+          <h3>Head Chef</h3><div class="meta">Founding role · Full time</div>
+          <p>Three to five years on a line, ideally grill or Middle Eastern. You will own the pass, the prep order and the standard everyone else cooks to.</p>
+          <a class="btn" href="https://wa.me/917207913443?text=Hi%20Zoco%2C%20I%27d%20like%20to%20apply%20for%20Head%20Chef" target="_blank" rel="noopener" style="text-align:center;padding:12px 0;font-size:15px;margin-bottom:24px">Apply on WhatsApp</a>
+        </div>
+        <div class="role">
+          <h3>Sous Chef</h3><div class="meta">Full time</div>
+          <p>Two to three years of experience, and the patience to cook the same dish the same way every single time.</p>
+          <a class="btn" href="https://wa.me/917207913443?text=Hi%20Zoco%2C%20I%27d%20like%20to%20apply%20for%20Sous%20Chef" target="_blank" rel="noopener" style="text-align:center;padding:12px 0;font-size:15px;margin-bottom:24px">Apply on WhatsApp</a>
+        </div>
+        <div class="role">
+          <h3>Kitchen Helper</h3><div class="meta">Full time · We train you</div>
+          <p>Turn up, work clean and ask questions. No prior experience needed, and there is a route from here to the line.</p>
+          <a class="btn" href="https://wa.me/917207913443?text=Hi%20Zoco%2C%20I%27d%20like%20to%20apply%20for%20Kitchen%20Helper" target="_blank" rel="noopener" style="text-align:center;padding:12px 0;font-size:15px;margin-bottom:24px">Apply on WhatsApp</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section style="padding-top:0">
-    <div class="eyebrow">The process</div>
-    <h2 class="section-title">How hiring <b>works</b></h2>
-    <p class="lede" style="margin-bottom:22px">No long interviews. We hire in the kitchen, and we pay for your time.</p>
-    <div class="steps">
-      <div class="step"><div class="snum g"></div><div><h4>WhatsApp us</h4><p>Name, current/last kitchen, years of experience, and the role. A voice note is fine.</p></div></div>
-      <div class="step"><div class="snum g g-ruby"></div><div><h4>Tasting round</h4><p>Cook 2–3 dishes — one yours, one from our recipe card. Short and simple.</p></div></div>
-      <div class="step"><div class="snum g g-amber"></div><div><h4>Paid trial day</h4><p>A full day on station in the kitchen, paid in cash the same day whether or not we proceed.</p></div></div>
-      <div class="step"><div class="snum g g-emerald"></div><div><h4>Offer</h4><p>Clear salary, clear duties, joining date. Referral thanks if you brought a teammate.</p></div></div>
+  <section class="wrap" style="padding-top:80px;padding-bottom:100px">
+    <h2 class="sec" style="margin-bottom:12px">How it works</h2>
+    <p style="font-size:16px;line-height:1.65;max-width:620px;margin:0 0 34px;opacity:.84">Four steps, about a week from first message to offer. Every trial day is paid.</p>
+    <div class="grid4">
+      <div class="cell" style="padding-bottom:0"><div style="font-weight:600;font-size:16px;margin-bottom:5px">WhatsApp us</div><div style="font-size:14px;line-height:1.55;opacity:.8">A voice note is fine. No CV needed.</div></div>
+      <div class="cell" style="padding-bottom:0"><div style="font-weight:600;font-size:16px;margin-bottom:5px">Tasting round</div><div style="font-size:14px;line-height:1.55;opacity:.8">Cook with us for an hour.</div></div>
+      <div class="cell" style="padding-bottom:0"><div style="font-weight:600;font-size:16px;margin-bottom:5px">Paid trial day</div><div style="font-size:14px;line-height:1.55;opacity:.8">A full shift, paid in cash that day.</div></div>
+      <div class="cell" style="padding-bottom:0"><div style="font-weight:600;font-size:16px;margin-bottom:5px">Offer</div><div style="font-size:14px;line-height:1.55;opacity:.8">Salary and terms in writing.</div></div>
     </div>
   </section>
-</div>
+</main>
 
 <footer>
-  <div class="wrap">
-    <div class="fin">
-      <div>
-        <div class="flogo">ZOCO</div>
-        <p>Where Beirut meets Mexico City. Premium halal cloud kitchen, Hyderabad.</p>
+  <div class="fwrap" style="max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap">
+    <div style="max-width:300px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <svg width="21" height="27" viewBox="0 0 44 56" fill="none"><path d="M2 54 L2 20 C2 11 8 7.5 13 5.8 C18 4 20.5 3.3 22 0.5 C23.5 3.3 26 4 31 5.8 C36 7.5 42 11 42 20 L42 54 Z" stroke="#F4EBDA" stroke-width="2.5" fill="none"/><path d="M22 24 L24.4 31.6 L32 34 L24.4 36.4 L22 44 L19.6 36.4 L12 34 L19.6 31.6 Z" fill="#EFA63A"/></svg>
+        <span style="font-family:'Fraunces',serif;font-weight:700;font-size:18px;letter-spacing:.18em">ZOCO</span>
       </div>
-      <div>
-        <div class="footlinks"><a href="index.html">Our Story</a><a href="menu.html">Menu</a><a href="about.html">About</a></div>
-        <p style="margin-top:12px">WhatsApp us · careers@zocokitchens.com</p>
-      </div>
+      <div style="font-size:14px;opacity:.8">Where Beirut meets Mexico City</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+      <a href="index.html">Menu</a><a href="index.html">The Sauces</a><a href="index.html">About</a><a href="careers.html">Careers</a>
+    </div>
+    <div class="fcol" style="display:flex;flex-direction:column;gap:10px;font-size:14px;align-items:flex-end">
+      <a href="tel:+917207913443">+91 72079 13443</a>
+      <a href="https://wa.me/917207913443" target="_blank" rel="noopener">WhatsApp: 72079 13443</a>
+      <a href="mailto:zocokitchens@gmail.com">zocokitchens@gmail.com</a>
+      <a href="https://instagram.com/zocokitchens" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="#F4EBDA" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#F4EBDA" stroke-width="1.8"/><circle cx="17.6" cy="6.4" r="1.3" fill="#F4EBDA"/></svg>@zocokitchens</a>
+      <span class="l" style="opacity:.62;font-size:13px">Hyderabad</span>
     </div>
   </div>
 </footer>
-
-<script>
-  const burger=document.getElementById('burger'),nav=document.getElementById('navlinks');
-  burger?.addEventListener('click',()=>nav.classList.toggle('open'));
-</script>
 </body>
 </html>
