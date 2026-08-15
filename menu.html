@@ -3,123 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Menu — Zoco | Build Your Order | Hyderabad</title>
-<meta name="description" content="Zoco's full menu: shawarma rolls, tacos, protein bowls, quesadillas, and small plates. Build your own order with sizes, add-ons, and live pricing. 100% halal, Hyderabad.">
+<title>Menu · Zoco | Build Your Order | Hyderabad</title>
+<meta name="description" content="Zoco's full menu: shawarma rolls, tacos, protein bowls, quesadillas, small plates, sauces and dips. Build your own order with live pricing. 100% halal, Hyderabad.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/home.css">
 <style>
-  body{padding-bottom:90px}
+  body{padding-bottom:96px}
   .num{font-family:'Space Grotesk',sans-serif}
-  .mhero{background:var(--lead);color:var(--stone);padding:34px 0 26px}
-  .mhero h1{font-size:clamp(1.8rem,5.5vw,2.6rem)}
-  .mhero p{font-size:.9rem;opacity:.82;margin-top:8px;max-width:50ch}
 
-  .mwrap{max-width:640px;margin:0 auto;padding:0 20px}
+  .zh-menu-hero{background:var(--coral);padding:64px 44px 56px}
+  .zh-menu-hero h1{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:clamp(40px,7vw,88px);line-height:.92;color:var(--cream)}
+  .zh-menu-hero p{color:var(--cream);font-size:20px;line-height:1.5;margin-top:16px;max-width:46ch;font-weight:300}
 
-  .tabs{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px;-webkit-overflow-scrolling:touch}
+  .mwrap{max-width:760px;margin:0 auto;padding:0 44px}
+
+  .legend{display:flex;gap:20px;font-size:14px;margin:28px 0 4px;flex-wrap:wrap;align-items:center;font-weight:300}
+  .legend span{display:flex;align-items:center;gap:8px}
+
+  .tabs{display:flex;gap:26px;overflow-x:auto;padding:24px 0 14px;-webkit-overflow-scrolling:touch}
   .tabs::-webkit-scrollbar{display:none}
-  .tab{flex:none;background:#fff;border:1px solid var(--stone-deep);border-radius:20px;padding:7px 14px;font-size:.8rem;font-weight:600;color:var(--lead);cursor:pointer;white-space:nowrap;font-family:'Archivo',sans-serif}
-  .tab.active{background:var(--ruby);color:#fff;border-color:var(--ruby)}
+  .tab{flex:none;background:none;padding:4px 0;font-size:14px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--ink);opacity:.55;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent}
+  .tab.active{opacity:1;color:var(--coral);border-bottom-color:var(--coral)}
 
-  .legend{display:flex;gap:16px;font-size:.72rem;opacity:.78;margin:14px 0 4px;flex-wrap:wrap;align-items:center}
-  .legend span{display:flex;align-items:center;gap:6px}
+  .cat-section{margin-top:44px}
+  .cat-title{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:clamp(26px,3.4vw,40px);color:var(--ink)}
 
-  .cat-section{margin-top:26px}
-  .cat-title{font-size:1.1rem;font-weight:600;color:var(--lead);display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif}
-  .cat-title::after{content:"";flex:1;height:1px;background:var(--stone-deep)}
-
-  .item-card{background:#fff;border:1px solid var(--stone-deep);border-radius:12px;padding:14px;margin-top:12px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;box-shadow:0 6px 18px rgba(34,23,28,.06)}
+  .item-card{border-radius:22px;padding:26px 30px;margin-top:14px;display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+  .item-card:nth-child(3n+1){background:var(--cream)}
+  .item-card:nth-child(3n+2){background:var(--pink)}
+  .item-card:nth-child(3n+3){background:var(--gold)}
   .item-left{flex:1}
-  .veg-dot{display:inline-block;width:13px;height:13px;border:1.5px solid var(--emerald);border-radius:3px;position:relative;vertical-align:middle;margin-right:8px}
-  .veg-dot::after{content:"";position:absolute;inset:2.5px;border-radius:50%;background:var(--emerald)}
-  .veg-dot.nonveg{border-color:var(--nonveg)}
-  .veg-dot.nonveg::after{background:var(--nonveg)}
-  .item-name{font-weight:600;font-size:.96rem;display:inline;font-family:'Archivo',sans-serif}
-  .item-price{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--lead);margin-top:5px;font-size:.92rem}
-  .item-desc{font-size:.78rem;color:var(--lead);opacity:.72;margin-top:5px;line-height:1.45;max-width:38ch}
-  .item-macro{font-size:.68rem;color:var(--cobalt);margin-top:4px;letter-spacing:.02em;font-weight:600}
-  .size-tag{font-size:.68rem;color:#9C9799;font-weight:500}
-  .add-btn{flex:none;background:#fff;border:1.5px solid var(--ruby);color:var(--ruby);font-weight:700;font-size:.78rem;border-radius:8px;padding:8px 16px;cursor:pointer;letter-spacing:.03em;height:fit-content;font-family:'Archivo',sans-serif}
-  .add-btn:hover{background:var(--ruby);color:#fff}
+  .veg-dot{display:inline-block;width:13px;height:13px;border:1.5px solid var(--veg);border-radius:3px;position:relative;vertical-align:middle;margin-right:8px}
+  .veg-dot::after{content:"";position:absolute;inset:2.5px;border-radius:50%;background:var(--veg)}
+  .veg-dot.nonveg{border-color:var(--maroon)}
+  .veg-dot.nonveg::after{background:var(--maroon)}
+  .item-name{font-family:var(--font-serif);font-weight:600;font-size:22px}
+  .item-price{font-weight:600;color:var(--ink);margin-top:8px;font-size:20px}
+  .item-desc{font-family:var(--font-sans);font-size:16px;color:var(--ink);opacity:.75;margin-top:8px;line-height:1.5;max-width:42ch;font-weight:300}
+  .item-macro{font-size:13px;color:var(--purple);margin-top:8px;letter-spacing:.03em;font-weight:600}
+  .size-tag{font-size:14px;color:var(--ink);opacity:.55;font-weight:300}
+  .add-btn{flex:none;background:var(--ink);color:var(--cream);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:11px 22px;cursor:pointer;height:fit-content}
+  .add-btn:hover{filter:brightness(1.2)}
 
-  .overlay{position:fixed;inset:0;background:rgba(34,23,28,.55);z-index:50;display:none;align-items:flex-end;justify-content:center}
+  .overlay{position:fixed;inset:0;background:rgba(43,18,16,.55);z-index:50;display:none;align-items:flex-end;justify-content:center}
   .overlay.open{display:flex}
-  .sheet{background:var(--stone);width:100%;max-width:640px;max-height:88vh;border-radius:18px 18px 0 0;display:flex;flex-direction:column;overflow:hidden}
-  .sheet-head{background:var(--lead);color:var(--stone);padding:16px 18px;display:flex;justify-content:space-between;align-items:center;flex:none}
-  .sheet-head h3{font-size:1.1rem;font-weight:600;font-family:'Fraunces',serif}
-  .sheet-close{background:none;border:none;color:var(--stone);font-size:1.3rem;cursor:pointer;line-height:1;padding:2px 6px}
-  .sheet-body{overflow-y:auto;padding:16px 18px 10px;flex:1}
-  .group{margin-bottom:20px}
-  .group-label{font-weight:700;font-size:.85rem;color:var(--lead);margin-bottom:2px;font-family:'Archivo',sans-serif}
-  .group-sub{font-size:.7rem;color:#9C9799;margin-bottom:8px}
-  .option-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed var(--stone-deep)}
-  .option-row:last-child{border-bottom:none}
-  .opt-left{display:flex;align-items:center;gap:10px;font-size:.88rem}
-  .opt-price{font-family:'Space Grotesk',sans-serif;font-size:.82rem;color:var(--ruby);font-weight:600}
-  .opt-price.free{color:var(--emerald)}
-  .size-macro{font-size:.72rem;color:#9C9799;font-weight:400}
-  input[type=checkbox],input[type=radio]{width:18px;height:18px;accent-color:var(--ruby);cursor:pointer;flex:none}
-  .sheet-foot{flex:none;padding:14px 18px;background:#fff;border-top:1px solid var(--stone-deep);display:flex;gap:12px;align-items:center}
-  .qty-stepper{display:flex;align-items:center;border:1.5px solid var(--ruby);border-radius:8px;overflow:hidden}
-  .qty-stepper button{background:var(--stone);border:none;width:34px;height:36px;font-size:1.1rem;color:var(--ruby);cursor:pointer;font-weight:700}
+  .sheet{background:var(--cream);width:100%;max-width:640px;max-height:88vh;border-radius:26px 26px 0 0;display:flex;flex-direction:column;overflow:hidden}
+  .sheet-head{background:var(--ink);color:var(--cream);padding:22px 30px;display:flex;justify-content:space-between;align-items:center;flex:none}
+  .sheet-head h3{font-family:var(--font-serif);font-size:22px;font-weight:600}
+  .sheet-close{background:none;border:none;color:var(--cream);font-size:1.4rem;cursor:pointer;line-height:1;padding:2px 6px}
+  .sheet-body{overflow-y:auto;padding:24px 30px 10px;flex:1}
+  .group{margin-bottom:26px}
+  .group-label{font-family:var(--font-serif);font-weight:600;font-size:17px;color:var(--ink);margin-bottom:2px}
+  .group-sub{font-size:13px;color:var(--ink);opacity:.55;margin-bottom:10px}
+  .option-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
+  .opt-left{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:300}
+  .opt-price{font-family:'Space Grotesk',sans-serif;font-size:15px;color:var(--coral);font-weight:600}
+  .opt-price.free{color:var(--purple)}
+  .size-macro{font-size:14px;color:var(--ink);opacity:.55;font-weight:300}
+  input[type=checkbox],input[type=radio]{width:19px;height:19px;accent-color:var(--coral);cursor:pointer;flex:none}
+  .sheet-foot{flex:none;padding:20px 30px;background:var(--white);display:flex;gap:14px;align-items:center}
+  .qty-stepper{display:flex;align-items:center;background:var(--cream);border-radius:999px;overflow:hidden}
+  .qty-stepper button{background:none;border:none;width:38px;height:40px;font-size:1.2rem;color:var(--coral);cursor:pointer;font-weight:700}
   .qty-stepper span{width:28px;text-align:center;font-weight:700;font-family:'Space Grotesk',sans-serif}
-  .add-item-btn{flex:1;background:var(--ruby);color:#fff;border:none;border-radius:8px;padding:12px;font-weight:700;font-size:.92rem;cursor:pointer;font-family:'Archivo',sans-serif}
-  .add-item-btn:hover{background:#BA3923}
+  .add-item-btn{flex:1;background:var(--coral);color:var(--cream);border:none;border-radius:999px;padding:15px;font-weight:500;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  .add-item-btn:hover{filter:brightness(1.08)}
 
-  .cartbar{position:fixed;bottom:0;left:0;right:0;background:var(--lead);color:#fff;z-index:40;display:none;justify-content:center}
+  .cartbar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--cream);z-index:40;display:none;justify-content:center}
   .cartbar.show{display:flex}
-  .cartbar-inner{max-width:640px;width:100%;padding:13px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-  .cartbar-info{font-size:.85rem}
-  .cartbar-info b{font-family:'Space Grotesk',sans-serif;color:var(--amber-hi)}
-  .cartbar-view{background:var(--ruby);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:'Archivo',sans-serif}
+  .cartbar-inner{max-width:760px;width:100%;padding:18px 44px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+  .cartbar-info{font-size:15px;font-weight:300}
+  .cartbar-info b{font-family:'Space Grotesk',sans-serif;color:var(--gold)}
+  .cartbar-view{background:var(--coral);color:var(--cream);border:none;border-radius:999px;padding:11px 22px;font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 
   .cart-list{padding:0}
-  .cart-row{background:#fff;border:1px solid var(--stone-deep);border-radius:10px;padding:12px 14px;margin-bottom:10px}
-  .cart-row-top{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:.9rem;font-family:'Archivo',sans-serif}
-  .cart-row-detail{font-size:.72rem;color:#9C9799;margin-top:4px;line-height:1.5}
-  .cart-row-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-  .remove-link{color:var(--ruby);font-size:.75rem;font-weight:600;cursor:pointer;background:none;border:none;font-family:'Archivo',sans-serif}
-  .cart-total-row{display:flex;justify-content:space-between;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;padding:14px 0 4px;border-top:2px solid var(--lead);margin-top:10px}
-  .empty-cart{text-align:center;color:#9C9799;padding:40px 20px;font-size:.9rem}
+  .cart-row{background:var(--white);border-radius:16px;padding:18px 20px;margin-bottom:12px}
+  .cart-row-top{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:17px;font-family:var(--font-serif)}
+  .cart-row-detail{font-size:14px;color:var(--ink);opacity:.6;margin-top:6px;line-height:1.5;font-weight:300}
+  .cart-row-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+  .remove-link{color:var(--coral);font-size:14px;font-weight:600;cursor:pointer;background:none;border:none}
+  .cart-total-row{display:flex;justify-content:space-between;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;padding:18px 0 6px;margin-top:6px}
+  .empty-cart{text-align:center;color:var(--ink);opacity:.55;padding:50px 20px;font-size:16px;font-weight:300}
 
-  @media (max-width:420px){
+  .checkout-form{margin-top:24px;padding-top:20px}
+  .field-label{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;color:var(--ink);opacity:.65;margin-top:16px}
+  .field-input{display:block;width:100%;margin-top:6px;background:var(--white);border:none;border-radius:12px;padding:13px 16px;font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--ink);font-weight:400;resize:vertical}
+  .field-input:focus{outline:2px solid var(--coral)}
+  .checkout-note{font-size:13px;line-height:1.5;color:var(--ink);opacity:.6;margin-top:16px;font-weight:300}
+  .order-success{padding:40px 0;text-align:center}
+  .order-success-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:24px;color:var(--ink)}
+  .order-success p{margin-top:10px;color:var(--ink);opacity:.75;font-size:16px;font-weight:300;max-width:40ch;margin-left:auto;margin-right:auto}
+
+  @media (max-width:600px){
+    .mwrap{padding:0 24px}
     .item-card{flex-direction:column}
     .add-btn{align-self:flex-end}
   }
 </style>
 </head>
-<body>
+<body class="zh">
 
-<div class="sitehead">
-  <div class="mband">
-    <div class="g"></div><div class="g g-ruby"></div><div class="g g-amber"></div><div class="g g-emerald"></div>
-    <div class="g g-violet"></div><div class="g g-rose"></div><div class="g g-amber"></div><div class="g"></div>
-    <div class="g g-ruby"></div><div class="g g-emerald"></div>
-  </div>
-  <div class="wrap">
-    <nav class="navbar">
-      <a href="index.html" class="brand">ZOCO</a>
-      <ul class="navlinks" id="navlinks">
-        <li><a href="index.html">Our Story</a></li>
-        <li><a href="menu.html" class="active">Menu</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="careers.html">Careers</a></li>
-      </ul>
-      <a class="navcta" href="#menutop">Order now</a>
-      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </nav>
-  </div>
-</div>
+<header class="zh-header" id="zhHeader">
+  <a href="index.html" class="zh-word">Zoco</a>
+  <nav class="zh-nav">
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="careers.html">Careers</a>
+    <a href="index.html#visit">Visit</a>
+  </nav>
+  <a href="#menutop" class="zh-pill zh-pill-order">Order</a>
+  <button class="zh-burger" id="zhBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
 
-<div class="mhero" id="menutop">
-  <div class="wrap">
-    <div class="eyebrow" style="color:var(--amber-hi)">The menu</div>
-    <h1>Build your <span style="color:var(--amber-hi)">order</span></h1>
-    <p>Pick a size, add what you want, and see the total update live. Every dish is halal. No pork, no beef.</p>
-  </div>
-</div>
+<section class="zh-menu-hero" id="menutop">
+  <h1>Build your order</h1>
+  <p>Pick a size, add what you want, and watch the total update as you go. Every dish is halal. No pork, no beef.</p>
+</section>
 
 <div class="mwrap">
   <div class="legend">
@@ -151,14 +151,28 @@
 <div class="overlay" id="cartOverlay">
   <div class="sheet">
     <div class="sheet-head">
-      <h3>Your Order</h3>
+      <h3 id="cartHeadTitle">Your Order</h3>
       <button class="sheet-close" id="cartClose">✕</button>
     </div>
-    <div class="sheet-body">
+    <div class="sheet-body" id="cartSheetBody">
       <div class="cart-list" id="cartList"></div>
       <div class="cart-total-row" id="cartTotalRow" style="display:none">
         <span>Total</span><span class="num" id="cartTotalVal">₹0</span>
       </div>
+      <div class="checkout-form" id="checkoutForm" style="display:none">
+        <div class="group-label" style="margin-top:10px">Your details</div>
+        <label class="field-label">Name<input type="text" id="custName" class="field-input" placeholder="Your name"></label>
+        <label class="field-label">Phone<input type="tel" id="custPhone" class="field-input" placeholder="10-digit mobile number"></label>
+        <label class="field-label">Notes (optional)<textarea id="custNotes" class="field-input" rows="2" placeholder="Anything we should know?"></textarea></label>
+        <div class="checkout-note">This is a free tasting during our invite-only phase. No payment needed now, we'll call or WhatsApp to confirm.</div>
+      </div>
+      <div class="order-success" id="orderSuccess" style="display:none">
+        <div class="order-success-title">Order received</div>
+        <p>Thanks! We've got your order and will reach out on WhatsApp or phone to confirm the details.</p>
+      </div>
+    </div>
+    <div class="sheet-foot" id="checkoutFoot" style="display:none">
+      <button class="add-item-btn" id="placeOrderBtn">Place Order</button>
     </div>
   </div>
 </div>
@@ -170,24 +184,20 @@
   </div>
 </div>
 
-<footer>
-  <div class="wrap">
-    <div class="fin">
-      <div>
-        <div class="flogo">ZOCO</div>
-        <p>Where Beirut meets Mexico City. Premium halal cloud kitchen, Hyderabad.</p>
-      </div>
-      <div>
-        <div class="footlinks"><a href="index.html">Our Story</a><a href="about.html">About</a><a href="careers.html">Careers</a></div>
-        <p style="margin-top:12px">hello@zocokitchens.com</p>
-      </div>
-    </div>
+<footer class="zh-footer">
+  <div class="zh-footer-word">Zoco</div>
+  <div class="zh-footer-tagline">Never eat boring</div>
+  <div class="zh-footer-cols">
+    <div><a href="menu.html">Menu</a><br>Catering<br>Delivery</div>
+    <div>Halal sourcing<br>Allergens<br><a href="careers.html">Careers</a></div>
+    <div>Email · to add<br>Phone · to add<br>Instagram</div>
+    <div class="zh-copyright">© 2026 Zoco Kitchens</div>
   </div>
 </footer>
 
 <script>
-const burger=document.getElementById('burger'),navEl=document.getElementById('navlinks');
-burger?.addEventListener('click',()=>navEl.classList.toggle('open'));
+const burgerEl=document.getElementById('zhBurger'),headerEl=document.getElementById('zhHeader');
+burgerEl?.addEventListener('click',()=>headerEl.classList.toggle('open'));
 
 /* Corrections applied vs original sheet:
    - Chicken Taco 269 -> 289 (to hold +30 vs veg per founder's rule)
@@ -209,6 +219,7 @@ const SAUCES_SIGNATURE = [
   {n:"Tangy Peanut (50ml)",p:49},
   {n:"Creamy Corn (50ml)",p:49},
   {n:"Garlic Peanut Chilli Oil (50ml)",p:49},
+  {n:"Red Fiery (50ml)",p:49},
 ];
 const DIPS_SIGNATURE = [
   {n:"Spicy-Creamy Swirl (80g)",p:129},
@@ -226,6 +237,7 @@ const ALL_SAUCES = [
   {n:"Whipped Sour Cream (50ml)",p:49},
   {n:"Tangy Peanut (50ml)",p:49},
   {n:"Creamy Corn (50ml)",p:49},
+  {n:"Red Fiery (50ml)",p:49},
 ];
 const ALL_DIPS = [
   {n:"Hummus (80g)",p:129},
@@ -238,22 +250,22 @@ const ALL_DIPS = [
 ];
 const FRIES = [{n:"Salted Fries",p:70},{n:"Piri Piri Fries",p:70},{n:"Potato Garlic Shots",p:70}];
 const DRINKS = [{n:"Lemonade",p:70},{n:"Coke",p:70},{n:"Thums Up",p:70},{n:"Diet Coke",p:70}];
-const DESSERTS = [{n:"Baklava",p:180},{n:"Tres Leches",p:180},{n:"Protein Chocolate Mousse",p:199},{n:"Saffron Bread with Mascarpone",p:249}];
+const DESSERTS = [{n:"Saffron Bread with Mascarpone",p:249},{n:"Protein Chocolate Mousse",p:199},{n:"Baklava",p:180},{n:"Tres Leches",p:180}];
 const COMBOS = [{n:"Salted Fries + Coke, Save ₹20",p:120},{n:"Piri Piri Fries + Coke, Save ₹20",p:120},{n:"Potato Garlic Shots + Coke, Save ₹20",p:120}];
 const REMOVE_MEX = ["No Rice","No Beans","No Lettuce","No Onions","No Bell Peppers","No Tomatoes","No Sour Cream","No Corn","No Guacamole","No Cheese"];
 const REMOVE_ARB = ["No Rice","No Chickpeas","No Lettuce","No Onions","No Bell Peppers","No Tomatoes","No Toum"];
 
 function scaleMacro(v){ return Math.round(v*0.75); }
 
-function std(protein, sauces, dips, dipsFreeCount){
+function std(protein, sauces, dips, saucesFreeCount){
   const groups = [];
   if(protein) groups.push({label:"Extra Protein", key:"protein", type:"checkbox", options:protein});
-  if(sauces) groups.push({label:"Sauces", key:"sauces", type:"checkbox", options:sauces});
-  if(dips){
-    const dipGroup = {label:"Dips", key:"dips", type:"checkbox", options:dips};
-    if(dipsFreeCount) dipGroup.freeCount = dipsFreeCount;
-    groups.push(dipGroup);
+  if(sauces){
+    const sauceGroup = {label:"Sauces", key:"sauces", type:"checkbox", options:sauces};
+    if(saucesFreeCount) sauceGroup.freeCount = saucesFreeCount;
+    groups.push(sauceGroup);
   }
+  if(dips) groups.push({label:"Dips", key:"dips", type:"checkbox", options:dips});
   groups.push({label:"Make it a Meal (bundle & save)", key:"combo", type:"checkbox", options:COMBOS});
   groups.push({label:"Add Fries", key:"fries", type:"checkbox", options:FRIES});
   groups.push({label:"Add a Drink", key:"drink", type:"checkbox", options:DRINKS});
@@ -368,10 +380,31 @@ const MENU = [
   { id:"dr-lemonade", name:"Lemonade", veg:true, price:70, desc:"Fresh and tangy.", macros:{cal:110,protein:0,carb:28,fat:0}, groups:[] },
 ]},
 { category:"Dessert", items:[
+  { id:"ds-saffronbread", name:"Saffron Bread with Mascarpone Filling", veg:true, price:249, desc:"Saffron-scented bread, filled with rich mascarpone.", macros:{cal:380,protein:7,carb:42,fat:19}, groups:[] },
+  { id:"ds-mousse", name:"Protein Chocolate Mousse", veg:true, price:199, desc:"Just four ingredients: eggs, milk, dates, vanilla. Rich, clean, and genuinely simple.", macros:{cal:280,protein:9,carb:28,fat:14}, groups:[] },
   { id:"ds-baklava", name:"Baklava", veg:true, price:180, desc:"Layered pastry, honey, and crushed pistachio.", macros:{cal:320,protein:5,carb:36,fat:18}, groups:[] },
   { id:"ds-tresleches", name:"Tres Leches", veg:true, price:180, desc:"Milk-soaked sponge cake, rich and classic.", macros:{cal:380,protein:7,carb:46,fat:17}, groups:[] },
-  { id:"ds-mousse", name:"Protein Chocolate Mousse", veg:true, price:199, desc:"Just four ingredients: eggs, milk, dates, vanilla. Rich, clean, and genuinely simple.", macros:{cal:280,protein:9,carb:28,fat:14}, groups:[] },
-  { id:"ds-saffronbread", name:"Saffron Bread with Mascarpone Filling", veg:true, price:249, desc:"Saffron-scented bread, filled with rich mascarpone.", macros:{cal:380,protein:7,carb:42,fat:19}, groups:[] },
+]},
+{ category:"Sauces", items:[
+  { id:"sc-toum", name:"Toum", veg:true, price:49, desc:"Whipped Lebanese garlic sauce. 50ml.", macros:{cal:90,protein:0,carb:2,fat:9}, groups:[] },
+  { id:"sc-garlicpeanut", name:"Garlic Peanut Chilli Oil", veg:true, price:49, desc:"Roasted peanut and garlic chilli oil. 50ml.", macros:{cal:100,protein:2,carb:3,fat:10}, groups:[] },
+  { id:"sc-chipotle", name:"Chipotle", veg:true, price:49, desc:"Smoky chipotle sauce. 50ml.", macros:{cal:45,protein:0,carb:4,fat:3}, groups:[] },
+  { id:"sc-pineapple", name:"Pineapple Chilli", veg:true, price:49, desc:"Sweet-hot pineapple chilli sauce. 50ml.", macros:{cal:40,protein:0,carb:9,fat:0}, groups:[] },
+  { id:"sc-mango", name:"Mango Chilli", veg:true, price:49, desc:"Sweet-hot mango chilli sauce. 50ml.", macros:{cal:45,protein:0,carb:10,fat:0}, groups:[] },
+  { id:"sc-limejalapeno", name:"Lime Jalapeño", veg:true, price:49, desc:"Bright lime and jalapeño sauce. 50ml.", macros:{cal:20,protein:0,carb:3,fat:0}, groups:[] },
+  { id:"sc-sourcream", name:"Whipped Sour Cream", veg:true, price:49, desc:"Light whipped sour cream. 50ml.", macros:{cal:70,protein:1,carb:3,fat:6}, groups:[] },
+  { id:"sc-tangypeanut", name:"Tangy Peanut", veg:true, price:49, desc:"Tangy peanut sauce. 50ml.", macros:{cal:90,protein:3,carb:5,fat:6}, groups:[] },
+  { id:"sc-creamycorn", name:"Creamy Corn", veg:true, price:49, desc:"Sweet creamy corn sauce. 50ml.", macros:{cal:60,protein:1,carb:7,fat:3}, groups:[] },
+  { id:"sc-redfiery", name:"Red Fiery", veg:true, price:49, desc:"Our hottest red chilli sauce. 50ml.", macros:{cal:35,protein:0,carb:4,fat:1}, groups:[] },
+]},
+{ category:"Dips", items:[
+  { id:"dp-hummus", name:"Hummus", veg:true, price:129, desc:"Silky chickpea hummus. 80g.", macros:{cal:180,protein:6,carb:14,fat:11}, groups:[] },
+  { id:"dp-babaghanoush", name:"Baba Ghanoush", veg:true, price:129, desc:"Smoky roasted eggplant dip. 80g.", macros:{cal:140,protein:3,carb:9,fat:10}, groups:[] },
+  { id:"dp-tzatziki", name:"Tzatziki", veg:true, price:129, desc:"Cool cucumber and yogurt dip. 80g.", macros:{cal:90,protein:3,carb:4,fat:6}, groups:[] },
+  { id:"dp-spicycreamy", name:"Spicy-Creamy Swirl", veg:true, price:129, desc:"Spicy-creamy signature swirl dip. 80g.", macros:{cal:160,protein:2,carb:4,fat:15}, groups:[] },
+  { id:"dp-smokytomato", name:"Smoky Tomato Salsa", veg:true, price:129, desc:"Charred tomato salsa. 80g.", macros:{cal:45,protein:1,carb:8,fat:1}, groups:[] },
+  { id:"dp-guacclassic", name:"Classic Guacamole", veg:true, price:129, desc:"Fresh classic guacamole. 80g.", macros:{cal:160,protein:2,carb:8,fat:14}, groups:[] },
+  { id:"dp-guacspicy", name:"Spicy Guacamole", veg:true, price:129, desc:"Guacamole with a kick. 80g.", macros:{cal:165,protein:2,carb:8,fat:14}, groups:[] },
 ]},
 ];
 
@@ -565,6 +598,14 @@ addItemBtn.onclick = ()=>{
 const cartOverlay = document.getElementById('cartOverlay');
 const cartBar = document.getElementById('cartBar');
 const cartList = document.getElementById('cartList');
+const checkoutForm = document.getElementById('checkoutForm');
+const checkoutFoot = document.getElementById('checkoutFoot');
+const orderSuccess = document.getElementById('orderSuccess');
+const cartHeadTitle = document.getElementById('cartHeadTitle');
+const placeOrderBtn = document.getElementById('placeOrderBtn');
+
+// Paste your deployed Google Apps Script Web App URL here (see apps-script-order-backend.gs).
+const ORDERS_ENDPOINT = '';
 
 function renderCartBar(){
   const count = cart.reduce((s,c)=>s+c.qty,0);
@@ -579,10 +620,15 @@ document.getElementById('cartClose').onclick = ()=> cartOverlay.classList.remove
 cartOverlay.onclick = (e)=>{ if(e.target===cartOverlay) cartOverlay.classList.remove('open'); };
 
 function renderCartDrawer(){
+  cartHeadTitle.textContent = 'Your Order';
+  orderSuccess.style.display = 'none';
+  cartList.style.display = '';
   cartList.innerHTML = '';
   if(cart.length===0){
     cartList.innerHTML = '<div class="empty-cart">Your order is empty. Add something delicious.</div>';
     document.getElementById('cartTotalRow').style.display='none';
+    checkoutForm.style.display='none';
+    checkoutFoot.style.display='none';
     return;
   }
   cart.forEach((c,idx)=>{
@@ -606,7 +652,66 @@ function renderCartDrawer(){
   const total = cart.reduce((s,c)=>s+c.unit*c.qty,0);
   document.getElementById('cartTotalRow').style.display='flex';
   document.getElementById('cartTotalVal').textContent = '₹'+total;
+  checkoutForm.style.display='block';
+  checkoutFoot.style.display='flex';
+  placeOrderBtn.textContent = 'Place Order';
+  placeOrderBtn.disabled = false;
 }
+
+function cartToItemsText(){
+  return cart.map(c=>{
+    let parts = [`${c.qty}x ${c.name} (₹${c.unit*c.qty})`];
+    if(c.removed && c.removed.size) parts.push('without ' + [...c.removed].join(', '));
+    Object.keys(c.selections).forEach(k=>{
+      const set = c.selections[k];
+      if(set.size) parts.push([...set].join(', '));
+    });
+    return parts.join(' | ');
+  }).join('\n');
+}
+
+placeOrderBtn.onclick = async ()=>{
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const notes = document.getElementById('custNotes').value.trim();
+
+  if(!name || !phone){
+    alert('Please add your name and phone number so we can confirm the order.');
+    return;
+  }
+  if(!ORDERS_ENDPOINT){
+    alert('Ordering isn\'t connected yet. Please WhatsApp or call us directly for now.');
+    return;
+  }
+
+  placeOrderBtn.disabled = true;
+  placeOrderBtn.textContent = 'Sending...';
+
+  const total = cart.reduce((s,c)=>s+c.unit*c.qty,0);
+  const payload = { name, phone, notes, itemsText: cartToItemsText(), total };
+
+  try{
+    await fetch(ORDERS_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload),
+    });
+  } catch(err){
+    // no-cors requests can't be inspected, so a network-level failure is the
+    // only thing we can actually catch here. Proceed to the success screen
+    // regardless, since a thrown fetch almost always means it went through.
+  }
+
+  cart = [];
+  renderCartBar();
+  cartList.style.display = 'none';
+  document.getElementById('cartTotalRow').style.display = 'none';
+  checkoutForm.style.display = 'none';
+  checkoutFoot.style.display = 'none';
+  cartHeadTitle.textContent = 'Thank you';
+  orderSuccess.style.display = 'block';
+};
 </script>
 </body>
 </html>

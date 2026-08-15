@@ -3,109 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us — Zoco | Hyderabad</title>
-<meta name="description" content="Zoco is a Middle Eastern × Mexican fusion cloud kitchen in Hyderabad, built on a shared history and a 100% halal kitchen.">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<style>
-  .ahero{background:var(--lead);color:var(--stone);padding:38px 0}
-  .ahero h1{font-size:clamp(1.9rem,5.8vw,2.7rem);max-width:16ch}
-  .ahero h1 b{color:var(--amber-hi)}
-  .ahero p{font-size:.92rem;opacity:.85;margin-top:12px;max-width:52ch}
-  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
-  .pillar{background:#fff;border-radius:12px;border:1px solid rgba(38,32,27,.14);padding:20px;box-shadow:0 6px 18px rgba(38,32,27,.07)}
-  .pillar h3{font-size:1rem;margin-top:10px}
-  .pillar p{font-size:.82rem;opacity:.78;margin-top:6px}
-  .halalblock{background:var(--lead);color:var(--stone);border-radius:14px;padding:26px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
-  .halalblock p{font-size:.88rem;opacity:.85;margin-top:8px}
-  .team-note{background:#fff;border-radius:14px;border:1px solid rgba(38,32,27,.14);padding:24px;box-shadow:0 6px 18px rgba(38,32,27,.07)}
-  @media (max-width:720px){
-    .pillars{grid-template-columns:1fr}
-    .halalblock{grid-template-columns:1fr;text-align:center}
-    .halalblock .rose-win{margin:0 auto}
-  }
-</style>
+<title>About Zoco · Halal Shawarma & Tacos, Hyderabad</title>
+<meta name="description" content="Zoco is a halal quick-service kitchen in Banjara Hills, Hyderabad, started by a home cook turned founder who wanted fresh, healthy food that never feels boring.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/home.css">
 </head>
-<body>
+<body class="zh">
 
-<div class="sitehead">
-  <div class="mband">
-    <div class="g"></div><div class="g g-ruby"></div><div class="g g-amber"></div><div class="g g-emerald"></div>
-    <div class="g g-violet"></div><div class="g g-rose"></div><div class="g g-amber"></div><div class="g"></div>
-    <div class="g g-ruby"></div><div class="g g-emerald"></div>
+<header class="zh-header" id="zhHeader">
+  <a href="index.html" class="zh-word">Zoco</a>
+  <nav class="zh-nav">
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="careers.html">Careers</a>
+    <a href="index.html#visit">Visit</a>
+  </nav>
+  <a href="menu.html" class="zh-pill zh-pill-order">Order</a>
+  <button class="zh-burger" id="zhBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<section class="zh-about-hero">
+  <div class="zh-eyebrow" style="color:var(--coral)">Who we are</div>
+  <h1>Healthy food doesn't have to be boring.</h1>
+  <p>Zoco started as bowls and rolls made for one family's dinner table, because eating well and eating well shouldn't be two different things.</p>
+</section>
+
+<section class="zh-build">
+  <div class="zh-build-col gold">
+    <div class="zh-build-num">01</div>
+    <h3>Fresh, not frozen</h3>
+    <p>Everything's prepped same day and grilled to order. No shortcuts, no reheats.</p>
   </div>
-  <div class="wrap">
-    <nav class="navbar">
-      <a href="index.html" class="brand">ZOCO</a>
-      <ul class="navlinks" id="navlinks">
-        <li><a href="index.html">Our Story</a></li>
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="about.html" class="active">About Us</a></li>
-        <li><a href="careers.html">Careers</a></li>
-      </ul>
-      <a class="navcta" href="menu.html">Order now</a>
-      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </nav>
+  <div class="zh-build-col pink">
+    <div class="zh-build-num">02</div>
+    <h3>100% halal</h3>
+    <p>Every dish on the menu, not a corner of it. No pork, no beef, no exceptions.</p>
   </div>
-</div>
-
-<div class="ahero">
-  <div class="wrap">
-    <div class="eyebrow" style="color:var(--amber-hi)">About us</div>
-    <h1>Not a mashup. A <b>reunion</b>.</h1>
-    <p>Zoco isn't two cuisines forced together for novelty. It's one story that happened to take a detour through the Atlantic — and we're the kitchen finishing it in Hyderabad.</p>
+  <div class="zh-build-col maroon">
+    <div class="zh-build-num">03</div>
+    <h3>Built to customize</h3>
+    <p>Pick a base, a protein, a sauce. Your plate, built your way, every time.</p>
   </div>
-</div>
+</section>
 
-<div class="wrap">
-  <section>
-    <div class="eyebrow">What we believe</div>
-    <h2 class="section-title">Three things we <b>won't</b> compromise on</h2>
-    <div class="pillars">
-      <div class="pillar"><div class="dia g g-ruby"></div><h3>The history is real</h3><p>Spanish absorbed Arabic for 700 years under Moorish rule. Tacos al pastor were invented by Lebanese immigrants adapting shawarma in 1930s Puebla. We didn't invent this fusion — we're just cooking it properly.</p></div>
-      <div class="pillar"><div class="dia g g-emerald"></div><h3>Halal, fully</h3><p>Every meat in our kitchen is halal-sourced, no exceptions. Not a "halal option" on a mixed menu — the whole kitchen runs this way.</p></div>
-      <div class="pillar"><div class="dia g g-amber"></div><h3>Consistency over speed</h3><p>Every dish is built from gram-level recipe cards. The shawarma tacos you order today should taste exactly like the ones you ordered last month.</p></div>
-    </div>
-  </section>
+<section class="zh-statement">
+  <p>A market where cultures meet and good food gets shared.</p>
+</section>
 
-  <section style="padding-top:0">
-    <div class="halalblock">
-      <div class="rose-win small"></div>
-      <div>
-        <div class="eyebrow" style="color:var(--amber-hi)">Halal, in practice</div>
-        <h3>A 100% halal kitchen, not a halal corner of one</h3>
-        <p>Our meat suppliers are halal-certified. Our kitchen doesn't handle pork or beef. When you order from Zoco, every dish on the menu is available to you — no separate menu to navigate, no asking twice.</p>
-      </div>
-    </div>
-  </section>
+<section class="zh-prose white">
+  <div class="zh-eyebrow">The journey</div>
+  <h2>Why Zoco exists</h2>
+  <p class="lede">I've been passionate about food since I was a kid in the kitchen. A decade into a corporate career, I found it harder and harder to hit my protein goals without giving up on taste, or my sanity.</p>
+  <p>Having a cook meant managing their schedule, keeping prep ready, and answering the dreaded "khane mein kya banau" three times a day. Meal prepping meant eating the same thing across multiple meals, and like most Indians, I was used to eating fresh food, not reheated food.</p>
+  <p>Somewhere along the way, I started making bowls and rolls for my own family as a regular meal option. I noticed my friends and family gravitated toward the same thing: colorful, healthy food that's rich in protein and fiber, and doesn't feel like a chore to eat.</p>
+  <p>I wanted to build a brand that makes fresh, healthy food accessible to busy working professionals and college students, without it being boring or expensive. That's how Zoco Kitchens happened.</p>
+  <div class="zh-byline">Shraddha, Founder</div>
+</section>
 
-  <section style="padding-top:0">
-    <div class="team-note">
-      <div class="eyebrow">The team</div>
-      <h2 style="font-size:1.3rem">Built by a small kitchen, on purpose</h2>
-      <p style="font-size:.88rem;opacity:.82;margin-top:10px;max-width:60ch">Zoco is run by a founding team small enough that the person who tastes your salsa today is the same person who'll taste it in a year. We're hiring the rest of that team right now — <a href="careers.html" style="color:var(--ruby);font-weight:600">see open roles</a>.</p>
-    </div>
-  </section>
-</div>
+<section class="zh-prose cream">
+  <div class="zh-eyebrow">The name</div>
+  <h2>Why Zoco</h2>
+  <p>Zoco serves Mediterranean and Mexican food, and the name comes from the idea of a market. Souq means market in Arabic, and centuries of cultural exchange in Spain turned it into zoco.</p>
+  <p>Markets have always been more than places to shop. They're where cultures meet, people gather, and good food gets shared. For us, Zoco represents that same journey: cultures coming together, a burst of color, and the mix that makes Mediterranean and Mexican food so exciting in the first place.</p>
+</section>
 
-<footer>
-  <div class="wrap">
-    <div class="fin">
-      <div>
-        <div class="flogo">ZOCO</div>
-        <p>Where Beirut meets Mexico City. Premium halal cloud kitchen, Hyderabad.</p>
-      </div>
-      <div>
-        <div class="footlinks"><a href="index.html">Our Story</a><a href="menu.html">Menu</a><a href="careers.html">Careers</a></div>
-        <p style="margin-top:12px">hello@zocokitchens.com</p>
-      </div>
-    </div>
+<section class="zh-team">
+  <div class="zh-eyebrow">Join us</div>
+  <h2>We're hiring the team that runs the grill.</h2>
+  <p>Small team, real growth. Paid trial days, staff meals, and a shot at running the kitchen as we open more.</p>
+  <a href="careers.html" class="zh-pill">See open roles</a>
+</section>
+
+<footer class="zh-footer">
+  <div class="zh-footer-word">Zoco</div>
+  <div class="zh-footer-tagline">Never eat boring</div>
+  <div class="zh-footer-cols">
+    <div><a href="menu.html">Menu</a><br>Catering<br>Delivery</div>
+    <div>Halal sourcing<br>Allergens<br><a href="careers.html">Careers</a></div>
+    <div>Email · to add<br>Phone · to add<br>Instagram</div>
+    <div class="zh-copyright">© 2026 Zoco Kitchens</div>
   </div>
 </footer>
 
 <script>
-  const burger=document.getElementById('burger'),nav=document.getElementById('navlinks');
-  burger?.addEventListener('click',()=>nav.classList.toggle('open'));
+  const burger = document.getElementById('zhBurger'), header = document.getElementById('zhHeader');
+  burger?.addEventListener('click', () => header.classList.toggle('open'));
 </script>
 </body>
 </html>

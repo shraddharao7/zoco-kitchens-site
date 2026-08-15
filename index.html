@@ -3,184 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zoco — Where Beirut Meets Mexico City | Hyderabad</title>
-<meta name="description" content="Zoco is a premium Middle Eastern × Mexican fusion cloud kitchen in Hyderabad. 100% halal. Shawarma tacos, lamb birria, and the story of two cuisines that were always one.">
+<title>Zoco · Never Eat Boring | Halal Shawarma & Tacos, Hyderabad</title>
+<meta name="description" content="Zoco is a halal Middle Eastern × Mexican kitchen in Banjara Hills, Hyderabad. Shawarma, tacos, and the same grill for both.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<style>
-  .hero{background:var(--lead);color:var(--stone);overflow:hidden}
-  .hero .wrap{padding:38px 20px 50px}
-  .herogrid{display:grid;grid-template-columns:1.15fr 1fr;gap:30px;align-items:center;margin-top:24px}
-  .hero h1{font-size:clamp(2rem,6.5vw,3.1rem);line-height:1.1;max-width:16ch}
-  .hero h1 b{color:var(--amber-hi);font-weight:700}
-  .hero p{margin:16px 0 22px;font-size:.95rem;opacity:.86;max-width:48ch}
-  .heroart{display:flex;justify-content:center}
-  .story{background:var(--stone)}
-  .storygrid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}
-  .storygrid .arch{clip-path:polygon(50% 0,88% 12%,100% 30%,100% 100%,0 100%,0 30%,12% 12%);background:var(--lead);padding:6px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-width:230px;margin:0 auto}
-  .storygrid .arch div{min-height:24px}
-  .storygrid .arch div:nth-child(1),.storygrid .arch div:nth-child(4){opacity:.001}
-  .timeline{border-left:2px solid var(--cobalt);padding-left:18px;margin-top:6px}
-  .tl-item{margin-bottom:18px;position:relative}
-  .tl-item::before{content:"";position:absolute;left:-24px;top:4px;width:11px;height:11px;transform:rotate(45deg);background:var(--amber);border:2px solid var(--lead)}
-  .tl-item .yr{font-family:'Fraunces',serif;font-weight:700;color:var(--cobalt);font-size:.95rem}
-  .tl-item p{font-size:.85rem;opacity:.82;margin-top:2px}
-  .glass-strip{display:flex;height:9px}
-  .glass-strip div{flex:1}
-  .signature{background:var(--lead);color:var(--stone)}
-  .sigwrap{display:grid;grid-template-columns:1fr 1.2fr;gap:28px;align-items:center}
-  .sigcard{background:rgba(239,229,210,.06);border:1px solid rgba(239,229,210,.18);border-radius:14px;padding:22px}
-  .sigcard h3{font-size:1.3rem}
-  .sigcard .price{font-family:'Fraunces',serif;font-weight:700;color:var(--amber-hi);font-size:1.3rem;margin-top:6px}
-  .sigcard p{font-size:.86rem;opacity:.82;margin-top:10px}
-  .teasers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .teaser{background:#fff;border:1px solid rgba(38,32,27,.14);border-radius:12px;padding:20px;text-decoration:none;color:var(--lead);box-shadow:0 6px 18px rgba(38,32,27,.07);display:block}
-  .teaser .rw{height:118px;position:relative;margin-bottom:12px}
-  .teaser h3{font-size:1.05rem}
-  .teaser p{font-size:.8rem;opacity:.75;margin-top:5px}
-  .teaser .arrow{font-size:.78rem;color:var(--ruby);font-weight:600;margin-top:10px;display:inline-block}
-  @media (max-width:720px){
-    .herogrid,.storygrid,.sigwrap{grid-template-columns:1fr}
-    .heroart{order:-1}
-    .teasers{grid-template-columns:1fr}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/home.css">
 </head>
-<body>
+<body class="zh">
 
-<div class="sitehead">
-  <div class="mband">
-    <div class="g"></div><div class="g g-ruby"></div><div class="g g-amber"></div><div class="g g-emerald"></div>
-    <div class="g g-violet"></div><div class="g g-rose"></div><div class="g g-amber"></div><div class="g"></div>
-    <div class="g g-ruby"></div><div class="g g-emerald"></div>
-  </div>
-  <div class="wrap">
-    <nav class="navbar">
-      <a href="index.html" class="brand">ZOCO</a>
-      <ul class="navlinks" id="navlinks">
-        <li><a href="index.html" class="active">Our Story</a></li>
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="careers.html">Careers</a></li>
-      </ul>
-      <a class="navcta" href="menu.html">Order now</a>
-      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </nav>
-  </div>
-</div>
-
-<header class="hero">
-  <div class="wrap">
-    <div class="herogrid">
-      <div>
-        <div class="eyebrow" style="color:var(--amber-hi)">Hyderabad · 100% Halal</div>
-        <h1>Two kitchens, <b>one window</b>.</h1>
-        <p>Zoco is Middle Eastern and Mexican food cooked as one cuisine, not two menus stitched together — because the history says they already are.</p>
-        <div class="btnrow">
-          <a class="btn btn-ruby" href="menu.html">See the menu</a>
-          <a class="btn btn-ghost-light" href="about.html">Our story, in full</a>
-        </div>
-        <div class="badgerow">
-          <span class="badge hal">100% Halal Kitchen</span>
-          <span class="badge">Beirut × Mexico City</span>
-        </div>
-      </div>
-      <div class="heroart"><div class="rose-win"></div></div>
-    </div>
-  </div>
-  <div class="glass-strip">
-    <div class="g"></div><div class="g g-ruby"></div><div class="g g-amber"></div><div class="g g-emerald"></div>
-    <div class="g g-violet"></div><div class="g g-rose"></div>
-  </div>
+<header class="zh-header" id="zhHeader">
+  <a href="index.html" class="zh-word">Zoco</a>
+  <nav class="zh-nav">
+    <a href="menu.html">Menu</a>
+    <a href="#build">Build a plate</a>
+    <a href="#visit">Visit</a>
+  </nav>
+  <a href="menu.html" class="zh-pill zh-pill-order">Order</a>
+  <button class="zh-burger" id="zhBurger" aria-label="Menu"><span></span><span></span><span></span></button>
 </header>
 
-<section class="story">
-  <div class="wrap">
-    <div class="storygrid">
-      <div>
-        <div class="eyebrow">Our story</div>
-        <h2 class="section-title">A souk that <b>moved</b> to Puebla</h2>
-        <div class="timeline">
-          <div class="tl-item"><div class="yr">711–1492</div><p>Moorish rule brings Arabic deep into Spanish — <em>zoco</em>, from <em>souk</em>, marketplace, is one of hundreds of words that cross over.</p></div>
-          <div class="tl-item"><div class="yr">1930s, Puebla</div><p>Lebanese immigrants adapt their spit-grilled shawarma to local ingredients. Al pastor is born — Middle Eastern technique, Mexican soul.</p></div>
-          <div class="tl-item"><div class="yr">Today, Hyderabad</div><p>Zoco finishes the story on purpose: one halal kitchen, two cuisines that were quietly the same idea all along.</p></div>
-        </div>
-      </div>
-      <div class="storygrid-art">
-        <div class="arch">
-          <div></div><div class="g g-amber"></div><div class="g"></div><div></div>
-          <div class="g g-ruby"></div><div class="g"></div><div class="g g-emerald"></div><div class="g g-violet"></div>
-          <div class="g"></div><div class="g g-rose"></div><div class="g g-amber"></div><div class="g"></div>
-          <div class="g g-emerald"></div><div class="g g-violet"></div><div class="g g-ruby"></div><div class="g g-amber"></div>
-        </div>
-      </div>
-    </div>
+<section class="zh-hero">
+  <div class="zh-hero-lines" id="heroLines">
+    <div>Never</div>
+    <div>eat</div>
+    <div>boring!</div>
+  </div>
+  <div class="zh-hero-bottom">
+    <p class="zh-hero-p">Middle Eastern and Mexican food, one halal kitchen in Hyderabad.</p>
+    <a href="menu.html" class="zh-pill zh-pill-menu">See the menu</a>
   </div>
 </section>
 
-<section class="signature">
-  <div class="wrap">
-    <div class="sigwrap">
-      <div class="rose-win small" style="margin:0 auto"></div>
-      <div class="sigcard">
-        <div class="eyebrow" style="color:var(--amber-hi)">The signature dish</div>
-        <h3>Chicken Shawarma Tacos</h3>
-        <div class="price">₹425</div>
-        <p>The 1930 original, reversed — spit-style chicken, toum, pickled onion, on corn tortillas. If you order one thing first, order this. It's the whole brand on a plate.</p>
-        <a class="btn btn-ruby" style="margin-top:14px" href="menu.html">See the full menu</a>
-      </div>
-    </div>
+<section class="zh-menu-head" id="menu">
+  <div class="zh-eyebrow">The board</div>
+  <h2>The full menu</h2>
+</section>
+<section class="zh-menu-rows">
+  <div class="zh-menu-row"><span class="zh-dish-name">Chicken shawarma roll</span><span class="zh-dish-price">289</span></div>
+  <div class="zh-menu-row"><span class="zh-dish-name">Chicken taco</span><span class="zh-dish-price">289</span></div>
+  <div class="zh-menu-row"><span class="zh-dish-name">Mexican bowl, chicken</span><span class="zh-dish-price">349</span></div>
+  <div class="zh-menu-row"><span class="zh-dish-name">Falafel roll</span><span class="zh-dish-price">259</span></div>
+  <div class="zh-menu-row"><span class="zh-dish-name">Paneer quesadilla</span><span class="zh-dish-price">249</span></div>
+  <a href="menu.html" class="zh-menu-more">See the full menu →</a>
+</section>
+
+<section class="zh-statement">
+  <p>Two cuisines, one grill, one set of sauces.</p>
+</section>
+
+<section class="zh-build" id="build">
+  <div class="zh-build-col gold">
+    <div class="zh-build-num">01</div>
+    <h3>Pick a base</h3>
+    <p>Pita, tortilla, rice or salad.</p>
+  </div>
+  <div class="zh-build-col pink">
+    <div class="zh-build-num">02</div>
+    <h3>Pick a protein</h3>
+    <p>Shawarma, falafel, paneer or mushroom.</p>
+  </div>
+  <div class="zh-build-col maroon">
+    <div class="zh-build-num">03</div>
+    <h3>Pick a sauce</h3>
+    <p>Toum, chipotle, mango chilli or red fiery.</p>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <div class="eyebrow">Explore</div>
-    <h2 class="section-title">Get to know <b>Zoco</b></h2>
-    <div class="teasers" style="margin-top:22px">
-      <a class="teaser" href="menu.html">
-        <div class="rw"><div class="rose-win small" style="margin:0 auto"></div></div>
-        <h3>The Menu</h3>
-        <p>Tacos, kofta, quesadillas, and the sauces that tie it all together.</p>
-        <span class="arrow">View menu →</span>
-      </a>
-      <a class="teaser" href="about.html">
-        <div class="rw"><div class="rose-win small" style="margin:0 auto"></div></div>
-        <h3>About Us</h3>
-        <p>Who's cooking, what halal means here, and why Hyderabad.</p>
-        <span class="arrow">Read more →</span>
-      </a>
-      <a class="teaser" href="careers.html">
-        <div class="rw"><div class="rose-win small" style="margin:0 auto"></div></div>
-        <h3>Careers</h3>
-        <p>We're hiring our founding kitchen team. Paid trial days.</p>
-        <span class="arrow">See roles →</span>
-      </a>
-    </div>
+<section class="zh-visit" id="visit">
+  <div>
+    <div class="zh-eyebrow">Visit</div>
+    <div class="zh-visit-address">Road No. 12, Banjara Hills, Hyderabad</div>
   </div>
+  <div class="zh-visit-hours">Mon to Thu · 12pm to 11pm<br>Fri to Sun · 12pm to 1am<br>Delivery within 6 km<br>Catering with a day's notice</div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <div class="fin">
-      <div>
-        <div class="flogo">ZOCO</div>
-        <p>Where Beirut meets Mexico City. Premium halal cloud kitchen, Hyderabad.</p>
-      </div>
-      <div>
-        <div class="footlinks">
-          <a href="menu.html">Menu</a><a href="about.html">About</a><a href="careers.html">Careers</a>
-        </div>
-        <p style="margin-top:12px">hello@zocokitchens.com</p>
-      </div>
-    </div>
+<footer class="zh-footer">
+  <div class="zh-footer-word">Zoco</div>
+  <div class="zh-footer-tagline">Never eat boring</div>
+  <div class="zh-footer-cols">
+    <div><a href="menu.html">Menu</a><br>Catering<br>Delivery</div>
+    <div>Halal sourcing<br>Allergens<br><a href="careers.html">Careers</a></div>
+    <div>Email · to add<br>Phone · to add<br>Instagram</div>
+    <div class="zh-copyright">© 2026 Zoco Kitchens</div>
   </div>
 </footer>
 
 <script>
-  const burger=document.getElementById('burger'),nav=document.getElementById('navlinks');
-  burger?.addEventListener('click',()=>nav.classList.toggle('open'));
+  const burger = document.getElementById('zhBurger'), header = document.getElementById('zhHeader');
+  burger?.addEventListener('click', () => header.classList.toggle('open'));
+
+  function fitHeroLines(){
+    const container = document.getElementById('heroLines');
+    if(!container) return;
+    const targetWidth = container.clientWidth;
+    const probeSize = 100;
+    container.querySelectorAll(':scope > div').forEach(line=>{
+      line.style.fontSize = probeSize + 'px';
+      const natural = line.scrollWidth;
+      if(natural > 0){
+        line.style.fontSize = (targetWidth / natural * probeSize) + 'px';
+      }
+    });
+  }
+  window.addEventListener('load', fitHeroLines);
+  window.addEventListener('resize', fitHeroLines);
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(fitHeroLines);
+  }
 </script>
 </body>
 </html>
