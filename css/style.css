@@ -1,13 +1,14 @@
 /* ===== ZOCO — shared stylesheet ===== */
 :root{
-  --cobalt:#1E4E9C;  --cobalt-hi:#4A7BC8;
-  --ruby:#B72A40;    --ruby-hi:#E05468;
-  --amber:#E39B22;   --amber-hi:#F6C25B;
-  --emerald:#1E7A66; --emerald-hi:#3FA88F;
-  --rose:#B84A72;    --rose-hi:#DD7BA0;
-  --violet:#6B3D85;  --violet-hi:#9563B0;
-  --lead:#26201B; --stone:#EFE5D2; --stone-deep:#E3D5BB;
-  --wa:#1FA855;
+  --cobalt:#24BBEB;  --cobalt-hi:#6AD1F1;
+  --ruby:#EE492D;    --ruby-hi:#F38370;
+  --amber:#E8DB1D;   --amber-hi:#EFE765;
+  --emerald:#019C4A; --emerald-hi:#52BC84;
+  --rose:#FDBCD9;    --rose-hi:#FED1E5;
+  --violet:#882585;  --violet-hi:#AE6BAC;
+  --lead:#22171C; --stone:#EBECB4; --stone-deep:#D6D7A4;
+  --wa:#019C4A;
+  --nonveg:#6A1015;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
