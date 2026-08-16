@@ -92,10 +92,11 @@ function getOrdersSheet_() {
   if (!sheet) {
     sheet = ss.insertSheet('Orders');
   }
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(ORDERS_HEADER);
-    sheet.setFrozenRows(1);
-  }
+  // Always keep row 1 correct, not just on first use - a sheet that already
+  // had rows in it (from earlier testing, or an older header layout) would
+  // otherwise keep whatever stale header it had.
+  sheet.getRange(1, 1, 1, ORDERS_HEADER.length).setValues([ORDERS_HEADER]);
+  sheet.setFrozenRows(1);
   return sheet;
 }
 
@@ -105,9 +106,7 @@ function getCateringSheet_() {
   if (!sheet) {
     sheet = ss.insertSheet('Catering Leads');
   }
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(CATERING_HEADER);
-    sheet.setFrozenRows(1);
-  }
+  sheet.getRange(1, 1, 1, CATERING_HEADER.length).setValues([CATERING_HEADER]);
+  sheet.setFrozenRows(1);
   return sheet;
 }
