@@ -736,21 +736,41 @@ function renderCartDrawer(){
   placeOrderBtn.onclick = goToSurvey;
 }
 
-function cartLineText(c){
-  let parts = [`${c.qty}x ${c.name} (₹${c.unit*c.qty})`];
-  if(c.removed && c.removed.size) parts.push('without ' + [...c.removed].join(', '));
-  Object.keys(c.selections).forEach(k=>{
-    const set = c.selections[k];
-    if(set.size) parts.push([...set].join(', '));
-  });
-  return parts.join(' | ');
+// Add-on group keys route to their own bucket, independent of the parent
+// dish's category. "protein" (Extra Chicken/Paneer/etc) stays bundled with
+// the base dish line since it modifies the dish itself rather than being a
+// separately-served item. "combo" (Make it a Meal) is a fries+drink bundle,
+// bucketed as Sides since fries lead the bundle.
+const GROUP_KEY_BUCKET = {
+  sauces: 'Sauces', dips: 'Dips', drink: 'Beverages', dessert: 'Sides', fries: 'Sides', combo: 'Sides',
+};
+
+function optionPrice_(c, key, optName){
+  const grp = (c.groups||[]).find(g=>g.key===key);
+  const opt = grp && grp.options.find(o=>o.n===optName);
+  return opt ? opt.p : 0;
 }
 
 function cartByBucket(){
   const buckets = {Mains:[], Sauces:[], Dips:[], Beverages:[], Sides:[]};
   cart.forEach(c=>{
-    const bucket = CATEGORY_BUCKET[c.category] || 'Sides';
-    buckets[bucket].push(cartLineText(c));
+    const itemBucket = CATEGORY_BUCKET[c.category] || 'Sides';
+
+    let baseParts = [`${c.qty}x ${c.name} (₹${c.unit*c.qty})`];
+    if(c.removed && c.removed.size) baseParts.push('without ' + [...c.removed].join(', '));
+    if(c.selections.protein && c.selections.protein.size) baseParts.push([...c.selections.protein].join(', '));
+    buckets[itemBucket].push(baseParts.join(' | '));
+
+    Object.keys(c.selections).forEach(key=>{
+      if(key === 'protein') return;
+      const set = c.selections[key];
+      if(!set || !set.size) return;
+      const bucket = GROUP_KEY_BUCKET[key] || 'Sides';
+      [...set].forEach(optName=>{
+        const price = optionPrice_(c, key, optName);
+        buckets[bucket].push(`${c.qty}x ${optName} (₹${price*c.qty}) · with ${c.name}`);
+      });
+    });
   });
   return buckets;
 }
