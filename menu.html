@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menu · Zoco | Build Your Order | Hyderabad</title>
 <meta name="description" content="Zoco's full menu: shawarma rolls, pita pockets, tacos, protein bowls, quesadillas, small plates, sauces and dips. Build your own order with live pricing and nutrition. Halal, Hyderabad.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="brand/favicon.png">
+<link rel="preload" href="fonts/ConcertOne-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
 <style>
   body{padding-bottom:96px}
-  .num{font-family:'Space Grotesk',sans-serif}
+  .num{font-family:var(--font-num)}
 
   .zh-menu-hero{background:var(--coral);padding:64px 44px 56px}
-  .zh-menu-hero h1{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:clamp(40px,7vw,88px);line-height:.92;color:var(--cream)}
-  .zh-menu-hero p{color:var(--cream);font-size:20px;line-height:1.5;margin-top:16px;max-width:46ch;font-weight:300}
+  .zh-menu-hero h1{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:clamp(40px,7vw,88px);line-height:.92;color:var(--white)}
+  .zh-menu-hero p{color:var(--white);font-size:20px;line-height:1.5;margin-top:16px;max-width:46ch;font-weight:300}
 
   .mwrap{max-width:760px;margin:0 auto;padding:0 44px}
 
@@ -37,65 +38,65 @@
   .item-left{flex:1}
   .veg-dot{display:inline-block;width:13px;height:13px;border:1.5px solid var(--veg);border-radius:3px;position:relative;vertical-align:middle;margin-right:8px}
   .veg-dot::after{content:"";position:absolute;inset:2.5px;border-radius:50%;background:var(--veg)}
-  .veg-dot.nonveg{border-color:var(--maroon)}
-  .veg-dot.nonveg::after{background:var(--maroon)}
+  .veg-dot.nonveg{border-color:var(--nonveg)}
+  .veg-dot.nonveg::after{background:var(--nonveg)}
   .item-name{font-family:var(--font-serif);font-weight:600;font-size:22px}
   .item-price{font-weight:600;color:var(--ink);margin-top:8px;font-size:20px}
   .item-desc{font-family:var(--font-sans);font-size:16px;color:var(--ink);opacity:.75;margin-top:8px;line-height:1.5;max-width:42ch;font-weight:300}
   .item-allergen{font-size:12.5px;color:var(--ink);opacity:.62;margin-top:8px;font-weight:500;letter-spacing:.02em}
   .item-allergen b{font-weight:700;opacity:.85}
   .size-tag{font-size:14px;color:var(--ink);opacity:.55;font-weight:300}
-  .add-btn{flex:none;background:var(--ink);color:var(--cream);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:11px 22px;cursor:pointer;height:fit-content}
+  .add-btn{flex:none;background:var(--ink);color:var(--white);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:11px 22px;cursor:pointer;height:fit-content}
   .add-btn:hover{filter:brightness(1.2)}
 
   .overlay{position:fixed;inset:0;background:rgba(43,18,16,.55);z-index:50;display:none;align-items:flex-end;justify-content:center}
   .overlay.open{display:flex}
   .sheet{background:var(--white);width:100%;max-width:640px;max-height:88vh;border-radius:26px 26px 0 0;display:flex;flex-direction:column;overflow:hidden}
-  .sheet-head{background:var(--ink);color:var(--cream);padding:22px 30px;display:flex;justify-content:space-between;align-items:center;flex:none}
+  .sheet-head{background:var(--ink);color:var(--white);padding:22px 30px;display:flex;justify-content:space-between;align-items:center;flex:none}
   .sheet-head h3{font-family:var(--font-serif);font-size:22px;font-weight:600}
   .sheet-head .sheet-sub{font-size:13px;opacity:.7;margin-top:2px;font-weight:400}
-  .sheet-close{background:none;border:none;color:var(--cream);font-size:1.4rem;cursor:pointer;line-height:1;padding:2px 6px}
+  .sheet-close{background:none;border:none;color:var(--white);font-size:1.4rem;cursor:pointer;line-height:1;padding:2px 6px}
   .sheet-body{overflow-y:auto;padding:22px 24px 10px;flex:1;background:var(--cream)}
 
   /* customize-sheet groups: cycling colour cards for visual hierarchy */
   .group{border-radius:18px;padding:18px 20px;margin-bottom:14px}
   .group:nth-of-type(6n+1){background:var(--white)}
   .group:nth-of-type(6n+2){background:var(--pink)}
-  .group:nth-of-type(6n+3){background:rgba(232,219,29,.4)}
-  .group:nth-of-type(6n+4){background:rgba(136,37,133,.1)}
-  .group:nth-of-type(6n+5){background:rgba(106,16,21,.1)}
-  .group:nth-of-type(6n+6){background:rgba(238,73,45,.12)}
+  .group:nth-of-type(6n+3){background:rgba(255,213,21,.4)}
+  .group:nth-of-type(6n+4){background:rgba(81,22,134,.1)}
+  .group:nth-of-type(6n+5){background:rgba(237,55,120,.1)}
+  .group:nth-of-type(6n+6){background:rgba(255,84,41,.12)}
   .group-label{font-family:var(--font-serif);font-weight:600;font-size:17px;color:var(--ink);margin-bottom:2px;display:flex;align-items:center;gap:8px}
   .group-sub{font-size:13px;color:var(--ink);opacity:.6;margin-bottom:8px}
   .option-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(43,18,16,.08)}
   .option-row:last-child{border-bottom:none}
   .opt-left{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:300}
-  .opt-price{font-family:'Space Grotesk',sans-serif;font-size:15px;color:var(--coral);font-weight:600}
+  .opt-price{font-family:var(--font-num);font-size:15px;color:var(--coral);font-weight:600}
   .opt-price.free{color:var(--purple)}
   .size-macro{font-size:14px;color:var(--ink);opacity:.55;font-weight:300}
   input[type=checkbox],input[type=radio]{width:19px;height:19px;accent-color:var(--coral);cursor:pointer;flex:none}
 
   /* nutrition + allergen callouts, shown inside the customize sheet */
   .info-callout{border-radius:18px;padding:16px 20px;margin-bottom:14px;font-size:14px;line-height:1.6}
-  .info-callout.nutrition{background:var(--ink);color:var(--cream)}
+  .info-callout.nutrition{background:var(--ink);color:var(--white)}
   .info-callout.allergen{background:var(--gold)}
   .info-callout .callout-label{font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-  .info-callout .macro-row{display:flex;gap:18px;flex-wrap:wrap;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px}
+  .info-callout .macro-row{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--font-num);font-weight:600;font-size:15px}
 
   .sheet-foot{flex:none;padding:18px 24px;background:var(--white);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
   .qty-stepper{display:flex;align-items:center;background:var(--cream);border-radius:999px;overflow:hidden}
   .qty-stepper button{background:none;border:none;width:38px;height:40px;font-size:1.2rem;color:var(--coral);cursor:pointer;font-weight:700}
-  .qty-stepper span{width:28px;text-align:center;font-weight:700;font-family:'Space Grotesk',sans-serif}
-  .add-item-btn{flex:1;background:var(--coral);color:var(--cream);border:none;border-radius:999px;padding:15px;font-weight:500;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  .qty-stepper span{width:28px;text-align:center;font-weight:700;font-family:var(--font-num)}
+  .add-item-btn{flex:1;background:var(--coral);color:var(--white);border:none;border-radius:999px;padding:15px;font-weight:500;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
   .add-item-btn:hover{filter:brightness(1.08)}
   .skip-link{background:none;border:none;color:var(--ink);opacity:.55;font-size:13px;text-decoration:underline;cursor:pointer;width:100%;text-align:center;padding-top:2px}
 
-  .cartbar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--cream);z-index:40;display:none;justify-content:center}
+  .cartbar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--white);z-index:40;display:none;justify-content:center}
   .cartbar.show{display:flex}
   .cartbar-inner{max-width:760px;width:100%;padding:18px 44px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
   .cartbar-info{font-size:15px;font-weight:300}
-  .cartbar-info b{font-family:'Space Grotesk',sans-serif;color:var(--gold)}
-  .cartbar-view{background:var(--coral);color:var(--cream);border:none;border-radius:999px;padding:11px 22px;font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  .cartbar-info b{font-family:var(--font-num);color:var(--gold)}
+  .cartbar-view{background:var(--coral);color:var(--white);border:none;border-radius:999px;padding:11px 22px;font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 
   .cart-list{padding:0}
   .cart-row{background:var(--white);border-radius:16px;padding:18px 20px;margin-bottom:12px}
@@ -103,18 +104,31 @@
   .cart-row-detail{font-size:14px;color:var(--ink);opacity:.6;margin-top:6px;line-height:1.5;font-weight:300}
   .cart-row-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
   .remove-link{color:var(--coral);font-size:14px;font-weight:600;cursor:pointer;background:none;border:none}
-  .cart-total-row{display:flex;justify-content:space-between;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;padding:18px 0 6px;margin-top:6px}
+  .cart-total-row{display:flex;justify-content:space-between;font-family:var(--font-num);font-weight:700;font-size:22px;padding:18px 0 6px;margin-top:6px}
   .empty-cart{text-align:center;color:var(--ink);opacity:.55;padding:50px 20px;font-size:16px;font-weight:300}
 
   .checkout-form{margin-top:20px;background:var(--white);border-radius:18px;padding:20px}
   .field-label{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;color:var(--ink);opacity:.65;margin-top:16px}
   .field-label:first-child{margin-top:0}
-  .field-input{display:block;width:100%;margin-top:6px;background:var(--cream);border:none;border-radius:12px;padding:13px 16px;font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--ink);font-weight:400;resize:vertical}
+  .field-input{display:block;width:100%;margin-top:6px;background:var(--cream);border:none;border-radius:12px;padding:13px 16px;font-family:var(--font-sans);font-size:16px;color:var(--ink);font-weight:400;resize:vertical}
   .field-input:focus{outline:2px solid var(--coral)}
   .checkout-note{font-size:14px;line-height:1.6;color:var(--ink);margin-top:18px;font-weight:400;background:var(--gold);border-radius:14px;padding:14px 16px}
   .checkout-note b{font-weight:700}
-  .order-success{padding:40px 0;text-align:center}
-  .order-success-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:24px;color:var(--ink)}
+  .charge-row{display:flex;justify-content:space-between;font-size:15px;padding:6px 0;color:var(--ink)}
+  .charge-row.total{font-family:var(--font-num);font-weight:700;font-size:22px;padding-top:14px;margin-top:6px;border-top:1px solid color-mix(in srgb,var(--ink) 15%,transparent)}
+  .charge-note{font-size:13px;line-height:1.5;opacity:.7;margin-top:6px}
+  .back-link{background:none;border:none;color:var(--purple);font-size:14px;font-weight:700;cursor:pointer;padding:0 0 10px;font-family:var(--font-sans)}
+  .pin-map{height:230px;border-radius:14px;margin-top:8px;z-index:0}
+  .pin-actions{display:flex;gap:8px;margin-top:8px}
+  .pin-btn{background:var(--purple);color:#fff;border:none;border-radius:999px;padding:10px 16px;font-family:var(--font-sans);font-weight:700;font-size:14px;cursor:pointer}
+  .pin-status{font-size:13px;line-height:1.5;margin-top:8px;color:var(--ink)}
+  .form-error{display:none;background:color-mix(in srgb,var(--magenta) 14%,#fff);color:var(--ink);border-radius:12px;padding:10px 14px;font-size:14px;margin-top:16px}
+  .pay-box{margin-top:22px;background:var(--cream);border-radius:18px;padding:18px}
+  .pay-box img{width:min(100%,260px);height:auto;border-radius:12px;display:block;margin:12px auto}
+  .pay-title{font-family:var(--font-serif);font-size:20px;color:var(--ink)}
+  .wa-btn{display:inline-block;margin-top:14px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;border-radius:999px;padding:12px 22px}
+  .order-success{padding:30px 0;text-align:center}
+  .order-success-title{font-family:var(--font-serif);font-weight:600;font-size:24px;color:var(--ink)}
   .order-success p{margin-top:10px;color:var(--ink);opacity:.75;font-size:16px;font-weight:300;max-width:40ch;margin-left:auto;margin-right:auto}
 
   /* survey step */
@@ -126,7 +140,7 @@
   .survey-note{font-size:12.5px;color:var(--ink);opacity:.6;margin-top:4px;line-height:1.5}
   .survey-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
   .survey-chip{background:var(--cream);border:none;border-radius:999px;padding:9px 16px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer}
-  .survey-chip.active{background:var(--coral);color:var(--cream)}
+  .survey-chip.active{background:var(--coral);color:var(--white)}
 
   /* item photos */
   .item-media{flex:none;width:128px;height:128px;border-radius:16px;overflow:hidden;background:rgba(43,18,16,.06)}
@@ -142,7 +156,7 @@
   .nut-bar span{display:block;height:100%}
   .nut-bar .nb-p{background:var(--gold)}
   .nut-bar .nb-c{background:var(--coral)}
-  .nut-bar .nb-f{background:var(--pink)}
+  .nut-bar .nb-f{background:var(--pink-brand)}
   .nut-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;opacity:.75}
   .nut-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
   .nut-multi{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.18);font-size:13.5px}
@@ -154,9 +168,9 @@
   .nut-lines li:last-child{border-bottom:none}
   .nut-lines .num{white-space:nowrap;opacity:.85}
   .nut-note{font-size:12px;opacity:.65;margin-top:10px;line-height:1.5}
-  .cart-nutrition{background:var(--ink);color:var(--cream);border-radius:16px;padding:14px 18px;margin-top:14px;font-size:14px}
+  .cart-nutrition{background:var(--ink);color:var(--white);border-radius:16px;padding:14px 18px;margin-top:14px;font-size:14px}
   .cart-nutrition .callout-label{font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-  .cart-nutrition .macro-row{display:flex;gap:16px;flex-wrap:wrap;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px}
+  .cart-nutrition .macro-row{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--font-num);font-weight:600;font-size:15px}
   .allergen-note{font-size:13px;color:var(--ink);opacity:.6;margin-top:10px;font-weight:300}
 
   @media (max-width:600px){
@@ -170,7 +184,7 @@
 <body class="zh">
 
 <header class="zh-header" id="zhHeader">
-  <a href="index.html" class="zh-word">Zoco</a>
+  <a href="index.html" class="zh-word" aria-label="Zoco home"><img src="brand/zoco-logo-purple.png" alt="Zoco" width="520" height="168"></a>
   <nav class="zh-nav">
     <a href="menu.html">Menu</a>
     <a href="catering.html">Catering</a>
@@ -225,23 +239,28 @@
       <button class="sheet-close" id="cartClose">✕</button>
     </div>
     <div class="sheet-body" id="cartSheetBody">
+      <button class="back-link" id="backLink" style="display:none">← Back</button>
       <div class="cart-list" id="cartList"></div>
-      <div class="cart-total-row" id="cartTotalRow" style="display:none">
-        <span>Total</span><span class="num" id="cartTotalVal">₹0</span>
-      </div>
       <div class="cart-nutrition" id="cartNutrition" style="display:none"></div>
+      <div id="cartCharges" style="display:none"></div>
       <div class="checkout-form" id="checkoutForm" style="display:none">
-        <label class="field-label">Name<input type="text" id="custName" class="field-input" placeholder="Your name"></label>
-        <label class="field-label">Phone<input type="tel" id="custPhone" class="field-input" placeholder="10-digit mobile number"></label>
+        <label class="field-label">Name<input type="text" id="custName" class="field-input" placeholder="Your name" autocomplete="name"></label>
+        <label class="field-label">WhatsApp number<input type="tel" id="custPhone" class="field-input" placeholder="10-digit mobile number" autocomplete="tel"></label>
+        <label class="field-label">Delivery address<textarea id="custAddress" class="field-input" rows="3" placeholder="Flat / house no., building, street, area, landmark" autocomplete="street-address"></textarea></label>
+        <div class="field-label">Pin your location</div>
+        <div class="pin-actions"><button type="button" class="pin-btn" id="useLocBtn">📍 Use my current location</button></div>
+        <div class="pin-map" id="pinMap"></div>
+        <div class="pin-status" id="pinStatus"></div>
+        <label class="field-label">Or paste a Google Maps link<input type="url" id="pinLink" class="field-input" placeholder="https://maps.app.goo.gl/..."></label>
         <label class="field-label">Notes (optional)<textarea id="custNotes" class="field-input" rows="2" placeholder="Anything we should know?"></textarea></label>
+        <div class="form-error" id="formError"></div>
       </div>
       <div class="checkout-note" id="checkoutNote" style="display:none">
-        <b>A little note:</b> We'll do our best to accommodate your preferences and choices. Since this is a free at-home tasting, the final selection may change depending on the overall quantity of orders we receive. We'll always try to give you the best possible Zoco experience.
+        <b>How ordering works:</b> Tap Continue and your order opens in WhatsApp, ready to send to us. We take every order on WhatsApp, and we'll confirm it there. Once you send it, scan the payment QR code to pay.
       </div>
       <div id="surveyForm" style="display:none"></div>
       <div class="order-success" id="orderSuccess" style="display:none">
-        <div class="order-success-title">Order received</div>
-        <p>Thanks! We've got your order and will reach out on WhatsApp or phone to confirm the details.</p>
+        
       </div>
     </div>
     <div class="sheet-foot" id="checkoutFoot" style="display:none;flex-direction:column">
@@ -259,8 +278,8 @@
 </div>
 
 <footer class="zh-footer">
-  <div class="zh-footer-word">Zoco</div>
-  <div class="zh-footer-tagline">Never eat boring</div>
+  <img class="zh-footer-logo" src="brand/zoco-logo-orange.png" alt="Zoco" width="1000" height="322">
+  <img class="zh-footer-tagline-img" src="brand/tagline-white.png" alt="Never eat boring" width="364" height="420">
   <div class="zh-footer-cols">
     <div><a href="menu.html">Menu</a><br><a href="catering.html">Catering</a><br>Delivery</div>
     <div>Halal sourcing<br>Allergens<br><a href="careers.html">Careers</a></div>
@@ -312,7 +331,7 @@ const ROWS = [
   {"cat":"Small Plates","code":"ZOCO0031","name":"Potato Garlic Shots","desc":"Golden potato bites with a garlicky kick, fried in refined sunflower oil.","var":"150 g","c":48.0,"p":6.8,"f":22.0,"fi":4.5,"price":199,"img":"potato-garlic-shots.jpg"},
   {"cat":"Small Plates","code":"ZOCO0032","name":"Pita","desc":"15 soft, warm pita pieces, perfect for scooping up hummus, baba ghanoush and our other dips (dips ordered separately).","var":"15 pcs","c":82.0,"p":14.0,"f":1.8,"fi":3.3,"price":149,"img":"pita.jpg"},
   {"cat":"Small Plates","code":"ZOCO0033","name":"Nachos (Regular)","desc":"24 crunchy tortilla nachos made for dipping into our salsas and guacamole (dips ordered separately).","var":"24 pcs","c":76.0,"p":8.6,"f":28.0,"fi":6.4,"price":149,"img":"nachos-regular.jpg"},
-  {"cat":"Small Plates","code":"ZOCO0034","name":"Tabbouleh Salad","desc":"Fresh parsley, tomato, boiled broken wheat and herbs tossed with olive oil and lemon.","var":"80 g","c":11.0,"p":2.0,"f":4.8,"fi":2.8,"price":249,"img":"tabbouleh-salad.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0034","name":"Tabbouleh Salad","desc":"Fresh parsley, tomato, boiled broken wheat and herbs tossed with olive oil and lemon.","var":"80 g","c":11.0,"p":2.0,"f":4.8,"fi":2.8,"price":99,"img":"tabbouleh-salad.jpg"},
   {"cat":"Drinks","code":"ZOCO0035","name":"Lemonade","desc":"Freshly made lemonade, tangy, sweet and refreshing. Served chilled.","var":"200ml","c":13.0,"p":0.0,"f":0.0,"fi":0.2,"price":99,"img":"lemonade.jpg"},
   {"cat":"Drinks","code":"ZOCO0036","name":"Masala Cola","desc":"Chilled cola with a spicy masala kick.","var":"200ml","c":21.0,"p":0.0,"f":0.0,"fi":0.0,"price":99,"img":"masala-cola.jpg"},
   {"cat":"Desserts","code":"ZOCO0037","name":"Saffron Bread with Mascarpone Filling","desc":"Two soft 3-inch saffron-infused pita pieces filled with creamy mascarpone and whipped cream. Rich, aromatic and made fresh. Contains dairy.","var":"2 pcs","c":18.0,"p":4.3,"f":17.0,"fi":0.7,"price":299,"img":null},
@@ -337,7 +356,7 @@ const ROWS = [
   {"cat":"Dips","code":"ZOCO0054","name":"Classic Guacamole","desc":"Fresh avocado guacamole with lime, onion and coriander. Creamy and wholesome.","var":"50 g","c":4.5,"p":1.0,"f":7.5,"fi":3.4,"price":129,"img":"classic-guacamole-50-g.jpg"},
   {"cat":"Dips","code":"ZOCO0055","name":"Spicy Guacamole","desc":"Fresh avocado guacamole with lime and fiery chilli. Creamy, wholesome and spicy.","var":"50 g","c":4.5,"p":1.0,"f":7.5,"fi":3.4,"price":129,"img":"spicy-guacamole-50-g.jpg"},
   {"cat":"Dips","code":"ZOCO0056","name":"Pineapple Salsa","desc":"Smoky pineapple salsa with a hint of chilli and tricolour bell pepper. Sweet, tangy and refreshing.","var":"80 g","c":11.0,"p":0.6,"f":0.8,"fi":1.2,"price":149,"img":"pineapple-salsa.jpg"},
-  {"cat":"Dips","code":"ZOCO0057","name":"Green Salad","desc":"Fresh crunchy garden greens and veggies with a light olive oil dressing. Clean, fresh and healthy.","var":"80 g","c":4.8,"p":1.2,"f":3.2,"fi":1.6,"price":99,"img":"green-salad.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0057","name":"Green Salad","desc":"Fresh crunchy garden greens and veggies with a light olive oil dressing. Clean, fresh and healthy.","var":"80 g","c":4.8,"p":1.2,"f":3.2,"fi":1.6,"price":99,"img":"green-salad.jpg"},
   {"cat":"Add-ons","code":"ZOCO0058","name":"Replace - Lemon cilantro rice","desc":"Swap your bowl's rice for fragrant lemon cilantro rice.","var":"150 g","c":42.0,"p":3.8,"f":4.2,"fi":0.8,"price":0,"img":null},
   {"cat":"Add-ons","code":"ZOCO0059","name":"Replace - Mexican rice","desc":"Swap your bowl's rice for flavourful Mexican rice.","var":"150 g","c":42.0,"p":4.0,"f":4.5,"fi":1.2,"price":0,"img":null},
   {"cat":"Add-ons","code":"ZOCO0059","name":"Replace - Quinoa","desc":"Swap your bowl's rice for protein-rich quinoa.","var":"150 g","c":32.0,"p":6.8,"f":4.5,"fi":4.2,"price":49,"img":null},
@@ -393,6 +412,11 @@ const DIPS_SIGNATURE = [
   o('Smoky Tomato Salsa','80 g'), o('Classic Guacamole','80 g'), o('Spicy Guacamole','80 g'), o('Pineapple Salsa','80 g'),
 ];
 const ALL_DIPS = [...DIPS_ARABIC, ...DIPS_SIGNATURE];
+/* Bowls: guacamole is an add-on at the 50 g price, and cheddar is a flat Rs 29 extra (no nutrition data in the sheet yet). */
+const GUAC_50 = [o('Classic Guacamole','50 g'), o('Spicy Guacamole','50 g')];
+const DIPS_BOWL_SIGNATURE = [o('Smoky Tomato Salsa','80 g'), ...GUAC_50, o('Pineapple Salsa','80 g')];
+const DIPS_BOWL_ARABIAN = [...DIPS_ARABIC, ...GUAC_50];
+const CHEDDAR = {n:'Cheddar Cheese', p:29, m:null};
 
 const FRIES = [
   o('Add on - Salted Fries','45 g','Salted Fries (45 g)'),
@@ -436,8 +460,8 @@ const SWAP_PESTO = {base:{label:'lemon cilantro rice', m:RICE_LEMON.m}, options:
 const SWAP_ARABIAN = {base:null, options:[RICE_LEMON, RICE_MEXICAN, RICE_QUINOA]};
 
 /* "Customize (free)" removals, matched to the ingredients in each bowl's description. */
-const REMOVE_MEXICAN = ["No Rice","No Rajma","No Fajita Veggies","No Pico de Gallo","No Lettuce","No Sour Cream"];
-const REMOVE_PESTO = ["No Rice","No Chickpeas","No Pesto Hummus","No Fajita Veggies","No Bell Peppers","No Pesto Sauce"];
+const REMOVE_MEXICAN = ["No Rice","No Rajma","No Corn","No Fajita Veggies","No Pico de Gallo","No Lettuce","No Sour Cream"];
+const REMOVE_PESTO = ["No Rice","No Chickpeas","No Corn","No Pesto Hummus","No Fajita Veggies","No Bell Peppers","No Pesto Sauce"];
 const REMOVE_ARABIAN = ["No Rice","No Chickpeas","No Hummus","No Pickled Veg","No Tabbouleh","No Garlic Yogurt Sauce"];
 
 const BOWL_PROTEIN = {
@@ -458,7 +482,7 @@ function buildGroups(c){
   const g = [];
   if(c.protein && c.protein.length) g.push(group('Extra Protein','🍗','protein',c.protein));
   if(c.swap) g.push(group('Swap Your Rice','🍚','rice',c.swap.options,{single:true, base:c.swap.base, sub:'Pick one, or keep the rice it comes with'}));
-  if(c.extras && c.extras.length) g.push(group('Extra Rice & Sides','🍚','extras',c.extras));
+  if(c.extras && c.extras.length) g.push(group('Extras','➕','extras',c.extras));
   if(c.sauces) g.push(group('Sauces','🌶️','sauces',c.sauces, c.freeSauce?{freeCount:c.freeSauce}:{}));
   if(c.dips) g.push(group('Dips','🥣','dips',c.dips));
   if(c.meal){
@@ -490,9 +514,9 @@ function configFor(name){
     case 'Tabbouleh Salad': return {drink:true};
     case 'Green Salad': return {sauces:ALL_SAUCES, freeSauce:1, drink:true};
   }
-  if(name.startsWith('Mexican Bowl')) return {remove:REMOVE_MEXICAN, protein:BOWL_PROTEIN[name], swap:SWAP_MEXICAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_BEANS], sauces:SAUCES_SIGNATURE, dips:DIPS_SIGNATURE, freeSauce:1, ...FULL};
-  if(name.startsWith('Pesto Bowl')) return {remove:REMOVE_PESTO, protein:BOWL_PROTEIN[name], swap:SWAP_PESTO, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS], sauces:SAUCES_SIGNATURE, dips:DIPS_SIGNATURE, freeSauce:1, ...FULL};
-  if(name.startsWith('Arabian Bowl')) return {remove:REMOVE_ARABIAN, protein:BOWL_PROTEIN[name], swap:SWAP_ARABIAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS], sauces:SAUCES_ARABIC, dips:DIPS_ARABIC, freeSauce:1, ...FULL};
+  if(name.startsWith('Mexican Bowl')) return {remove:REMOVE_MEXICAN, protein:BOWL_PROTEIN[name], swap:SWAP_MEXICAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_BEANS,CHEDDAR], sauces:SAUCES_SIGNATURE, dips:DIPS_BOWL_SIGNATURE, freeSauce:1, ...FULL};
+  if(name.startsWith('Pesto Bowl')) return {remove:REMOVE_PESTO, protein:BOWL_PROTEIN[name], swap:SWAP_PESTO, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS,CHEDDAR], sauces:SAUCES_SIGNATURE, dips:DIPS_BOWL_SIGNATURE, freeSauce:1, ...FULL};
+  if(name.startsWith('Arabian Bowl')) return {remove:REMOVE_ARABIAN, protein:BOWL_PROTEIN[name], swap:SWAP_ARABIAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS,CHEDDAR], sauces:SAUCES_ARABIC, dips:DIPS_BOWL_ARABIAN, freeSauce:1, ...FULL};
   return null;
 }
 
@@ -624,6 +648,7 @@ const itemDesc = (item,size)=> item.sizes ? item.sizes[size].desc : item.desc;
 function calcNutrition(item, size, sel, removed){
   const parts = [{label: item.name + (item.sizes?` (${size})`:''), m: itemMacros(item,size)}];
   let swapSkipped = false;
+  const noData = [];
   (item.groups||[]).forEach(grp=>{
     const set = sel[grp.key];
     if(!set || !set.size) return;
@@ -632,13 +657,15 @@ function calcNutrition(item, size, sel, removed){
       if(grp.key==='rice'){
         if(grp.base && size==='Regular') parts.push({label:`${opt.n}, instead of ${grp.base.label}`, m: subM(opt.m, grp.base.m)});
         else swapSkipped = true;
+      } else if(!opt.m){
+        noData.push(opt.n);
       } else {
         parts.push({label: opt.n, m: opt.m});
       }
     });
   });
   const total = parts.reduce((s,x)=>sumM(s,x.m), ZERO_M);
-  return {parts, total, swapSkipped, hasRemovals: !!(removed && removed.size)};
+  return {parts, total, swapSkipped, noData, hasRemovals: !!(removed && removed.size)};
 }
 
 const macroLine = m => `<span>P ${fmt(Math.max(0,m.p))}g</span><span>C ${fmt(Math.max(0,m.c))}g</span><span>F ${fmt(Math.max(0,m.f))}g</span><span>Fibre ${fmt(Math.max(0,m.fi))}g</span>`;
@@ -655,6 +682,7 @@ function renderNutrition(){
   const pct = v => (100*v/sumK).toFixed(1);
   const notes = [];
   if(n.hasRemovals) notes.push('Ingredients you remove are not subtracted from these numbers.');
+  if(n.noData.length) notes.push(`Not counted (no nutrition data yet): ${n.noData.join(', ')}.`);
   if(n.swapSkipped) notes.push('The rice swap is not reflected for this size, since the rice portion differs.');
   notes.push('Approximate values per serving. Calories are calculated from the macros.');
   el.innerHTML = `
@@ -662,7 +690,7 @@ function renderNutrition(){
     <div class="nut-kcal num">${kcal}<small>kcal${currentQty>1?' per serving':''}</small></div>
     <div class="macro-row">${macroLine(t)}</div>
     <div class="nut-bar"><span class="nb-p" style="width:${pct(pk)}%"></span><span class="nb-c" style="width:${pct(ck)}%"></span><span class="nb-f" style="width:${pct(fk)}%"></span></div>
-    <div class="nut-legend"><span><i style="background:var(--gold)"></i>Protein</span><span><i style="background:var(--coral)"></i>Carbs</span><span><i style="background:var(--pink)"></i>Fat</span></div>
+    <div class="nut-legend"><span><i style="background:var(--gold)"></i>Protein</span><span><i style="background:var(--coral)"></i>Carbs</span><span><i style="background:var(--pink-brand)"></i>Fat</span></div>
     ${currentQty>1?`<div class="nut-multi"><b>Total for ${currentQty}</b><div class="macro-row"><span>${Math.max(0,kcalOf({p:t.p*currentQty,c:t.c*currentQty,f:t.f*currentQty}))} kcal</span>${macroLine({p:t.p*currentQty,c:t.c*currentQty,f:t.f*currentQty,fi:t.fi*currentQty})}</div></div>`:''}
     ${n.parts.length>1?`<details${wasOpen?' open':''}><summary>See what's counted</summary><ul class="nut-lines">${n.parts.map(x=>`<li><span>${x.label}</span><span class="num">${x.m.p||x.m.c||x.m.f?(kcalOf(x.m)>=0?'+':'')+kcalOf(x.m):'0'} kcal</span></li>`).join('')}</ul></details>`:''}
     <div class="nut-note">${notes.join(' ')}</div>`;
@@ -734,7 +762,7 @@ function openSheet(item){
   (item.groups||[]).forEach(grp=>{
     currentSel[grp.key] = new Set();
     const g = document.createElement('div'); g.className='group';
-    const subText = grp.freeCount ? `First ${grp.freeCount} selection${grp.freeCount>1?'s':''} free` : (grp.sub||'');
+    const subText = grp.freeCount ? `${grp.freeCount} sauce${grp.freeCount>1?'s':''} free. Pick any, even the ₹79 ones` : (grp.sub||'');
     g.innerHTML = `<div class="group-label">${grp.icon||''} ${grp.label}</div>${subText?`<div class="group-sub">${subText}</div>`:''}`;
     grp.options.forEach(opt=>{
       const row = document.createElement('label'); row.className='option-row';
@@ -765,11 +793,15 @@ function toggleOption(groupKey, optName, on){
   if(on) set.add(optName); else set.delete(optName);
 }
 
+// The free pick(s) go to the most expensive of what was chosen, so a customer can swap to any sauce at no extra charge.
+function freePicks(grp, sel){
+  return grp.options.filter(o=>sel.has(o.n)).sort((a,b)=>b.p-a.p).slice(0, grp.freeCount);
+}
+
 function renderFreeDipsPricing(grp, groupEl){
   if(!grp.freeCount) return;
   const sel = currentSel[grp.key];
-  const checkedInOrder = grp.options.filter(o=>sel.has(o.n));
-  const freeNames = new Set(checkedInOrder.slice(0,grp.freeCount).map(o=>o.n));
+  const freeNames = new Set(freePicks(grp, sel).map(o=>o.n));
   groupEl.querySelectorAll('.option-row').forEach(row=>{
     const input = row.querySelector('input');
     const optName = input.dataset.opt;
@@ -793,8 +825,8 @@ function computeAddonsCost(item, sel){
     const set = sel[grp.key];
     if(!set) return;
     if(grp.freeCount){
-      const checkedInOrder = grp.options.filter(o=>set.has(o.n));
-      checkedInOrder.forEach((o,idx)=>{ if(idx>=grp.freeCount) cost += o.p; });
+      const free = new Set(freePicks(grp, set).map(o=>o.n));
+      grp.options.forEach(o=>{ if(set.has(o.n) && !free.has(o.n)) cost += o.p; });
     } else {
       grp.options.forEach(o=>{ if(set.has(o.n)) cost += o.p; });
     }
@@ -865,55 +897,6 @@ function renderCartBar(){
 document.getElementById('cartBarInner').onclick = ()=>{ renderCartDrawer(); cartOverlay.classList.add('open'); };
 document.getElementById('cartClose').onclick = ()=> cartOverlay.classList.remove('open');
 cartOverlay.onclick = (e)=>{ if(e.target===cartOverlay) cartOverlay.classList.remove('open'); };
-
-function renderCartDrawer(){
-  cartHeadTitle.textContent = 'Your Order';
-  cartHeadSub.style.display = 'none';
-  orderSuccess.style.display = 'none';
-  surveyFormEl.style.display = 'none';
-  checkoutNote.style.display = 'none';
-  skipSurveyBtn.style.display = 'none';
-  cartList.style.display = '';
-  cartList.innerHTML = '';
-  if(cart.length===0){
-    cartList.innerHTML = '<div class="empty-cart">Your order is empty. Add something delicious.</div>';
-    document.getElementById('cartTotalRow').style.display='none';
-    cartNutritionEl.style.display='none';
-    checkoutForm.style.display='none';
-    checkoutFoot.style.display='none';
-    return;
-  }
-  cart.forEach((c,idx)=>{
-    const row = document.createElement('div'); row.className='cart-row';
-    let detailParts = [];
-    if(c.removed && c.removed.size) detailParts.push('Without: '+[...c.removed].join(', '));
-    Object.keys(c.selections).forEach(k=>{
-      const set = c.selections[k];
-      if(set.size) detailParts.push([...set].join(', '));
-    });
-    row.innerHTML = `
-      <div class="cart-row-top"><span>${c.name} × ${c.qty}</span><span class="num">₹${c.unit*c.qty}</span></div>
-      ${detailParts.length?`<div class="cart-row-detail">${detailParts.join(' · ')}</div>`:''}
-      <div class="cart-row-detail num">≈ ${Math.max(0,kcalOf(c.nut))} kcal each · P ${fmt(Math.max(0,c.nut.p))}g · C ${fmt(Math.max(0,c.nut.c))}g · F ${fmt(Math.max(0,c.nut.f))}g</div>
-      <div class="cart-row-bottom">
-        <button class="remove-link" data-idx="${idx}">Remove</button>
-      </div>
-    `;
-    row.querySelector('.remove-link').onclick = ()=>{ cart.splice(idx,1); renderCartDrawer(); renderCartBar(); };
-    cartList.appendChild(row);
-  });
-  const total = cart.reduce((s,c)=>s+c.unit*c.qty,0);
-  const orderNut = cart.reduce((s,c)=>sumM(s,{p:c.nut.p*c.qty,c:c.nut.c*c.qty,f:c.nut.f*c.qty,fi:c.nut.fi*c.qty}), ZERO_M);
-  cartNutritionEl.innerHTML = `<div class="callout-label">🔥 Nutrition for your whole order</div><div class="macro-row"><span>${Math.max(0,kcalOf(orderNut))} kcal</span>${macroLine(orderNut)}</div>`;
-  cartNutritionEl.style.display = 'block';
-  document.getElementById('cartTotalRow').style.display='flex';
-  document.getElementById('cartTotalVal').textContent = '₹'+total;
-  checkoutForm.style.display='block';
-  checkoutNote.style.display='block';
-  checkoutFoot.style.display='flex';
-  placeOrderBtn.textContent = 'Continue';
-  placeOrderBtn.onclick = goToSurvey;
-}
 
 // Add-on group keys route to their own bucket, independent of the parent
 // dish's category. "protein" (Extra Chicken/Paneer/etc) stays bundled with
@@ -1026,25 +1009,277 @@ function renderSurveyBody(){
   });
 }
 
-function goToSurvey(){
-  const name = document.getElementById('custName').value.trim();
-  const phone = document.getElementById('custPhone').value.trim();
-  if(!name || !phone){
-    alert('Please add your name and phone number so we can confirm the order.');
+/* ---- Delivery charge, location pin and WhatsApp ordering ---- */
+// WhatsApp number that takes website orders (country code + number, digits only).
+const WHATSAPP_NUMBER = '917207913443';
+// Kitchen location used to measure delivery distance. APPROXIMATE: replace with the exact pin of the kitchen.
+const KITCHEN = {lat:17.4500, lng:78.3900};
+const DELIVERY_RADIUS_KM = 7;      // straight-line distance from the kitchen
+const DELIVERY_FLAT_FEE = 100;     // packaging + delivery inside the radius; beyond it, on actuals
+const PAYMENT_QR = 'brand/zoco-payment-qr.png';
+
+let pin = null;                    // {lat, lng, url, source} once the customer has set a location
+let pinMap = null, pinMarker = null;
+let step = 'cart';
+let lastWaUrl = '';
+
+const custNameEl = document.getElementById('custName');
+const custPhoneEl = document.getElementById('custPhone');
+const custAddressEl = document.getElementById('custAddress');
+const custNotesEl = document.getElementById('custNotes');
+const formErrorEl = document.getElementById('formError');
+const cartChargesEl = document.getElementById('cartCharges');
+const backLinkEl = document.getElementById('backLink');
+const pinStatusEl = document.getElementById('pinStatus');
+const cartSheetBodyEl = document.getElementById('cartSheetBody');
+
+function distKm(a, b){
+  const R = 6371, rad = d=>d*Math.PI/180;
+  const dLat = rad(b.lat-a.lat), dLng = rad(b.lng-a.lng);
+  const h = Math.sin(dLat/2)**2 + Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+const cartSubtotal = ()=> cart.reduce((s,c)=>s+c.unit*c.qty,0);
+
+// status: none (no pin yet) | within (flat fee) | beyond (actuals) | unverified (pasted short link, distance unknown)
+function deliveryInfo(){
+  if(!pin) return {status:'none', km:null, fee:null};
+  if(pin.lat==null) return {status:'unverified', km:null, fee:null};
+  const km = distKm(KITCHEN, pin);
+  return km <= DELIVERY_RADIUS_KM ? {status:'within', km, fee:DELIVERY_FLAT_FEE} : {status:'beyond', km, fee:null};
+}
+
+function renderCharges(){
+  const sub = cartSubtotal(), d = deliveryInfo();
+  let feeText, totalText, note;
+  if(d.status==='within'){
+    feeText = '₹'+d.fee; totalText = '₹'+(sub+d.fee);
+    note = `Flat packaging and delivery fee, about ${d.km.toFixed(1)} km from our kitchen.`;
+  } else if(d.status==='beyond'){
+    feeText = 'On actuals'; totalText = `₹${sub} + delivery`;
+    note = `You're about ${d.km.toFixed(1)} km away, beyond our ${DELIVERY_RADIUS_KM} km flat-fee zone. We'll confirm the delivery charge on WhatsApp.`;
+  } else if(d.status==='unverified'){
+    feeText = 'To be confirmed'; totalText = `₹${sub} + delivery`;
+    note = `We'll check the distance from your link and confirm the delivery charge on WhatsApp.`;
+  } else {
+    feeText = `₹${DELIVERY_FLAT_FEE} within ${DELIVERY_RADIUS_KM} km`; totalText = `₹${sub} + delivery`;
+    note = `Packaging and delivery is a flat ₹${DELIVERY_FLAT_FEE} within ${DELIVERY_RADIUS_KM} km of our kitchen, and on actuals beyond that. We'll check your distance at the next step.`;
+  }
+  cartChargesEl.innerHTML = `
+    <div class="charge-row"><span>Items</span><span class="num">₹${sub}</span></div>
+    <div class="charge-row"><span>Packaging &amp; delivery</span><span class="num">${feeText}</span></div>
+    <div class="charge-row total"><span>Total</span><span class="num">${totalText}</span></div>
+    <div class="charge-note">${note}</div>`;
+}
+
+/* ---- location pin ---- */
+function parseMapsCoords(u){
+  let s = u; try{ s = decodeURIComponent(u); }catch(e){}
+  const pats = [/@(-?\d+\.\d+),(-?\d+\.\d+)/, /[?&](?:q|ll|query|destination|center)=(-?\d+\.\d+),\s*(-?\d+\.\d+)/, /!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/];
+  for(const re of pats){ const m = s.match(re); if(m) return {lat:+m[1], lng:+m[2]}; }
+  return null;
+}
+function updatePinStatus(){
+  const d = deliveryInfo();
+  let t;
+  if(d.status==='none') t = pinMap ? 'Tap the map or drag the pin to your door.' : 'Use your current location, or paste a Google Maps link below.';
+  else if(d.status==='within') t = `📍 Pin set, about ${d.km.toFixed(1)} km from our kitchen. That's inside our ${DELIVERY_RADIUS_KM} km zone.`;
+  else if(d.status==='beyond') t = `📍 Pin set, about ${d.km.toFixed(1)} km from our kitchen. That's beyond ${DELIVERY_RADIUS_KM} km, so delivery is on actuals.`;
+  else t = '📍 Link saved. We will check the distance and confirm the delivery charge.';
+  pinStatusEl.textContent = t;
+}
+function pinIcon(){
+  return L.divIcon({className:'pin-icon', iconSize:[30,40], iconAnchor:[15,40],
+    html:'<svg viewBox="0 0 24 32" width="30" height="40"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0z" fill="#FF5429"/><circle cx="12" cy="12" r="4.5" fill="#fff"/></svg>'});
+}
+function placeMarker(){
+  if(!pinMap || !pin || pin.lat==null) return;
+  const ll = [pin.lat, pin.lng];
+  if(!pinMarker){
+    pinMarker = L.marker(ll, {draggable:true, icon:pinIcon()}).addTo(pinMap);
+    pinMarker.on('dragend', ()=>{ const p = pinMarker.getLatLng(); setPin(p.lat, p.lng, 'map'); });
+  } else pinMarker.setLatLng(ll);
+  pinMap.setView(ll, Math.max(pinMap.getZoom(), 15));
+}
+function setPin(lat, lng, source){
+  lat = Number(lat); lng = Number(lng);
+  if(!isFinite(lat) || !isFinite(lng) || Math.abs(lat)>90 || Math.abs(lng)>180) return;
+  pin = {lat, lng, source, url:`https://www.google.com/maps?q=${lat.toFixed(6)},${lng.toFixed(6)}`};
+  placeMarker(); updatePinStatus(); renderCharges();
+}
+function setPinFromLink(raw){
+  const url = raw.trim();
+  if(!url) return;
+  if(!/^https?:\/\/(www\.)?(maps\.app\.goo\.gl|goo\.gl\/maps|google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)/i.test(url)){
+    pinStatusEl.textContent = "That doesn't look like a Google Maps link. Open the place in Google Maps, tap Share, and paste the link.";
     return;
   }
-  cartList.style.display = 'none';
-  document.getElementById('cartTotalRow').style.display = 'none';
-  cartNutritionEl.style.display = 'none';
-  checkoutForm.style.display = 'none';
-  checkoutNote.style.display = 'none';
+  const c = parseMapsCoords(url);
+  if(c){ setPin(c.lat, c.lng, 'link'); }
+  else { pin = {lat:null, lng:null, source:'link', url}; updatePinStatus(); renderCharges(); }
+}
+function initPinMap(){
+  const el = document.getElementById('pinMap');
+  if(typeof L === 'undefined'){ el.style.display = 'none'; updatePinStatus(); return; }
+  if(!pinMap){
+    pinMap = L.map(el, {scrollWheelZoom:false}).setView([KITCHEN.lat, KITCHEN.lng], 12);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'© OpenStreetMap contributors'}).addTo(pinMap);
+    pinMap.on('click', e=> setPin(e.latlng.lat, e.latlng.lng, 'map'));
+  }
+  setTimeout(()=>{ pinMap.invalidateSize(); placeMarker(); }, 60);
+  updatePinStatus();
+}
+document.getElementById('useLocBtn').onclick = ()=>{
+  if(!navigator.geolocation){ pinStatusEl.textContent = "Your browser can't share its location. Tap the map or paste a Google Maps link instead."; return; }
+  pinStatusEl.textContent = 'Finding you...';
+  navigator.geolocation.getCurrentPosition(
+    p=> setPin(p.coords.latitude, p.coords.longitude, 'device'),
+    ()=>{ pinStatusEl.textContent = "We couldn't get your location. Tap the map or paste a Google Maps link instead."; },
+    {enableHighAccuracy:true, timeout:12000}
+  );
+};
+document.getElementById('pinLink').addEventListener('change', e=> setPinFromLink(e.target.value));
+document.getElementById('pinLink').addEventListener('paste', e=> setTimeout(()=> setPinFromLink(e.target.value), 0));
+
+/* ---- cart drawer steps: cart -> details -> survey -> done ---- */
+const show = (el, on, disp)=>{ el.style.display = on ? (disp||'block') : 'none'; };
+function setStep(s){
+  step = s;
+  show(cartList, s==='cart', '');
+  show(cartNutritionEl, s==='cart' && cart.length>0);
+  show(cartChargesEl, (s==='cart' || s==='details') && cart.length>0);
+  show(checkoutForm, s==='details');
+  show(checkoutNote, s==='details');
+  show(surveyFormEl, s==='survey');
+  show(orderSuccess, s==='done');
+  show(checkoutFoot, s!=='done' && cart.length>0, 'flex');
+  show(backLinkEl, s==='details' || s==='survey');
+  show(skipSurveyBtn, s==='survey');
+  show(cartHeadSub, s==='survey');
+  cartHeadTitle.textContent = {cart:'Your Order', details:'Delivery details', survey:'Quick questions', done:'Send your order'}[s];
+  placeOrderBtn.textContent = {cart:'Continue', details:'Continue', survey:'Place order on WhatsApp'}[s] || '';
+  placeOrderBtn.onclick = {cart:goToDetails, details:goToSurvey, survey:submitOrder}[s] || null;
+  cartSheetBodyEl.scrollTop = 0;
+}
+backLinkEl.onclick = ()=> setStep(step==='survey' ? 'details' : 'cart');
+
+function cartDetailParts(c){
+  const parts = [];
+  if(c.removed && c.removed.size) parts.push('Without: '+[...c.removed].join(', '));
+  Object.keys(c.selections).forEach(k=>{
+    const set = c.selections[k];
+    if(set.size) parts.push([...set].join(', '));
+  });
+  return parts;
+}
+
+function renderCartDrawer(){
+  orderSuccess.style.display = 'none';
+  placeOrderBtn.disabled = false;
+  cartList.innerHTML = '';
+  if(cart.length===0){
+    cartList.innerHTML = '<div class="empty-cart">Your order is empty. Add something delicious.</div>';
+    setStep('cart');
+    return;
+  }
+  cart.forEach((c,idx)=>{
+    const row = document.createElement('div'); row.className='cart-row';
+    const detailParts = cartDetailParts(c);
+    row.innerHTML = `
+      <div class="cart-row-top"><span>${c.name} × ${c.qty}</span><span class="num">₹${c.unit*c.qty}</span></div>
+      ${detailParts.length?`<div class="cart-row-detail">${detailParts.join(' · ')}</div>`:''}
+      <div class="cart-row-detail num">≈ ${Math.max(0,kcalOf(c.nut))} kcal each · P ${fmt(Math.max(0,c.nut.p))}g · C ${fmt(Math.max(0,c.nut.c))}g · F ${fmt(Math.max(0,c.nut.f))}g</div>
+      <div class="cart-row-bottom">
+        <button class="remove-link" data-idx="${idx}">Remove</button>
+      </div>
+    `;
+    row.querySelector('.remove-link').onclick = ()=>{ cart.splice(idx,1); renderCartDrawer(); renderCartBar(); };
+    cartList.appendChild(row);
+  });
+  const orderNut = cart.reduce((s,c)=>sumM(s,{p:c.nut.p*c.qty,c:c.nut.c*c.qty,f:c.nut.f*c.qty,fi:c.nut.fi*c.qty}), ZERO_M);
+  cartNutritionEl.innerHTML = `<div class="callout-label">🔥 Nutrition for your whole order</div><div class="macro-row"><span>${Math.max(0,kcalOf(orderNut))} kcal</span>${macroLine(orderNut)}</div>`;
+  renderCharges();
+  setStep('cart');
+}
+
+function goToDetails(){
+  setStep('details');
+  formErrorEl.style.display = 'none';
+  renderCharges();
+  initPinMap();
+}
+
+const joinList = a => a.length<2 ? a.join('') : a.slice(0,-1).join(', ')+' and '+a[a.length-1];
+
+function readDetails(){
+  const name = custNameEl.value.trim();
+  let digits = custPhoneEl.value.replace(/\D/g,'');
+  if(digits.length===12 && digits.startsWith('91')) digits = digits.slice(2);
+  if(digits.length===11 && digits.startsWith('0')) digits = digits.slice(1);
+  const address = custAddressEl.value.trim();
+  const notes = custNotesEl.value.trim();
+  const errs = [];
+  if(name.length<2) errs.push('your name');
+  if(!/^[6-9]\d{9}$/.test(digits)) errs.push('a 10-digit WhatsApp number');
+  if(address.length<10) errs.push('your full delivery address');
+  if(!pin) errs.push('your location pin');
+  return {name, phone:digits, address, notes, errs};
+}
+
+function goToSurvey(){
+  const d = readDetails();
+  if(d.errs.length){
+    formErrorEl.textContent = 'Please add '+joinList(d.errs)+'.';
+    formErrorEl.style.display = 'block';
+    formErrorEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+    return;
+  }
+  formErrorEl.style.display = 'none';
   renderSurveyBody();
-  surveyFormEl.style.display = 'block';
-  cartHeadTitle.textContent = 'Quick questions';
-  cartHeadSub.style.display = 'block';
-  skipSurveyBtn.style.display = 'block';
-  placeOrderBtn.textContent = 'Submit Order';
-  placeOrderBtn.onclick = submitOrder;
+  setStep('survey');
+}
+
+/* ---- the order message that goes to the kitchen's WhatsApp ---- */
+function buildWhatsAppMessage(d, del, sub){
+  const lines = ['*New Zoco order (website)*', '', '*Order*'];
+  cart.forEach((c,i)=>{
+    lines.push(`${i+1}. ${c.name} × ${c.qty} (₹${c.unit*c.qty})`);
+    const parts = cartDetailParts(c);
+    if(parts.length) lines.push('    '+parts.join(' | '));
+  });
+  lines.push('', `Items: ₹${sub}`);
+  if(del.status==='within'){
+    lines.push(`Packaging & delivery: ₹${del.fee} (${del.km.toFixed(1)} km, within ${DELIVERY_RADIUS_KM} km)`);
+    lines.push(`*Total to pay: ₹${sub+del.fee}*`);
+  } else if(del.status==='beyond'){
+    lines.push(`Packaging & delivery: on actuals (${del.km.toFixed(1)} km, beyond ${DELIVERY_RADIUS_KM} km). Please confirm the charge.`);
+    lines.push(`*Total: ₹${sub} + delivery on actuals*`);
+  } else {
+    lines.push('Packaging & delivery: please check the distance from the pin and confirm the charge.');
+    lines.push(`*Total: ₹${sub} + delivery*`);
+  }
+  lines.push('', '*Delivery details*', `Name: ${d.name}`, `WhatsApp: +91 ${d.phone.slice(0,5)} ${d.phone.slice(5)}`, `Address: ${d.address}`, `Pin: ${pin.url}`);
+  if(d.notes) lines.push(`Notes: ${d.notes}`);
+  return lines.join('\n');
+}
+
+function renderDone(del, sub){
+  const payBlock = del.status==='within'
+    ? `<div class="pay-box">
+         <div class="pay-title">Pay <span class="num">₹${sub+del.fee}</span> to confirm</div>
+         <img src="${PAYMENT_QR}" alt="Zoco payment QR code" width="760" height="1216">
+         <p>Scan with any UPI app, then send the payment screenshot on WhatsApp.</p>
+       </div>`
+    : `<div class="pay-box">
+         <div class="pay-title">Delivery charge to be confirmed</div>
+         <p>${del.status==='beyond' ? `You're beyond our ${DELIVERY_RADIUS_KM} km flat-fee zone, so delivery is charged on actuals.` : 'We need to check your distance first.'} We'll confirm the total on WhatsApp and send the payment QR code there.</p>
+       </div>`;
+  orderSuccess.innerHTML = `
+    <div class="order-success-title">Send your order on WhatsApp</div>
+    <p>WhatsApp should have opened with your order ready to go. Tap <b>Send</b> to place it with us. Your order isn't with us until you send it.</p>
+    <a class="wa-btn" href="${lastWaUrl}" target="_blank" rel="noopener">Open WhatsApp again</a>
+    ${payBlock}`;
+  setStep('done');
 }
 
 skipSurveyBtn.onclick = submitOrder;
@@ -1059,61 +1294,31 @@ function surveyAnswersForPayload(){
   return out;
 }
 
-async function submitOrder(){
-  const name = document.getElementById('custName').value.trim();
-  const phone = document.getElementById('custPhone').value.trim();
-  const notes = document.getElementById('custNotes').value.trim();
+function submitOrder(){
+  const d = readDetails();
+  if(d.errs.length){ setStep('details'); formErrorEl.textContent='Please add '+joinList(d.errs)+'.'; formErrorEl.style.display='block'; return; }
+  const del = deliveryInfo(), sub = cartSubtotal();
+  const msg = buildWhatsAppMessage(d, del, sub);
+  lastWaUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  // Open WhatsApp straight from the tap so the browser doesn't block it.
+  window.open(lastWaUrl, '_blank');
 
-  if(!name || !phone){
-    alert('Please add your name and phone number so we can confirm the order.');
-    return;
-  }
-  if(!ORDERS_ENDPOINT){
-    alert('Ordering isn\'t connected yet. Please WhatsApp or call us directly for now.');
-    return;
-  }
-
-  placeOrderBtn.disabled = true;
-  placeOrderBtn.textContent = 'Sending...';
-  skipSurveyBtn.style.display = 'none';
-
-  const total = cart.reduce((s,c)=>s+c.unit*c.qty,0);
+  // Quietly log the order to the sheet too (best effort).
   const buckets = cartByBucket();
+  const notes = [d.notes, 'Address: '+d.address, 'Pin: '+pin.url, 'Delivery: '+(del.status==='within' ? '₹'+del.fee : del.status==='beyond' ? 'on actuals' : 'tbc')].filter(Boolean).join(' | ');
   const payload = Object.assign({
-    name, phone, notes, total,
-    mainsText: buckets.Mains.join('\n'),
-    saucesText: buckets.Sauces.join('\n'),
-    dipsText: buckets.Dips.join('\n'),
-    beveragesText: buckets.Beverages.join('\n'),
-    sidesText: buckets.Sides.join('\n'),
+    name: d.name, phone: d.phone, notes, total: sub + (del.fee||0),
+    address: d.address, pinUrl: pin.url, deliveryFee: del.fee==null ? '' : del.fee,
+    mainsText: buckets.Mains.join('\n'), saucesText: buckets.Sauces.join('\n'), dipsText: buckets.Dips.join('\n'),
+    beveragesText: buckets.Beverages.join('\n'), sidesText: buckets.Sides.join('\n'),
   }, surveyAnswersForPayload());
-
-  try{
-    await fetch(ORDERS_ENDPOINT, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload),
-    });
-  } catch(err){
-    // no-cors requests can't be inspected, so a network-level failure is the
-    // only thing we can actually catch here. Proceed to the success screen
-    // regardless, since a thrown fetch almost always means it went through.
+  if(ORDERS_ENDPOINT){
+    try{ fetch(ORDERS_ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(payload), keepalive:true}).catch(()=>{}); }catch(e){}
   }
 
   cart = [];
   renderCartBar();
-  cartList.style.display = 'none';
-  document.getElementById('cartTotalRow').style.display = 'none';
-  cartNutritionEl.style.display = 'none';
-  checkoutForm.style.display = 'none';
-  checkoutNote.style.display = 'none';
-  surveyFormEl.style.display = 'none';
-  checkoutFoot.style.display = 'none';
-  cartHeadTitle.textContent = 'Thank you';
-  cartHeadSub.style.display = 'none';
-  orderSuccess.style.display = 'block';
-  placeOrderBtn.disabled = false;
+  renderDone(del, sub);
 }
 </script>
 </body>
