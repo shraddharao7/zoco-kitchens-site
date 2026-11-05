@@ -23,12 +23,16 @@
   .legend{display:flex;gap:20px;font-size:14px;margin:28px 0 4px;flex-wrap:wrap;align-items:center;font-weight:300}
   .legend span{display:flex;align-items:center;gap:8px}
 
-  .tabs{display:flex;gap:26px;overflow-x:auto;padding:24px 0 14px;-webkit-overflow-scrolling:touch}
+  .menu-sticky{position:sticky;top:0;z-index:35;background:var(--white);display:flex;align-items:center;gap:14px;margin-top:10px;box-shadow:0 1px 0 color-mix(in srgb,var(--ink) 12%,transparent)}
+  .menu-sticky.stuck{box-shadow:0 6px 18px -8px color-mix(in srgb,var(--ink) 35%,transparent)}
+  .sticky-cart{flex:none;display:flex;flex-direction:column;align-items:flex-end;background:var(--orange);color:#fff;border:none;border-radius:14px;padding:6px 12px;font-family:var(--font-sans);font-size:12px;line-height:1.3;cursor:pointer;white-space:nowrap}
+  .sticky-cart b{font-size:13px}
+  .tabs{flex:1;min-width:0;display:flex;gap:26px;overflow-x:auto;padding:16px 0 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .tabs::-webkit-scrollbar{display:none}
   .tab{flex:none;background:none;padding:4px 0;font-size:14px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--ink);opacity:.55;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent}
   .tab.active{opacity:1;color:var(--coral);border-bottom-color:var(--coral)}
 
-  .cat-section{margin-top:44px}
+  .cat-section{margin-top:44px;scroll-margin-top:64px}
   .cat-title{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:clamp(26px,3.4vw,40px);color:var(--ink)}
 
   .item-card{border-radius:22px;padding:26px 30px;margin-top:14px;display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
@@ -209,7 +213,10 @@
     <span><span class="veg-dot nonveg"></span> Non-vegetarian</span>
   </div>
   <div class="allergen-note">Allergen info is based on the ingredients we list. If you have an allergy, tell us when you order.</div>
-  <div class="tabs" id="tabs"></div>
+  <div class="menu-sticky" id="menuSticky">
+    <div class="tabs" id="tabs"></div>
+    <button class="sticky-cart" id="stickyCart" type="button" style="display:none"><span id="scText">0 items · ₹0</span><b>View order</b></button>
+  </div>
   <main id="menu"></main>
 </div>
 
@@ -894,9 +901,12 @@ function renderCartBar(){
   document.getElementById('cbCount').textContent = count;
   document.getElementById('cbTotal').textContent = '₹'+total;
   cartBar.classList.toggle('show', count>0);
+  const sc = document.getElementById('stickyCart');
+  if(sc){ sc.style.display = count>0 ? 'flex' : 'none'; document.getElementById('scText').textContent = count+' item'+(count>1?'s':'')+' · ₹'+total; }
 }
 
 document.getElementById('cartBarInner').onclick = ()=>{ renderCartDrawer(); cartOverlay.classList.add('open'); };
+document.getElementById('stickyCart').onclick = ()=>{ renderCartDrawer(); cartOverlay.classList.add('open'); };
 document.getElementById('cartClose').onclick = ()=> cartOverlay.classList.remove('open');
 cartOverlay.onclick = (e)=>{ if(e.target===cartOverlay) cartOverlay.classList.remove('open'); };
 
@@ -1356,6 +1366,32 @@ function submitOrder(){
   renderCartBar();
   renderDone(del, payable);
 }
+
+/* Floating category bar: highlights the section you're in and keeps the active tab in view. */
+(function(){
+  const bar = document.getElementById('menuSticky');
+  const tabs = [...document.querySelectorAll('#tabs .tab')];
+  const secs = tabs.map((_,i)=>document.getElementById('cat-'+i));
+  let ticking = false;
+  function spy(){
+    ticking = false;
+    bar.classList.toggle('stuck', bar.getBoundingClientRect().top <= 1);
+    const line = bar.offsetHeight + 24;
+    let cur = 0;
+    secs.forEach((s,i)=>{ if(s && s.getBoundingClientRect().top <= line) cur = i; });
+    tabs.forEach((tb,i)=>{
+      const on = i===cur;
+      if(on && !tb.classList.contains('active')){
+        const row = document.getElementById('tabs');
+        row.scrollTo({left: tb.offsetLeft - row.clientWidth/2 + tb.clientWidth/2, behavior:'smooth'});
+      }
+      tb.classList.toggle('active', on);
+    });
+  }
+  window.addEventListener('scroll', ()=>{ if(!ticking){ ticking = true; requestAnimationFrame(spy); } }, {passive:true});
+  window.addEventListener('resize', spy);
+  spy();
+})();
 </script>
 </body>
 </html>
