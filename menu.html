@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menu · Zoco | Build Your Order | Hyderabad</title>
-<meta name="description" content="Zoco's full menu: shawarma rolls, tacos, protein bowls, quesadillas, small plates, sauces and dips. Build your own order with live pricing. Halal, Hyderabad.">
+<meta name="description" content="Zoco's full menu: shawarma rolls, pita pockets, tacos, protein bowls, quesadillas, small plates, sauces and dips. Build your own order with live pricing and nutrition. Halal, Hyderabad.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -128,9 +128,41 @@
   .survey-chip{background:var(--cream);border:none;border-radius:999px;padding:9px 16px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer}
   .survey-chip.active{background:var(--coral);color:var(--cream)}
 
+  /* item photos */
+  .item-media{flex:none;width:128px;height:128px;border-radius:16px;overflow:hidden;background:rgba(43,18,16,.06)}
+  .item-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .sheet-hero{border-radius:18px;overflow:hidden;margin-bottom:14px;aspect-ratio:16/10;background:rgba(43,18,16,.06)}
+  .sheet-hero img{width:100%;height:100%;object-fit:cover;display:block}
+  .sheet-desc{font-size:15px;line-height:1.5;font-weight:300;color:var(--ink);opacity:.8;margin:0 2px 14px}
+
+  /* nutrition calculator */
+  .info-callout.nutrition .nut-kcal{font-size:34px;line-height:1;font-weight:700;margin:2px 0 10px}
+  .info-callout.nutrition .nut-kcal small{font-size:15px;font-weight:500;opacity:.75;margin-left:6px}
+  .nut-bar{display:flex;height:8px;border-radius:999px;overflow:hidden;margin:12px 0 6px;background:rgba(255,255,255,.12)}
+  .nut-bar span{display:block;height:100%}
+  .nut-bar .nb-p{background:var(--gold)}
+  .nut-bar .nb-c{background:var(--coral)}
+  .nut-bar .nb-f{background:var(--pink)}
+  .nut-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;opacity:.75}
+  .nut-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+  .nut-multi{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.18);font-size:13.5px}
+  .nut-multi .macro-row{font-size:14px;margin-top:4px}
+  .info-callout.nutrition details{margin-top:12px;font-size:13.5px}
+  .info-callout.nutrition summary{cursor:pointer;font-weight:600;letter-spacing:.02em}
+  .nut-lines{list-style:none;margin:8px 0 0;padding:0}
+  .nut-lines li{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+  .nut-lines li:last-child{border-bottom:none}
+  .nut-lines .num{white-space:nowrap;opacity:.85}
+  .nut-note{font-size:12px;opacity:.65;margin-top:10px;line-height:1.5}
+  .cart-nutrition{background:var(--ink);color:var(--cream);border-radius:16px;padding:14px 18px;margin-top:14px;font-size:14px}
+  .cart-nutrition .callout-label{font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  .cart-nutrition .macro-row{display:flex;gap:16px;flex-wrap:wrap;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px}
+  .allergen-note{font-size:13px;color:var(--ink);opacity:.6;margin-top:10px;font-weight:300}
+
   @media (max-width:600px){
     .mwrap{padding:0 24px}
     .item-card{flex-direction:column}
+    .item-media{width:100%;height:auto;aspect-ratio:16/10}
     .add-btn{align-self:flex-end}
   }
 </style>
@@ -152,7 +184,7 @@
 
 <section class="zh-menu-hero" id="menutop">
   <h1>Build your order</h1>
-  <p>Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish; nutrition info shows up once you start customizing.</p>
+  <p>Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish, and the nutrition calculator updates with every choice you make.</p>
 </section>
 
 <div class="mwrap">
@@ -160,6 +192,7 @@
     <span><span class="veg-dot"></span> Vegetarian</span>
     <span><span class="veg-dot nonveg"></span> Non-vegetarian</span>
   </div>
+  <div class="allergen-note">Allergen info is based on the ingredients we list. If you have an allergy, tell us when you order.</div>
   <div class="tabs" id="tabs"></div>
   <main id="menu"></main>
 </div>
@@ -196,6 +229,7 @@
       <div class="cart-total-row" id="cartTotalRow" style="display:none">
         <span>Total</span><span class="num" id="cartTotalVal">₹0</span>
       </div>
+      <div class="cart-nutrition" id="cartNutrition" style="display:none"></div>
       <div class="checkout-form" id="checkoutForm" style="display:none">
         <label class="field-label">Name<input type="text" id="custName" class="field-input" placeholder="Your name"></label>
         <label class="field-label">Phone<input type="tel" id="custPhone" class="field-input" placeholder="10-digit mobile number"></label>
@@ -239,221 +273,283 @@
 const burgerEl=document.getElementById('zhBurger'),headerEl=document.getElementById('zhHeader');
 burgerEl?.addEventListener('click',()=>headerEl.classList.toggle('open'));
 
-/* Corrections applied vs original sheet:
-   - Chicken Taco 269 -> 289 (to hold +30 vs veg per founder's rule)
-   - Extra Chicken addon 95 -> 120 in Shawarma Roll / Taco / Mexican Bowl (to hold +30 vs Extra Paneer/Falafel/Mushroom = 90)
-   - Guacamole in Salted/Piri Piri/Potato Garlic Shots dip rows: 40 -> 50 (guac is always 50 per founder's rule)
-   - Added Mini/Regular sizing on the 17 main dishes (Mini = Regular veg price x0.75 rounded to 5; chicken mini = matching veg mini +30, holding the locked rule at both sizes)
-   - Added description + estimated macros (kitchen estimates, not lab-tested) per item
-   - Added "Make it a Meal" combo group (fries + Coke bundled at Rs.120 instead of Rs.140)
-   - Allergens are best-guess from ingredients; verify against actual kitchen recipes before relying on them
-*/
+/* Menu data comes from the Petpooja master sheet, using the "Own Website" prices.
+   - kcal is calculated from the sheet's macros: 4 x protein + 4 x carbs + 9 x fat.
+   - Add-on groups, the free first sauce on bowls and the free ingredient removals carry over from the previous menu.
+   - Allergens are read from the ingredients named in each description. Verify against the kitchen recipes. */
+const IMG_BASE = 'c-45e2f99752e0/';
+const ROWS = [
+  {"cat":"Shawarma Rolls","code":"ZOCO0001","name":"Chicken Shawarma Roll","desc":"Juicy baked chicken tossed in imported spices, rolled in a warm wrap with fresh veggies and a creamy hung-curd sauce. Protein-rich, flavourful and made fresh to order. No mayo.","var":"Regular","c":45.0,"p":25.0,"f":14.0,"fi":3.7,"price":299,"img":"chicken-shawarma-roll.jpg"},
+  {"cat":"Shawarma Rolls","code":"ZOCO0002","name":"Paneer Shawarma Roll","desc":"Soft paneer tossed in imported spices, rolled in a warm wrap with fresh veggies and a creamy hung-curd sauce. A protein-rich vegetarian favourite, made fresh to order. No mayo.","var":"Regular","c":46.0,"p":20.0,"f":24.0,"fi":3.7,"price":289,"img":"paneer-shawarma-roll.jpg"},
+  {"cat":"Shawarma Rolls","code":"ZOCO0003","name":"Falafel Roll","desc":"Crisp falafel made with chickpeas and imported spices, rolled in a warm wrap with fresh veggies and a creamy hung-curd sauce. Plant-protein rich and full of flavour. No mayo.","var":"Regular","c":63.0,"p":17.0,"f":21.0,"fi":6.5,"price":259,"img":"falafel-roll.jpg"},
+  {"cat":"Pita Pockets","code":"ZOCO0004","name":"Pita Pocket - Chicken","desc":"Three warm pita pockets stuffed with baked chicken tossed in imported spices, fresh veggies and a creamy hung-curd sauce. Fresh, protein-rich and great for sharing. No mayo.","var":"Regular","c":55.0,"p":26.0,"f":9.3,"fi":3.2,"price":299,"img":"pita-pocket-chicken.jpg"},
+  {"cat":"Pita Pockets","code":"ZOCO0005","name":"Pita Pocket - Falafel","desc":"Three warm pita pockets stuffed with crisp chickpea falafel, fresh veggies and a creamy hung-curd sauce. Plant-protein rich and full of flavour. No mayo.","var":"Regular","c":74.0,"p":18.0,"f":16.0,"fi":6.1,"price":289,"img":"pita-pocket-falafel.jpg"},
+  {"cat":"Tacos","code":"ZOCO0006","name":"Chicken Taco","desc":"Three soft-shell tacos filled with baked chicken tossed in imported spices, fresh veggies and our small-batch sauces. Protein-rich and flavourful.","var":"Regular","c":44.0,"p":26.0,"f":17.0,"fi":3.8,"price":299,"img":"chicken-taco.jpg"},
+  {"cat":"Tacos","code":"ZOCO0007","name":"Paneer Taco","desc":"Three soft-shell tacos filled with paneer tossed in imported spices, fresh veggies and our small-batch sauces. Protein-rich and flavourful.","var":"Regular","c":46.0,"p":21.0,"f":27.0,"fi":3.9,"price":289,"img":"paneer-taco.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0008","name":"Mexican Bowl - Chicken","desc":"Protein-packed Mexican bowl with 80g baked chicken tossed in imported spices over Mexican rice with rajma, fajita veggies, fresh pico de gallo, lettuce, sour cream and a sauce of choice. Fresh, wholesome and flavourful. No mayo.","var":"Regular","c":68.0,"p":35.0,"f":22.0,"fi":7.8,"price":329,"img":"mexican-bowl-chicken-regular.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0009","name":"Mexican Bowl - Paneer","desc":"Protein-packed Mexican bowl with 80g paneer tossed in imported spices over Mexican rice with rajma, fajita veggies, fresh pico de gallo, lettuce, sour cream and a sauce of choice. Fresh, wholesome and flavourful. No mayo.","var":"Regular","c":69.0,"p":28.0,"f":35.0,"fi":7.9,"price":299,"img":"mexican-bowl-paneer-regular.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0010","name":"Mexican Bowl - Mushroom","desc":"Hearty Mexican bowl with 80g mushrooms cooked and tossed in imported spices over Mexican rice with rajma, fajita veggies, fresh pico de gallo, lettuce, sour cream and a sauce of choice. Fresh, wholesome and flavourful. No mayo.","var":"Regular","c":71.0,"p":17.0,"f":22.0,"fi":9.1,"price":299,"img":"mexican-bowl-mushroom-regular.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0011","name":"Pesto Bowl - Chicken","desc":"Protein-packed bowl with 80g baked chicken tossed in fresh pesto over lemon cilantro rice with spiced chickpeas, pesto hummus, fajita veggies, mixed bell peppers, and creamy pesto sauce. Fresh and flavourful. No mayo.","var":"Regular","c":71.0,"p":36.0,"f":26.0,"fi":8.4,"price":329,"img":"pesto-bowl-chicken-regular.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0012","name":"Pesto Bowl - Paneer","desc":"Protein-packed bowl with 80g paneer tossed in fresh pesto over lemon cilantro rice with spiced chickpeas, pesto hummus, fajita veggies, mixed bell peppers, and creamy pesto sauce. Fresh and flavourful. No mayo.","var":"Regular","c":73.0,"p":29.0,"f":39.0,"fi":8.5,"price":299,"img":"pesto-bowl-paneer-regular.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0013","name":"Arabian Bowl - Chicken","desc":"Protein-packed Arabian bowl with 80g baked chicken tossed in imported spices over arabian rice with Za'atar spiced chickpeas, hummus, pickled veg, tabbouleh and a garlic yogurt sauce. Fresh and flavourful. No mayo.","var":"Regular","c":69.0,"p":34.0,"f":23.0,"fi":7.5,"price":329,"img":"arabian-bowl-chicken-regular.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0014","name":"Arabian Bowl - Falafel","desc":"Protein-packed Arabian bowl with 80g crisp falafel tossed in imported spices over arabian rice with Za'atar spiced chickpeas, hummus, pickled veg, tabbouleh and a garlic yogurt sauce. Fresh and flavourful. No mayo.","var":"Regular","c":93.0,"p":23.0,"f":31.0,"fi":11.0,"price":289,"img":"arabian-bowl-falafel-regular.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0015","name":"Arabian Bowl - Paneer","desc":"Protein-packed Arabian bowl with 80g paneer tossed in imported spices over arabian rice with Za'atar spiced chickpeas, hummus, pickled veg, tabbouleh and a garlic yogurt sauce. Fresh and flavourful. No mayo.","var":"Regular","c":70.0,"p":27.0,"f":35.0,"fi":7.6,"price":299,"img":"arabian-bowl-paneer-regular.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0016","name":"Mexican Bowl - Chicken","desc":"Mini portion : Protein-packed Mexican bowl with 50g baked chicken tossed in imported spices over Mexican rice with rajma, fajita veggies, fresh pico de gallo, lettuce, sour cream and a sauce of choice. Fresh, wholesome and flavourful. No mayo.","var":"Mini","c":49.0,"p":24.0,"f":17.0,"fi":5.9,"price":299,"img":"mexican-bowl-chicken-mini.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0017","name":"Mexican Bowl - Paneer","desc":"Mini portion : Protein-packed Mexican bowl with 50g paneer tossed in imported spices over Mexican rice with rajma, fajita veggies, fresh pico de gallo, lettuce, sour cream and a sauce of choice. Fresh, wholesome and flavourful. No mayo.","var":"Mini","c":50.0,"p":20.0,"f":25.0,"fi":6.0,"price":269,"img":"mexican-bowl-paneer-mini.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0018","name":"Mexican Bowl - Mushroom","desc":"Mini portion : Hearty Mexican bowl with 50g mushrooms cooked and tossed in imported spices over Mexican rice with rajma, fajita veggies, fresh pico de gallo, lettuce, sour cream and a sauce of choice. Fresh, wholesome and flavourful. No mayo.","var":"Mini","c":50.0,"p":13.0,"f":17.0,"fi":6.8,"price":259,"img":"mexican-bowl-mushroom-mini.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0019","name":"Pesto Bowl - Chicken","desc":"Mini portion : Protein-packed bowl with 50g baked chicken tossed in fresh pesto over lemon cilantro rice with spiced chickpeas, pesto hummus, fajita veggies, mixed bell peppers, and creamy pesto sauce. Fresh and flavourful. No mayo.","var":"Mini","c":52.0,"p":25.0,"f":21.0,"fi":6.6,"price":299,"img":"pesto-bowl-chicken-mini.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0020","name":"Pesto Bowl - Paneer","desc":"Mini portion : Protein-packed bowl with 50g paneer tossed in fresh pesto over lemon cilantro rice with spiced chickpeas, pesto hummus, fajita veggies, mixed bell peppers, and creamy pesto sauce. Fresh and flavourful. No mayo.","var":"Mini","c":53.0,"p":21.0,"f":29.0,"fi":6.7,"price":269,"img":"pesto-bowl-paneer-mini.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0021","name":"Arabian Bowl - Chicken","desc":"Mini portion : Protein-packed Arabian bowl with 50g baked chicken tossed in imported spices over arabian rice with Za'atar spiced chickpeas, hummus, pickled veg, tabbouleh and a garlic yogurt sauce. Fresh and flavourful. No mayo.","var":"Mini","c":49.0,"p":23.0,"f":18.0,"fi":5.7,"price":299,"img":"arabian-bowl-chicken-mini.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0022","name":"Arabian Bowl - Falafel","desc":"Mini portion : Protein-packed Arabian bowl with 50g crisp falafel tossed in imported spices over arabian rice with Za'atar spiced chickpeas, hummus, pickled veg, tabbouleh and a garlic yogurt sauce. Fresh and flavourful. No mayo.","var":"Mini","c":65.0,"p":16.0,"f":23.0,"fi":8.1,"price":259,"img":"arabian-bowl-falafel-mini.jpg"},
+  {"cat":"Protein Bowls","code":"ZOCO0023","name":"Arabian Bowl - Paneer","desc":"Mini portion : Protein-packed Arabian bowl with 50g paneer tossed in imported spices over arabian rice with Za'atar spiced chickpeas, hummus, pickled veg, tabbouleh and a garlic yogurt sauce. Fresh and flavourful. No mayo.","var":"Mini","c":50.0,"p":19.0,"f":26.0,"fi":5.8,"price":269,"img":"arabian-bowl-paneer-mini.jpg"},
+  {"cat":"Quesadillas","code":"ZOCO0024","name":"Chicken Quesadilla + Chipotle Sauce","desc":"Crisp-toasted tortilla filled with 60g baked chicken tossed in imported spices, melted cheese and mexican beans, served with our small-batch Chipotle sauce. Protein-rich and full of flavour. No mayo.","var":"Regular","c":47.0,"p":28.0,"f":27.0,"fi":5.3,"price":299,"img":"chicken-quesadilla-chipotle-sauce.jpg"},
+  {"cat":"Quesadillas","code":"ZOCO0025","name":"Paneer Quesadilla + Chipotle Sauce","desc":"Crisp-toasted tortilla filled with 60g paneer tossed in imported spices, melted cheese and mexican beans, served with our small-batch Chipotle sauce. Protein-rich and full of flavour. No mayo.","var":"Regular","c":48.0,"p":33.0,"f":37.0,"fi":5.4,"price":289,"img":"paneer-quesadilla-chipotle-sauce.jpg"},
+  {"cat":"Quesadillas","code":"ZOCO0026","name":"Mushroom Quesadilla + Chipotle Sauce","desc":"Crisp-toasted tortilla filled with 60g mushrooms tossed in imported spices, melted cheese and mexican beans, served with our small-batch Chipotle sauce. Protein-rich and full of flavour. No mayo.","var":"Regular","c":47.0,"p":25.0,"f":27.0,"fi":6.4,"price":289,"img":"mushroom-quesadilla-chipotle-sauce.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0027","name":"Falafel Bites + Toum","desc":"Six crisp falafel bites made with chickpeas and imported spices, served with our small-batch toum garlic sauce. Plant-protein rich and fresh. No mayo.","var":"Regular","c":51.0,"p":20.0,"f":57.0,"fi":7.8,"price":249,"img":"falafel-bites-toum.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0028","name":"Chicken Skewers + Toum","desc":"Eight baked chicken skewers tossed in imported spices, served with our small-batch toum garlic sauce. Protein-rich and full of flavour. No mayo.","var":"Regular","c":6.0,"p":54.0,"f":44.0,"fi":0.8,"price":249,"img":"chicken-skewers-toum.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0029","name":"Salted Fries","desc":"Crisp golden fries fried in refined sunflower oil and lightly salted.","var":"150 g","c":62.0,"p":5.1,"f":22.0,"fi":5.7,"price":149,"img":"salted-fries.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0030","name":"Piri Piri Fries","desc":"Crisp golden fries fried in refined sunflower oil and tossed in a fiery piri piri spice blend.","var":"150 g","c":62.0,"p":5.1,"f":22.0,"fi":5.7,"price":149,"img":"piri-piri-fries.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0031","name":"Potato Garlic Shots","desc":"Golden potato bites with a garlicky kick, fried in refined sunflower oil.","var":"150 g","c":48.0,"p":6.8,"f":22.0,"fi":4.5,"price":199,"img":"potato-garlic-shots.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0032","name":"Pita","desc":"15 soft, warm pita pieces, perfect for scooping up hummus, baba ghanoush and our other dips (dips ordered separately).","var":"15 pcs","c":82.0,"p":14.0,"f":1.8,"fi":3.3,"price":149,"img":"pita.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0033","name":"Nachos (Regular)","desc":"24 crunchy tortilla nachos made for dipping into our salsas and guacamole (dips ordered separately).","var":"24 pcs","c":76.0,"p":8.6,"f":28.0,"fi":6.4,"price":149,"img":"nachos-regular.jpg"},
+  {"cat":"Small Plates","code":"ZOCO0034","name":"Tabbouleh Salad","desc":"Fresh parsley, tomato, boiled broken wheat and herbs tossed with olive oil and lemon.","var":"80 g","c":11.0,"p":2.0,"f":4.8,"fi":2.8,"price":249,"img":"tabbouleh-salad.jpg"},
+  {"cat":"Drinks","code":"ZOCO0035","name":"Lemonade","desc":"Freshly made lemonade, tangy, sweet and refreshing. Served chilled.","var":"200ml","c":13.0,"p":0.0,"f":0.0,"fi":0.2,"price":99,"img":"lemonade.jpg"},
+  {"cat":"Drinks","code":"ZOCO0036","name":"Masala Cola","desc":"Chilled cola with a spicy masala kick.","var":"200ml","c":21.0,"p":0.0,"f":0.0,"fi":0.0,"price":99,"img":"masala-cola.jpg"},
+  {"cat":"Desserts","code":"ZOCO0037","name":"Saffron Bread with Mascarpone Filling","desc":"Two soft 3-inch saffron-infused pita pieces filled with creamy mascarpone and whipped cream. Rich, aromatic and made fresh. Contains dairy.","var":"2 pcs","c":18.0,"p":4.3,"f":17.0,"fi":0.7,"price":299,"img":null},
+  {"cat":"Desserts","code":"ZOCO0038","name":"Protein Chocolate Mousse","desc":"Silky chocolate mousse made with whole eggs, unsweetened cocoa and date syrup, with a hint of vanilla. A protein-rich dessert. Contains egg and milk.","var":"130g","c":11.0,"p":15.0,"f":13.0,"fi":2.1,"price":199,"img":"protein-chocolate-mousse.jpg"},
+  {"cat":"Sauces","code":"ZOCO0039","name":"Toum","desc":"Small-batch garlic sauce, bold, creamy and pungent. Made without mayo.","var":"50 ml","c":3.0,"p":0.5,"f":30.0,"fi":0.2,"price":49,"img":"toum.jpg"},
+  {"cat":"Sauces","code":"ZOCO0040","name":"Garlic Peanut Chilli Oil","desc":"Small-batch chilli oil with garlic, peanuts and imported spices. Bold, crunchy and fiery. Contains peanuts.","var":"50 ml","c":6.0,"p":4.0,"f":32.0,"fi":2.0,"price":79,"img":"garlic-peanut-chilli-oil.jpg"},
+  {"cat":"Sauces","code":"ZOCO0041","name":"Chipotle","desc":"Smoky, creamy small-batch Chipotle sauce made with smoked chipotle in adobo sauce and imported spices. No mayo.","var":"50 ml","c":4.0,"p":3.0,"f":7.0,"fi":0.5,"price":79,"img":"chipotle.jpg"},
+  {"cat":"Sauces","code":"ZOCO0042","name":"Pineapple Chilli","desc":"Small-batch sweet and spicy pineapple chilli sauce. Tangy, fruity and fiery. No mayo.","var":"50 ml","c":15.0,"p":0.3,"f":1.5,"fi":0.6,"price":49,"img":"pineapple-chilli.jpg"},
+  {"cat":"Sauces","code":"ZOCO0043","name":"Mango Chilli","desc":"Small-batch sweet and spicy mango chilli sauce. Tangy, fruity and fiery. No mayo.","var":"50 ml","c":16.0,"p":0.2,"f":1.2,"fi":0.7,"price":49,"img":"mango-chilli.jpg"},
+  {"cat":"Sauces","code":"ZOCO0044","name":"Avo Crema - Lime Jalapeño","desc":"Small-batch crema of avocado, lime and jalapeño, made with hung curd. Cool, creamy and zesty. No mayo.","var":"50 ml","c":4.0,"p":2.5,"f":8.0,"fi":1.5,"price":79,"img":"avo-crema-lime-jalapeno.jpg"},
+  {"cat":"Sauces","code":"ZOCO0045","name":"Whipped Sour Cream","desc":"Small-batch whipped sour cream made with hung curd. Light, cool and tangy. No mayo.","var":"50 ml","c":2.5,"p":2.5,"f":6.0,"fi":0.0,"price":49,"img":"whipped-sour-cream.jpg"},
+  {"cat":"Sauces","code":"ZOCO0046","name":"Cheesy Corn","desc":"Small-batch creamy sauce of sweet corn and cheese, made with hung curd. Rich and comforting. No mayo.","var":"50 ml","c":7.0,"p":3.0,"f":6.0,"fi":0.8,"price":49,"img":"cheesy-corn.jpg"},
+  {"cat":"Sauces","code":"ZOCO0047","name":"Red Fiery","desc":"Small-batch fiery red chilli sauce made with hung curd and imported spices. Bold and spicy. No mayo.","var":"50 ml","c":4.0,"p":2.8,"f":6.0,"fi":0.5,"price":49,"img":"red-fiery.jpg"},
+  {"cat":"Dips","code":"ZOCO0048","name":"Hummus","desc":"Smooth chickpea hummus blended with tahini, lemon and olive oil. Fresh, creamy and made with chickpeas. No mayo.","var":"80 g","c":11.0,"p":6.0,"f":11.0,"fi":4.0,"price":99,"img":"hummus.jpg"},
+  {"cat":"Dips","code":"ZOCO0049","name":"Hummus - Roasted Red Pepper","desc":"Creamy chickpea hummus blended with smoky roasted red pepper, tahini and olive oil. Fresh and made with chickpeas. No mayo.","var":"80 g","c":12.0,"p":5.6,"f":10.0,"fi":3.6,"price":129,"img":"hummus-roasted-red-pepper.jpg"},
+  {"cat":"Dips","code":"ZOCO0050","name":"Hummus - Pesto","desc":"Creamy chickpea hummus swirled with fresh herby pesto and olive oil. Fresh and made with chickpeas. No mayo.","var":"80 g","c":9.6,"p":6.0,"f":14.0,"fi":3.6,"price":149,"img":"hummus-pesto.jpg"},
+  {"cat":"Dips","code":"ZOCO0051","name":"Baba Ghanoush","desc":"Smoky roasted aubergine blended with tahini, lemon and olive oil. Silky, rich and full of flavour. No mayo.","var":"80 g","c":6.4,"p":2.0,"f":8.8,"fi":2.8,"price":129,"img":"baba-ghanoush.jpg"},
+  {"cat":"Dips","code":"ZOCO0052","name":"Tzatziki","desc":"Cool, creamy hung-curd dip with cucumber, garlic and dill. Fresh, cooling and refreshing. No mayo.","var":"80 g","c":3.6,"p":4.0,"f":4.8,"fi":0.4,"price":129,"img":"tzatziki.jpg"},
+  {"cat":"Dips","code":"ZOCO0053","name":"Smoky Tomato Salsa","desc":"Fresh tomato salsa with a smoky, spicy kick. Light, tangy and full of flavour.","var":"80 g","c":4.8,"p":1.0,"f":2.0,"fi":1.4,"price":99,"img":"smoky-tomato-salsa.jpg"},
+  {"cat":"Dips","code":"ZOCO0054","name":"Classic Guacamole","desc":"Fresh avocado guacamole with lime, onion, tomato and coriander. Creamy and wholesome.","var":"80 g","c":7.2,"p":1.6,"f":12.0,"fi":5.4,"price":209,"img":"classic-guacamole-80-g.jpg"},
+  {"cat":"Dips","code":"ZOCO0055","name":"Spicy Guacamole","desc":"Fresh avocado guacamole with lime and fiery chilli. Creamy, wholesome and spicy.","var":"80 g","c":7.2,"p":1.6,"f":12.0,"fi":5.4,"price":209,"img":"spicy-guacamole-80-g.jpg"},
+  {"cat":"Dips","code":"ZOCO0054","name":"Classic Guacamole","desc":"Fresh avocado guacamole with lime, onion and coriander. Creamy and wholesome.","var":"50 g","c":4.5,"p":1.0,"f":7.5,"fi":3.4,"price":129,"img":"classic-guacamole-50-g.jpg"},
+  {"cat":"Dips","code":"ZOCO0055","name":"Spicy Guacamole","desc":"Fresh avocado guacamole with lime and fiery chilli. Creamy, wholesome and spicy.","var":"50 g","c":4.5,"p":1.0,"f":7.5,"fi":3.4,"price":129,"img":"spicy-guacamole-50-g.jpg"},
+  {"cat":"Dips","code":"ZOCO0056","name":"Pineapple Salsa","desc":"Smoky pineapple salsa with a hint of chilli and tricolour bell pepper. Sweet, tangy and refreshing.","var":"80 g","c":11.0,"p":0.6,"f":0.8,"fi":1.2,"price":149,"img":"pineapple-salsa.jpg"},
+  {"cat":"Dips","code":"ZOCO0057","name":"Green Salad","desc":"Fresh crunchy garden greens and veggies with a light olive oil dressing. Clean, fresh and healthy.","var":"80 g","c":4.8,"p":1.2,"f":3.2,"fi":1.6,"price":99,"img":"green-salad.jpg"},
+  {"cat":"Add-ons","code":"ZOCO0058","name":"Replace - Lemon cilantro rice","desc":"Swap your bowl's rice for fragrant lemon cilantro rice.","var":"150 g","c":42.0,"p":3.8,"f":4.2,"fi":0.8,"price":0,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0059","name":"Replace - Mexican rice","desc":"Swap your bowl's rice for flavourful Mexican rice.","var":"150 g","c":42.0,"p":4.0,"f":4.5,"fi":1.2,"price":0,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0059","name":"Replace - Quinoa","desc":"Swap your bowl's rice for protein-rich quinoa.","var":"150 g","c":32.0,"p":6.8,"f":4.5,"fi":4.2,"price":49,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0060","name":"Add on - Lemonade","desc":"Add a chilled freshly made lemonade to your order.","var":"100 ml","c":6.5,"p":0.0,"f":0.0,"fi":0.1,"price":59,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0061","name":"Add on - Masala Cola","desc":"Add a chilled masala cola to your order.","var":"100 ml","c":10.0,"p":0.0,"f":0.0,"fi":0.0,"price":59,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0062","name":"Add on - Salted Fries","desc":"Add a mini portion of crisp, lightly salted fries.","var":"45 g","c":18.0,"p":1.5,"f":6.8,"fi":1.7,"price":49,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0063","name":"Add on - Piri Piri Fries","desc":"Add a mini portion of crisp fries tossed in fiery piri piri spice.","var":"45 g","c":18.0,"p":1.5,"f":6.8,"fi":1.7,"price":49,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0064","name":"Add on - Salted Fries + Lemonade","desc":"Mini salted fries paired with a chilled lemonade.","var":"Mini","c":25.0,"p":1.5,"f":6.8,"fi":1.8,"price":99,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0065","name":"Add on - Piri Piri Fries + Lemonade","desc":"Mini piri piri fries paired with a chilled lemonade.","var":"Mini","c":25.0,"p":1.5,"f":6.8,"fi":1.8,"price":99,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0066","name":"Add on - Salted Fries + Masala Cola","desc":"Mini salted fries paired with a chilled masala cola.","var":"Mini","c":29.0,"p":1.5,"f":6.8,"fi":1.7,"price":99,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0067","name":"Add on - Piri Piri Fries + Masala Cola","desc":"Mini piri piri fries paired with a chilled masala cola.","var":"Mini","c":29.0,"p":1.5,"f":6.8,"fi":1.7,"price":99,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0068","name":"Extra Chicken","desc":"Extra baked chicken tossed in imported spices. Add more protein to your meal.","var":"30 g","c":0.5,"p":8.1,"f":2.1,"fi":0.1,"price":69,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0069","name":"Extra Paneer","desc":"Extra paneer tossed in imported spices. Add more protein to your meal.","var":"30 g","c":1.1,"p":5.5,"f":6.9,"fi":0.1,"price":69,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0070","name":"Extra Mushroom","desc":"Extra mushrooms cooked and tossed in imported spices.","var":"30 g","c":1.5,"p":1.5,"f":1.8,"fi":0.6,"price":59,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0071","name":"Extra Mexican Rice","desc":"An extra scoop of flavourful Mexican rice.","var":"50 g","c":14.0,"p":1.4,"f":1.5,"fi":0.4,"price":49,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0072","name":"Extra Lime Cilantro Rice","desc":"An extra scoop of fragrant lime cilantro rice.","var":"50 g","c":14.0,"p":1.2,"f":1.4,"fi":0.2,"price":49,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0073","name":"Extra Quinoa","desc":"An extra scoop of protein-rich quinoa.","var":"50 g","c":11.0,"p":2.2,"f":1.5,"fi":1.4,"price":59,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0074","name":"Extra Mexican Beans","desc":"An extra scoop of seasoned Mexican rajma beans.","var":"30 g","c":6.6,"p":2.6,"f":0.6,"fi":1.9,"price":49,"img":null},
+  {"cat":"Add-ons","code":"ZOCO0075","name":"Extra Za'atar Chickpeas","desc":"An extra scoop of za'atar-spiced chickpeas.","var":"30 g","c":7.5,"p":2.5,"f":1.4,"fi":2.1,"price":49,"img":null}
+];
 
-const SAUCES_ARABIC = [{n:"Toum (50ml)",p:49}];
-const SAUCES_ARABIC_FULL = [{n:"Toum (50ml)",p:49},{n:"Garlic Peanut Chilli Oil (50ml)",p:49}];
-const DIPS_ARABIC = [{n:"Hummus (80g)",p:129},{n:"Baba Ghanoush (80g)",p:129},{n:"Tzatziki (80g)",p:129}];
+const byKey = {};
+ROWS.forEach(r=>{ byKey[r.name+'|'+r.var] = r; });
+function R(name, v){
+  const r = byKey[name+'|'+v];
+  if(!r) throw new Error('Menu row missing: '+name+' | '+v);
+  return r;
+}
+const mac = r => ({p:r.p, c:r.c, f:r.f, fi:r.fi});
+const kcalOf = m => Math.round(4*m.p + 4*m.c + 9*m.f);
+const fmt = v => String(Math.round(v*10)/10);
+const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function o(name, v, label, extra){
+  const r = R(name, v);
+  return Object.assign({n: label || `${name} (${v})`, p: r.price, m: mac(r)}, extra||{});
+}
+
+/* ---- add-on options (names, prices and nutrition all come from the sheet rows) ---- */
+const TOUM = o('Toum','50 ml');
+const GPCO = o('Garlic Peanut Chilli Oil','50 ml');
+const SAUCES_ARABIC = [TOUM, GPCO];
 const SAUCES_SIGNATURE = [
-  {n:"Chipotle (50ml)",p:49},
-  {n:"Pineapple Chilli (50ml)",p:49},
-  {n:"Mango Chilli (50ml)",p:49},
-  {n:"Lime Jalapeño (50ml)",p:49},
-  {n:"Whipped Sour Cream (50ml)",p:49},
-  {n:"Tangy Peanut (50ml)",p:49},
-  {n:"Creamy Corn (50ml)",p:49},
-  {n:"Garlic Peanut Chilli Oil (50ml)",p:49},
-  {n:"Red Fiery (50ml)",p:49},
+  o('Chipotle','50 ml'), o('Pineapple Chilli','50 ml'), o('Mango Chilli','50 ml'),
+  o('Avo Crema - Lime Jalapeño','50 ml'), o('Whipped Sour Cream','50 ml'), o('Cheesy Corn','50 ml'),
+  GPCO, o('Red Fiery','50 ml'),
+];
+const ALL_SAUCES = [TOUM, ...SAUCES_SIGNATURE];
+const DIPS_ARABIC = [
+  o('Hummus','80 g'), o('Hummus - Roasted Red Pepper','80 g'), o('Hummus - Pesto','80 g'),
+  o('Baba Ghanoush','80 g'), o('Tzatziki','80 g'),
 ];
 const DIPS_SIGNATURE = [
-  {n:"Spicy-Creamy Swirl (80g)",p:129},
-  {n:"Smoky Tomato Salsa (80g)",p:129},
-  {n:"Classic Guacamole (80g)",p:129},
-  {n:"Spicy Guacamole (80g)",p:129},
+  o('Smoky Tomato Salsa','80 g'), o('Classic Guacamole','80 g'), o('Spicy Guacamole','80 g'), o('Pineapple Salsa','80 g'),
 ];
-const ALL_SAUCES = [
-  {n:"Toum (50ml)",p:49},
-  {n:"Garlic Peanut Chilli Oil (50ml)",p:49},
-  {n:"Chipotle (50ml)",p:49},
-  {n:"Pineapple Chilli (50ml)",p:49},
-  {n:"Mango Chilli (50ml)",p:49},
-  {n:"Lime Jalapeño (50ml)",p:49},
-  {n:"Whipped Sour Cream (50ml)",p:49},
-  {n:"Tangy Peanut (50ml)",p:49},
-  {n:"Creamy Corn (50ml)",p:49},
-  {n:"Red Fiery (50ml)",p:49},
-];
-const ALL_DIPS = [
-  {n:"Hummus (80g)",p:129},
-  {n:"Baba Ghanoush (80g)",p:129},
-  {n:"Tzatziki (80g)",p:129},
-  {n:"Spicy-Creamy Swirl (80g)",p:129},
-  {n:"Smoky Tomato Salsa (80g)",p:129},
-  {n:"Classic Guacamole (80g)",p:129},
-  {n:"Spicy Guacamole (80g)",p:129},
-];
-const FRIES = [{n:"Salted Fries",p:70},{n:"Piri Piri Fries",p:70},{n:"Potato Garlic Shots",p:70}];
-const DRINKS = [{n:"Lemonade",p:70},{n:"Coke",p:70},{n:"Thums Up",p:70},{n:"Diet Coke",p:70}];
-const DESSERTS = [{n:"Saffron Bread with Mascarpone",p:249},{n:"Protein Chocolate Mousse",p:199},{n:"Baklava",p:180},{n:"Tres Leches",p:180}];
-const COMBOS = [{n:"Salted Fries + Coke, Save ₹20",p:120},{n:"Piri Piri Fries + Coke, Save ₹20",p:120},{n:"Potato Garlic Shots + Coke, Save ₹20",p:120}];
-const REMOVE_MEX = ["No Rice","No Beans","No Lettuce","No Onions","No Bell Peppers","No Tomatoes","No Sour Cream","No Corn","No Guacamole","No Cheese"];
-const REMOVE_ARB = ["No Rice","No Chickpeas","No Lettuce","No Onions","No Bell Peppers","No Tomatoes","No Toum"];
+const ALL_DIPS = [...DIPS_ARABIC, ...DIPS_SIGNATURE];
 
-function scaleMacro(v){ return Math.round(v*0.75); }
+const FRIES = [
+  o('Add on - Salted Fries','45 g','Salted Fries (45 g)'),
+  o('Add on - Piri Piri Fries','45 g','Piri Piri Fries (45 g)'),
+];
+const DRINKS = [
+  o('Add on - Lemonade','100 ml','Lemonade (100 ml)'),
+  o('Add on - Masala Cola','100 ml','Masala Cola (100 ml)'),
+];
+function combo(rowName, label, parts){
+  const r = R(rowName, 'Mini');
+  const save = parts.reduce((s,x)=>s+x.p,0) - r.price;
+  return {n: save>0 ? `${label}, Save ₹${save}` : label, p: r.price, m: mac(r)};
+}
+const COMBOS = [
+  combo('Add on - Salted Fries + Lemonade','Salted Fries + Lemonade',[FRIES[0],DRINKS[0]]),
+  combo('Add on - Piri Piri Fries + Lemonade','Piri Piri Fries + Lemonade',[FRIES[1],DRINKS[0]]),
+  combo('Add on - Salted Fries + Masala Cola','Salted Fries + Masala Cola',[FRIES[0],DRINKS[1]]),
+  combo('Add on - Piri Piri Fries + Masala Cola','Piri Piri Fries + Masala Cola',[FRIES[1],DRINKS[1]]),
+];
+const DESSERTS = [
+  o('Saffron Bread with Mascarpone Filling','2 pcs','Saffron Bread with Mascarpone'),
+  o('Protein Chocolate Mousse','130g','Protein Chocolate Mousse'),
+];
 
-function std(protein, sauces, dips, saucesFreeCount){
-  const groups = [];
-  if(protein) groups.push({label:"Extra Protein", icon:"🍗", key:"protein", type:"checkbox", options:protein});
-  if(sauces){
-    const sauceGroup = {label:"Sauces", icon:"🌶️", key:"sauces", type:"checkbox", options:sauces};
-    if(saucesFreeCount) sauceGroup.freeCount = saucesFreeCount;
-    groups.push(sauceGroup);
+const X_CHICKEN = o('Extra Chicken','30 g');
+const X_PANEER = o('Extra Paneer','30 g');
+const X_MUSHROOM = o('Extra Mushroom','30 g');
+const X_MEX_RICE = o('Extra Mexican Rice','50 g');
+const X_LIME_RICE = o('Extra Lime Cilantro Rice','50 g');
+const X_QUINOA = o('Extra Quinoa','50 g');
+const X_BEANS = o('Extra Mexican Beans','30 g');
+const X_CHICKPEAS = o(Object.keys(byKey).map(k=>k.split('|')[0]).find(n=>/^Extra Za.atar Chickpeas$/.test(n)),'30 g');
+
+/* Rice swaps: "base" is the rice each bowl comes with, used to work out the nutrition change. */
+const RICE_LEMON = o('Replace - Lemon cilantro rice','150 g','Lemon Cilantro Rice (150 g)');
+const RICE_MEXICAN = o('Replace - Mexican rice','150 g','Mexican Rice (150 g)');
+const RICE_QUINOA = o('Replace - Quinoa','150 g','Quinoa (150 g)');
+const SWAP_MEXICAN = {base:{label:'Mexican rice', m:RICE_MEXICAN.m}, options:[RICE_LEMON, RICE_QUINOA]};
+const SWAP_PESTO = {base:{label:'lemon cilantro rice', m:RICE_LEMON.m}, options:[RICE_MEXICAN, RICE_QUINOA]};
+const SWAP_ARABIAN = {base:null, options:[RICE_LEMON, RICE_MEXICAN, RICE_QUINOA]};
+
+/* "Customize (free)" removals, matched to the ingredients in each bowl's description. */
+const REMOVE_MEXICAN = ["No Rice","No Rajma","No Fajita Veggies","No Pico de Gallo","No Lettuce","No Sour Cream"];
+const REMOVE_PESTO = ["No Rice","No Chickpeas","No Pesto Hummus","No Fajita Veggies","No Bell Peppers","No Pesto Sauce"];
+const REMOVE_ARABIAN = ["No Rice","No Chickpeas","No Hummus","No Pickled Veg","No Tabbouleh","No Garlic Yogurt Sauce"];
+
+const BOWL_PROTEIN = {
+  'Mexican Bowl - Chicken':[X_PANEER,X_MUSHROOM,X_CHICKEN],
+  'Mexican Bowl - Paneer':[X_PANEER,X_MUSHROOM],
+  'Mexican Bowl - Mushroom':[X_PANEER,X_MUSHROOM],
+  'Pesto Bowl - Chicken':[X_PANEER,X_CHICKEN],
+  'Pesto Bowl - Paneer':[X_PANEER],
+  'Arabian Bowl - Chicken':[X_PANEER,X_CHICKEN],
+  'Arabian Bowl - Falafel':[X_PANEER],
+  'Arabian Bowl - Paneer':[X_PANEER],
+};
+
+function group(label, icon, key, options, extra){
+  return Object.assign({label, icon, key, type:'checkbox', options}, extra||{});
+}
+function buildGroups(c){
+  const g = [];
+  if(c.protein && c.protein.length) g.push(group('Extra Protein','🍗','protein',c.protein));
+  if(c.swap) g.push(group('Swap Your Rice','🍚','rice',c.swap.options,{single:true, base:c.swap.base, sub:'Pick one, or keep the rice it comes with'}));
+  if(c.extras && c.extras.length) g.push(group('Extra Rice & Sides','🍚','extras',c.extras));
+  if(c.sauces) g.push(group('Sauces','🌶️','sauces',c.sauces, c.freeSauce?{freeCount:c.freeSauce}:{}));
+  if(c.dips) g.push(group('Dips','🥣','dips',c.dips));
+  if(c.meal){
+    g.push(group('Make it a Meal (bundle & save)','🍽️','combo',COMBOS));
+    g.push(group('Add Fries','🍟','fries',FRIES));
   }
-  if(dips) groups.push({label:"Dips", icon:"🥣", key:"dips", type:"checkbox", options:dips});
-  groups.push({label:"Make it a Meal (bundle & save)", icon:"🍽️", key:"combo", type:"checkbox", options:COMBOS});
-  groups.push({label:"Add Fries", icon:"🍟", key:"fries", type:"checkbox", options:FRIES});
-  groups.push({label:"Add a Drink", icon:"🥤", key:"drink", type:"checkbox", options:DRINKS});
-  groups.push({label:"Add Dessert", icon:"🍰", key:"dessert", type:"checkbox", options:DESSERTS});
-  return groups;
+  if(c.drink) g.push(group('Add a Drink','🥤','drink',DRINKS));
+  if(c.dessert) g.push(group('Add Dessert','🍰','dessert',DESSERTS));
+  return g;
+}
+const FULL = {meal:true, drink:true, dessert:true};
+function configFor(name){
+  const arabicWrap = Object.assign({sauces:SAUCES_ARABIC, dips:DIPS_ARABIC}, FULL);
+  const signatureHandheld = Object.assign({sauces:SAUCES_SIGNATURE, dips:DIPS_SIGNATURE}, FULL);
+  switch(name){
+    case 'Chicken Shawarma Roll': return Object.assign({protein:[X_CHICKEN]}, arabicWrap);
+    case 'Paneer Shawarma Roll': return Object.assign({protein:[X_PANEER]}, arabicWrap);
+    case 'Falafel Roll': return arabicWrap;
+    case 'Pita Pocket - Chicken': return Object.assign({protein:[X_CHICKEN]}, arabicWrap);
+    case 'Pita Pocket - Falafel': return arabicWrap;
+    case 'Chicken Taco': case 'Paneer Taco':
+    case 'Chicken Quesadilla + Chipotle Sauce': case 'Paneer Quesadilla + Chipotle Sauce': case 'Mushroom Quesadilla + Chipotle Sauce':
+      return signatureHandheld;
+    case 'Falafel Bites + Toum': return {sauces:SAUCES_ARABIC, dips:DIPS_ARABIC, drink:true};
+    case 'Chicken Skewers + Toum': return {dips:DIPS_ARABIC, drink:true};
+    case 'Salted Fries': case 'Piri Piri Fries': case 'Potato Garlic Shots':
+      return {sauces:SAUCES_SIGNATURE, dips:DIPS_SIGNATURE, drink:true};
+    case 'Pita': case 'Nachos (Regular)': return {dips:ALL_DIPS, drink:true};
+    case 'Tabbouleh Salad': return {drink:true};
+    case 'Green Salad': return {sauces:ALL_SAUCES, freeSauce:1, drink:true};
+  }
+  if(name.startsWith('Mexican Bowl')) return {remove:REMOVE_MEXICAN, protein:BOWL_PROTEIN[name], swap:SWAP_MEXICAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_BEANS], sauces:SAUCES_SIGNATURE, dips:DIPS_SIGNATURE, freeSauce:1, ...FULL};
+  if(name.startsWith('Pesto Bowl')) return {remove:REMOVE_PESTO, protein:BOWL_PROTEIN[name], swap:SWAP_PESTO, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS], sauces:SAUCES_SIGNATURE, dips:DIPS_SIGNATURE, freeSauce:1, ...FULL};
+  if(name.startsWith('Arabian Bowl')) return {remove:REMOVE_ARABIAN, protein:BOWL_PROTEIN[name], swap:SWAP_ARABIAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS], sauces:SAUCES_ARABIC, dips:DIPS_ARABIC, freeSauce:1, ...FULL};
+  return null;
 }
 
-function sized(regPrice, miniPrice, desc, macros){
-  return {
-    sizes: {
-      Regular: { price: regPrice, macros: macros },
-      Mini: { price: miniPrice, macros: { cal:scaleMacro(macros.cal), protein:scaleMacro(macros.protein), carb:scaleMacro(macros.carb), fat:scaleMacro(macros.fat) } }
-    },
-    desc: desc
+/* Allergens are read from the ingredients named in the sheet's descriptions. */
+function allergensFor(name, desc){
+  // Pita and nachos mention dips only as serving ideas (sold separately), so judge those by the name alone.
+  const t = (/dips ordered separately/i.test(desc) ? name : name+' '+desc).toLowerCase();
+  const a = [];
+  if(/\b(roll|pocket|taco|quesadilla|pita|wrap)\b|tabbouleh|broken wheat/.test(t)) a.push('Gluten');
+  if(/hung[- ]curd|sour cream|cheese|paneer|mascarpone|whipped cream|milk|yogurt|pesto/.test(t)) a.push('Dairy');
+  if(/\begg/.test(t)) a.push('Eggs');
+  if(/hummus|tahini|baba ghanoush|falafel/.test(t)) a.push('Sesame');
+  if(/peanut/.test(t)) a.push('Peanuts');
+  if(/pesto/.test(t)) a.push('Nuts');
+  return a;
+}
+const cleanDesc = d => d.replace(/^Mini portion\s*:\s*/,'');
+
+function buildItem(name, vs){
+  const first = vs[0];
+  const item = {
+    id: slugify(name), name,
+    veg: !/chicken/i.test(name),
+    allergens: allergensFor(name, vs.map(v=>v.desc).join(' ')),
+    remove: [], groups: [],
   };
+  if(vs.length>1){
+    item.sizes = {};
+    vs.forEach(v=>{ item.sizes[v.var] = {price:v.price, macros:mac(v), desc:cleanDesc(v.desc), img:v.img}; });
+    item.desc = item.sizes[first.var].desc;
+    item.img = first.img;
+  } else {
+    item.price = first.price;
+    item.macros = mac(first);
+    item.desc = cleanDesc(first.desc);
+    item.img = first.img;
+    if(first.var!=='Regular') item.vtag = first.var;
+  }
+  const c = configFor(name);
+  if(c){ item.remove = c.remove||[]; item.groups = buildGroups(c); }
+  return item;
 }
 
-const MENU = [
-{ category:"Shawarma Roll", items:[
-  { id:"sr-chicken", name:"Chicken Shawarma Roll", veg:false, allergens:["Gluten"],
-    ...sized(289,225,"Spit-marinated chicken, garlic sauce, and pickled onion, rolled in warm pita.",{cal:520,protein:34,carb:48,fat:20}),
-    groups: std([{n:"Extra Chicken",p:120}], SAUCES_ARABIC_FULL, DIPS_ARABIC) },
-  { id:"sr-paneer", name:"Paneer Shawarma Roll", veg:true, allergens:["Gluten","Dairy"],
-    ...sized(259,195,"Charred paneer, shawarma-spiced, with garlic sauce and pickled onion.",{cal:480,protein:16,carb:50,fat:22}),
-    groups: std([{n:"Extra Paneer",p:90}], SAUCES_ARABIC_FULL, DIPS_ARABIC) },
-  { id:"sr-falafel", name:"Falafel Roll", veg:true, allergens:["Gluten","Sesame"],
-    ...sized(259,195,"Crisp herb falafel, tahini, and pickled onion, rolled in warm pita.",{cal:460,protein:13,carb:52,fat:19}),
-    groups: std([{n:"Extra Falafel",p:90}], SAUCES_ARABIC_FULL, DIPS_ARABIC) },
-]},
-{ category:"Taco", items:[
-  { id:"tc-chicken", name:"Chicken Taco", veg:false, price:289, allergens:["Gluten"], desc:"Spiced chicken, fresh salsa, and a squeeze of lime in a soft tortilla. 2 pieces.", macros:{cal:480,protein:32,carb:42,fat:18},
-    groups: std(null, SAUCES_SIGNATURE, DIPS_SIGNATURE) },
-  { id:"tc-paneer", name:"Paneer Taco", veg:true, price:259, allergens:["Gluten","Dairy"], desc:"Charred paneer, fresh salsa, and lime in a soft tortilla. 2 pieces.", macros:{cal:440,protein:15,carb:44,fat:20},
-    groups: std(null, SAUCES_SIGNATURE, DIPS_SIGNATURE) },
-  { id:"tc-falafel", name:"Falafel Taco", veg:true, price:259, allergens:["Gluten"], desc:"Crisp falafel, fresh salsa, and lime in a soft tortilla. 2 pieces.", macros:{cal:420,protein:12,carb:46,fat:17},
-    groups: std(null, SAUCES_SIGNATURE, DIPS_SIGNATURE) },
-]},
-{ category:"Protein Bowls", items:[
-  { id:"mb-paneer", name:"Mexican Bowl - Paneer", veg:true, remove:REMOVE_MEX, allergens:["Dairy"],
-    ...sized(319,240,"Rice, beans, roasted corn, salsa, and charred paneer, all in one bowl.",{cal:560,protein:20,carb:64,fat:22}),
-    groups: std([{n:"Extra Paneer",p:90},{n:"Extra Mushroom",p:90}], SAUCES_SIGNATURE, DIPS_SIGNATURE, 1) },
-  { id:"mb-mushroom", name:"Mexican Bowl - Mushroom", veg:true, remove:REMOVE_MEX, allergens:[],
-    ...sized(319,240,"Rice, beans, roasted corn, salsa, and charred mushroom, all in one bowl.",{cal:520,protein:14,carb:64,fat:18}),
-    groups: std([{n:"Extra Paneer",p:90},{n:"Extra Mushroom",p:90}], SAUCES_SIGNATURE, DIPS_SIGNATURE, 1) },
-  { id:"mb-chicken", name:"Mexican Bowl - Chicken", veg:false, remove:REMOVE_MEX, allergens:[],
-    ...sized(349,270,"Rice, beans, roasted corn, salsa, and spiced chicken, all in one bowl.",{cal:590,protein:36,carb:60,fat:20}),
-    groups: std([{n:"Extra Paneer",p:90},{n:"Extra Mushroom",p:90},{n:"Extra Chicken",p:120}], SAUCES_SIGNATURE, DIPS_SIGNATURE, 1) },
-  { id:"mb-veggie", name:"Mexican Bowl - Veggie", veg:true, remove:REMOVE_MEX, allergens:[],
-    ...sized(299,225,"Rice, beans, roasted corn, and salsa, plant-based and full of flavor.",{cal:480,protein:11,carb:66,fat:14}),
-    groups: std([{n:"Extra Rice",p:45}], SAUCES_SIGNATURE, DIPS_SIGNATURE, 1) },
-  { id:"pb-chicken", name:"Pesto Bowl - Chicken", veg:false, remove:REMOVE_MEX, allergens:["Nuts","Dairy"],
-    ...sized(349,270,"Rice, roasted vegetables, basil pesto, and spiced chicken, tossed together.",{cal:580,protein:34,carb:52,fat:26}),
-    groups: std([{n:"Extra Paneer",p:90},{n:"Extra Chicken",p:120}], SAUCES_SIGNATURE, DIPS_SIGNATURE, 1) },
-  { id:"pb-paneer", name:"Pesto Bowl - Paneer", veg:true, remove:REMOVE_MEX, allergens:["Nuts","Dairy"],
-    ...sized(319,240,"Rice, roasted vegetables, basil pesto, and charred paneer, tossed together.",{cal:550,protein:19,carb:54,fat:27}),
-    groups: std([{n:"Extra Paneer",p:90}], SAUCES_SIGNATURE, DIPS_SIGNATURE, 1) },
-  { id:"ab-chicken", name:"Arabian Bowl - Chicken", veg:false, remove:REMOVE_ARB, allergens:[],
-    ...sized(349,270,"Rice, chickpeas, toum, and spiced chicken, Middle Eastern style.",{cal:580,protein:34,carb:56,fat:19}),
-    groups: std([{n:"Extra Paneer",p:90},{n:"Extra Rice",p:45}], SAUCES_ARABIC_FULL, DIPS_ARABIC, 1) },
-  { id:"ab-falafel", name:"Arabian Bowl - Falafel", veg:true, remove:REMOVE_ARB, allergens:[],
-    ...sized(319,240,"Rice, chickpeas, toum, and crisp falafel, Middle Eastern style.",{cal:540,protein:17,carb:62,fat:21}),
-    groups: std([{n:"Extra Falafel",p:90},{n:"Extra Rice",p:45}], SAUCES_ARABIC_FULL, DIPS_ARABIC, 1) },
-  { id:"ab-veggie", name:"Arabian Bowl - Veggie", veg:true, remove:REMOVE_ARB, allergens:[],
-    ...sized(299,225,"Rice, chickpeas, and toum, a plant-based Middle Eastern bowl.",{cal:470,protein:12,carb:60,fat:15}),
-    groups: std([{n:"Extra Rice",p:45}], SAUCES_ARABIC_FULL, DIPS_ARABIC, 1) },
-]},
-{ category:"Quesadilla", items:[
-  { id:"qs-veggie", name:"Veggie Quesadilla + Chipotle Sauce", veg:true, price:209, allergens:["Gluten","Dairy"], desc:"Melted cheese and veggies, folded into a griddled tortilla, chipotle sauce on the side.", macros:{cal:440,protein:14,carb:48,fat:20},
-    groups: std(null, SAUCES_SIGNATURE, DIPS_SIGNATURE) },
-  { id:"qs-paneer", name:"Paneer Quesadilla + Chipotle Sauce", veg:true, price:249, allergens:["Gluten","Dairy"], desc:"Charred paneer and melted cheese, folded into a griddled tortilla, chipotle sauce on the side.", macros:{cal:520,protein:22,carb:46,fat:26},
-    groups: std(null, SAUCES_SIGNATURE, DIPS_SIGNATURE) },
-  { id:"qs-chicken", name:"Chicken Quesadilla + Chipotle Sauce", veg:false, price:279, allergens:["Gluten","Dairy"], desc:"Spiced chicken and melted cheese, folded into a griddled tortilla, chipotle sauce on the side.", macros:{cal:560,protein:30,carb:44,fat:27},
-    groups: std(null, SAUCES_SIGNATURE, DIPS_SIGNATURE) },
-  { id:"qs-mushroom", name:"Mushroom Quesadilla + Chipotle Sauce", veg:true, price:249, allergens:["Gluten","Dairy"], desc:"Charred mushroom and melted cheese, folded into a griddled tortilla, chipotle sauce on the side.", macros:{cal:480,protein:16,carb:46,fat:23},
-    groups: std(null, SAUCES_SIGNATURE, DIPS_SIGNATURE) },
-]},
-{ category:"Small Plates", items:[
-  { id:"sp-falafelbites", name:"Falafel Bites + Hummus", veg:true, price:189, allergens:["Sesame"], desc:"Crisp falafel bites, served with silky hummus.", macros:{cal:380,protein:13,carb:40,fat:18},
-    groups:[
-      {label:"Sauces", icon:"🌶️", key:"sauces", type:"checkbox", options:SAUCES_ARABIC},
-      {label:"Dips", icon:"🥣", key:"dips", type:"checkbox", options:[{n:"Baba Ghanoush (80g)",p:129},{n:"Tzatziki (80g)",p:129}]},
-      {label:"Add a Drink", icon:"🥤", key:"drink", type:"checkbox", options:DRINKS},
-    ]},
-  { id:"sp-pitadips", name:"Pita and Dips", veg:true, price:100, allergens:["Gluten"], desc:"Warm pita, build your own plate. Pick any dips.", macros:{cal:220,protein:5,carb:38,fat:6},
-    groups:[
-      {label:"Dips", icon:"🥣", key:"dips", type:"checkbox", options:ALL_DIPS},
-      {label:"Add a Drink", icon:"🥤", key:"drink", type:"checkbox", options:DRINKS},
-    ]},
-  { id:"sp-nachosdips", name:"Nachos and Dips", veg:true, price:100, allergens:[], desc:"Crisp tortilla chips, build your own plate. Pick any dips.", macros:{cal:320,protein:5,carb:40,fat:15},
-    groups:[
-      {label:"Dips", icon:"🥣", key:"dips", type:"checkbox", options:ALL_DIPS},
-      {label:"Add a Drink", icon:"🥤", key:"drink", type:"checkbox", options:DRINKS},
-    ]},
-  { id:"sp-skewers", name:"Chicken Skewers + Toum", veg:false, price:189, allergens:[], desc:"Char-grilled chicken skewers with garlic toum.", macros:{cal:320,protein:30,carb:8,fat:18},
-    groups:[
-      {label:"Dips", icon:"🥣", key:"dips", type:"checkbox", options:[{n:"Hummus (80g)",p:129},{n:"Baba Ghanoush (80g)",p:129},{n:"Tzatziki (80g)",p:129}]},
-      {label:"Add a Drink", icon:"🥤", key:"drink", type:"checkbox", options:DRINKS},
-    ]},
-  { id:"sp-saltedfries", name:"Salted Fries", veg:true, price:129, allergens:[], desc:"Golden fries, simply salted.", macros:{cal:340,protein:4,carb:42,fat:17},
-    groups:[ {label:"Sauces", icon:"🌶️", key:"sauces", type:"checkbox", options:SAUCES_SIGNATURE}, {label:"Dips", icon:"🥣", key:"dips", type:"checkbox", options:DIPS_SIGNATURE}, {label:"Add a Drink", icon:"🥤", key:"drink", type:"checkbox", options:DRINKS} ]},
-  { id:"sp-piripiri", name:"Piri Piri Fries", veg:true, price:129, allergens:[], desc:"Golden fries tossed in piri piri spice.", macros:{cal:350,protein:4,carb:42,fat:18},
-    groups:[ {label:"Sauces", icon:"🌶️", key:"sauces", type:"checkbox", options:SAUCES_SIGNATURE}, {label:"Dips", icon:"🥣", key:"dips", type:"checkbox", options:DIPS_SIGNATURE}, {label:"Add a Drink", icon:"🥤", key:"drink", type:"checkbox", options:DRINKS} ]},
-  { id:"sp-potatoshots", name:"Potato Garlic Shots", veg:true, price:129, allergens:[], desc:"Crispy potato bites with garlic.", macros:{cal:360,protein:5,carb:40,fat:19},
-    groups:[ {label:"Sauces", icon:"🌶️", key:"sauces", type:"checkbox", options:SAUCES_SIGNATURE}, {label:"Dips", icon:"🥣", key:"dips", type:"checkbox", options:DIPS_SIGNATURE}, {label:"Add a Drink", icon:"🥤", key:"drink", type:"checkbox", options:DRINKS} ]},
-  { id:"sp-salad", name:"Green Salad", veg:true, price:99, allergens:[], desc:"Lettuce, onions, tomatoes, and bell peppers. 100g, with one sauce of choice included.", macros:{cal:55,protein:2,carb:10,fat:1},
-    groups:[ {label:"Sauce", icon:"🌶️", key:"sauces", type:"checkbox", freeCount:1, options:ALL_SAUCES}, {label:"Add a Drink", icon:"🥤", key:"drink", type:"checkbox", options:DRINKS} ]},
-]},
-{ category:"Drinks", items:[
-  { id:"dr-coke", name:"Coke", veg:true, price:70, allergens:[], desc:"Chilled and classic.", macros:{cal:160,protein:0,carb:42,fat:0}, groups:[] },
-  { id:"dr-thumsup", name:"Thums Up", veg:true, price:70, allergens:[], desc:"Bold and fizzy.", macros:{cal:160,protein:0,carb:42,fat:0}, groups:[] },
-  { id:"dr-dietcoke", name:"Diet Coke", veg:true, price:70, allergens:[], desc:"Zero sugar, all fizz.", macros:{cal:2,protein:0,carb:0,fat:0}, groups:[] },
-  { id:"dr-lemonade", name:"Lemonade", veg:true, price:70, allergens:[], desc:"Fresh and tangy.", macros:{cal:110,protein:0,carb:28,fat:0}, groups:[] },
-]},
-{ category:"Dessert", items:[
-  { id:"ds-saffronbread", name:"Saffron Bread with Mascarpone Filling", veg:true, price:249, allergens:["Gluten","Dairy"], desc:"Saffron-scented bread, filled with rich mascarpone.", macros:{cal:380,protein:7,carb:42,fat:19}, groups:[] },
-  { id:"ds-mousse", name:"Protein Chocolate Mousse", veg:true, price:199, allergens:["Eggs","Dairy"], desc:"Just four ingredients: eggs, milk, dates, vanilla. Rich, clean, and genuinely simple.", macros:{cal:280,protein:9,carb:28,fat:14}, groups:[] },
-  { id:"ds-baklava", name:"Baklava", veg:true, price:180, allergens:["Gluten","Nuts","Dairy"], desc:"Layered pastry, honey, and crushed pistachio.", macros:{cal:320,protein:5,carb:36,fat:18}, groups:[] },
-  { id:"ds-tresleches", name:"Tres Leches", veg:true, price:180, allergens:["Gluten","Dairy","Eggs"], desc:"Milk-soaked sponge cake, rich and classic.", macros:{cal:380,protein:7,carb:46,fat:17}, groups:[] },
-]},
-{ category:"Sauces", items:[
-  { id:"sc-toum", name:"Toum", veg:true, price:49, allergens:[], desc:"Whipped Lebanese garlic sauce. 50ml.", macros:{cal:90,protein:0,carb:2,fat:9}, groups:[] },
-  { id:"sc-garlicpeanut", name:"Garlic Peanut Chilli Oil", veg:true, price:49, allergens:["Peanuts"], desc:"Roasted peanut and garlic chilli oil. 50ml.", macros:{cal:100,protein:2,carb:3,fat:10}, groups:[] },
-  { id:"sc-chipotle", name:"Chipotle", veg:true, price:49, allergens:[], desc:"Smoky chipotle sauce. 50ml.", macros:{cal:45,protein:0,carb:4,fat:3}, groups:[] },
-  { id:"sc-pineapple", name:"Pineapple Chilli", veg:true, price:49, allergens:[], desc:"Sweet-hot pineapple chilli sauce. 50ml.", macros:{cal:40,protein:0,carb:9,fat:0}, groups:[] },
-  { id:"sc-mango", name:"Mango Chilli", veg:true, price:49, allergens:[], desc:"Sweet-hot mango chilli sauce. 50ml.", macros:{cal:45,protein:0,carb:10,fat:0}, groups:[] },
-  { id:"sc-limejalapeno", name:"Lime Jalapeño", veg:true, price:49, allergens:[], desc:"Bright lime and jalapeño sauce. 50ml.", macros:{cal:20,protein:0,carb:3,fat:0}, groups:[] },
-  { id:"sc-sourcream", name:"Whipped Sour Cream", veg:true, price:49, allergens:["Dairy"], desc:"Light whipped sour cream. 50ml.", macros:{cal:70,protein:1,carb:3,fat:6}, groups:[] },
-  { id:"sc-tangypeanut", name:"Tangy Peanut", veg:true, price:49, allergens:["Peanuts"], desc:"Tangy peanut sauce. 50ml.", macros:{cal:90,protein:3,carb:5,fat:6}, groups:[] },
-  { id:"sc-creamycorn", name:"Creamy Corn", veg:true, price:49, allergens:["Dairy"], desc:"Sweet creamy corn sauce. 50ml.", macros:{cal:60,protein:1,carb:7,fat:3}, groups:[] },
-  { id:"sc-redfiery", name:"Red Fiery", veg:true, price:49, allergens:[], desc:"Our hottest red chilli sauce. 50ml.", macros:{cal:35,protein:0,carb:4,fat:1}, groups:[] },
-]},
-{ category:"Dips", items:[
-  { id:"dp-hummus", name:"Hummus", veg:true, price:129, allergens:["Sesame"], desc:"Silky chickpea hummus. 80g.", macros:{cal:180,protein:6,carb:14,fat:11}, groups:[] },
-  { id:"dp-babaghanoush", name:"Baba Ghanoush", veg:true, price:129, allergens:["Sesame"], desc:"Smoky roasted eggplant dip. 80g.", macros:{cal:140,protein:3,carb:9,fat:10}, groups:[] },
-  { id:"dp-tzatziki", name:"Tzatziki", veg:true, price:129, allergens:["Dairy"], desc:"Cool cucumber and yogurt dip. 80g.", macros:{cal:90,protein:3,carb:4,fat:6}, groups:[] },
-  { id:"dp-spicycreamy", name:"Spicy-Creamy Swirl", veg:true, price:129, allergens:["Dairy"], desc:"Spicy-creamy signature swirl dip. 80g.", macros:{cal:160,protein:2,carb:4,fat:15}, groups:[] },
-  { id:"dp-smokytomato", name:"Smoky Tomato Salsa", veg:true, price:129, allergens:[], desc:"Charred tomato salsa. 80g.", macros:{cal:45,protein:1,carb:8,fat:1}, groups:[] },
-  { id:"dp-guacclassic", name:"Classic Guacamole", veg:true, price:129, allergens:[], desc:"Fresh classic guacamole. 80g.", macros:{cal:160,protein:2,carb:8,fat:14}, groups:[] },
-  { id:"dp-guacspicy", name:"Spicy Guacamole", veg:true, price:129, allergens:[], desc:"Guacamole with a kick. 80g.", macros:{cal:165,protein:2,carb:8,fat:14}, groups:[] },
-]},
-];
+const CAT_ORDER = ['Shawarma Rolls','Pita Pockets','Tacos','Protein Bowls','Quesadillas','Small Plates','Drinks','Desserts','Sauces','Dips'];
+const MENU = CAT_ORDER.map(category=>{
+  const names = [], by = {};
+  ROWS.filter(r=>r.cat===category).forEach(r=>{
+    if(!by[r.name]){ by[r.name] = []; names.push(r.name); }
+    by[r.name].push(r);
+  });
+  return {category, items: names.map(n=>buildItem(n, by[n]))};
+});
 
 // Maps each browse category to the bucket used in order data / analysis.
 const CATEGORY_BUCKET = {
-  "Shawarma Roll":"Mains", "Taco":"Mains", "Protein Bowls":"Mains", "Quesadilla":"Mains",
-  "Small Plates":"Sides", "Dessert":"Sides",
+  "Shawarma Rolls":"Mains", "Pita Pockets":"Mains", "Tacos":"Mains", "Protein Bowls":"Mains", "Quesadillas":"Mains",
+  "Small Plates":"Sides", "Desserts":"Sides",
   "Drinks":"Beverages", "Sauces":"Sauces", "Dips":"Dips",
 };
 
@@ -462,7 +558,7 @@ let currentItem = null;
 let currentSel = {};
 let currentRemove = new Set();
 let currentQty = 1;
-let currentSize = 'Regular';
+let currentSize = '';
 
 const tabsEl = document.getElementById('tabs');
 const menuEl = document.getElementById('menu');
@@ -488,13 +584,15 @@ MENU.forEach((cat,i)=>{
     const card = document.createElement('div');
     card.className = 'item-card';
     const isSized = !!item.sizes;
-    const displayPrice = isSized ? item.sizes.Regular.price : item.price;
+    const firstSize = isSized ? Object.keys(item.sizes)[0] : null;
+    const displayPrice = isSized ? item.sizes[firstSize].price : item.price;
     const hasCustom = (item.groups && item.groups.length>0) || (item.remove && item.remove.length>0) || isSized;
     const allergenText = (item.allergens && item.allergens.length) ? `<b>Contains:</b> ${item.allergens.join(', ')}` : `<b>Allergens:</b> none listed`;
     card.innerHTML = `
+      ${item.img?`<div class="item-media"><img src="${IMG_BASE+item.img}" alt="${item.name}" width="128" height="128" loading="lazy" decoding="async"></div>`:''}
       <div class="item-left">
         <span class="veg-dot${item.veg?'':' nonveg'}"></span><span class="item-name">${item.name}</span>
-        <div class="item-price num">₹${displayPrice}${isSized?' <span class="size-tag">(Regular)</span>':''}</div>
+        <div class="item-price num">₹${displayPrice}${isSized?` <span class="size-tag">(${firstSize})</span>`:(item.vtag?` <span class="size-tag">· ${item.vtag}</span>`:'')}</div>
         <div class="item-desc">${item.desc||''}</div>
         <div class="item-allergen">${allergenText}</div>
         ${item.note?`<div class="item-note">${item.note}</div>`:''}
@@ -513,10 +611,69 @@ const sheetTitle = document.getElementById('sheetTitle');
 const qtyVal = document.getElementById('qtyVal');
 const addItemBtn = document.getElementById('addItemBtn');
 
-function renderNutritionCallout(item, size){
-  const m = item.sizes ? item.sizes[size].macros : item.macros;
+/* ---- Nutrition calculator ----
+   Totals the dish (at the chosen size) plus every add-on picked. A rice swap counts as the difference
+   from the bowl's own rice, and only where the sheet gives us that rice (Regular Mexican and Pesto bowls). */
+const sumM = (a,b)=>({p:a.p+b.p, c:a.c+b.c, f:a.f+b.f, fi:a.fi+b.fi});
+const subM = (a,b)=>({p:a.p-b.p, c:a.c-b.c, f:a.f-b.f, fi:a.fi-b.fi});
+const ZERO_M = {p:0,c:0,f:0,fi:0};
+const itemMacros = (item,size)=> item.sizes ? item.sizes[size].macros : item.macros;
+const itemImg = (item,size)=> item.sizes ? (item.sizes[size].img || item.img) : item.img;
+const itemDesc = (item,size)=> item.sizes ? item.sizes[size].desc : item.desc;
+
+function calcNutrition(item, size, sel, removed){
+  const parts = [{label: item.name + (item.sizes?` (${size})`:''), m: itemMacros(item,size)}];
+  let swapSkipped = false;
+  (item.groups||[]).forEach(grp=>{
+    const set = sel[grp.key];
+    if(!set || !set.size) return;
+    grp.options.forEach(opt=>{
+      if(!set.has(opt.n)) return;
+      if(grp.key==='rice'){
+        if(grp.base && size==='Regular') parts.push({label:`${opt.n}, instead of ${grp.base.label}`, m: subM(opt.m, grp.base.m)});
+        else swapSkipped = true;
+      } else {
+        parts.push({label: opt.n, m: opt.m});
+      }
+    });
+  });
+  const total = parts.reduce((s,x)=>sumM(s,x.m), ZERO_M);
+  return {parts, total, swapSkipped, hasRemovals: !!(removed && removed.size)};
+}
+
+const macroLine = m => `<span>P ${fmt(Math.max(0,m.p))}g</span><span>C ${fmt(Math.max(0,m.c))}g</span><span>F ${fmt(Math.max(0,m.f))}g</span><span>Fibre ${fmt(Math.max(0,m.fi))}g</span>`;
+
+function renderNutrition(){
   const el = document.getElementById('nutritionBox');
-  if(el) el.innerHTML = `<div class="callout-label">🔥 Nutrition${item.sizes?` (${size})`:''}</div><div class="macro-row"><span>${m.cal} kcal</span><span>P ${m.protein}g</span><span>C ${m.carb}g</span><span>F ${m.fat}g</span></div>`;
+  if(!el || !currentItem) return;
+  const wasOpen = !!el.querySelector('details[open]');
+  const n = calcNutrition(currentItem, currentSize, currentSel, currentRemove);
+  const t = n.total;
+  const kcal = Math.max(0, kcalOf(t));
+  const pk = Math.max(0,4*t.p), ck = Math.max(0,4*t.c), fk = Math.max(0,9*t.f);
+  const sumK = (pk+ck+fk) || 1;
+  const pct = v => (100*v/sumK).toFixed(1);
+  const notes = [];
+  if(n.hasRemovals) notes.push('Ingredients you remove are not subtracted from these numbers.');
+  if(n.swapSkipped) notes.push('The rice swap is not reflected for this size, since the rice portion differs.');
+  notes.push('Approximate values per serving. Calories are calculated from the macros.');
+  el.innerHTML = `
+    <div class="callout-label">🔥 Nutrition calculator${currentItem.sizes?` (${currentSize})`:''}</div>
+    <div class="nut-kcal num">${kcal}<small>kcal${currentQty>1?' per serving':''}</small></div>
+    <div class="macro-row">${macroLine(t)}</div>
+    <div class="nut-bar"><span class="nb-p" style="width:${pct(pk)}%"></span><span class="nb-c" style="width:${pct(ck)}%"></span><span class="nb-f" style="width:${pct(fk)}%"></span></div>
+    <div class="nut-legend"><span><i style="background:var(--gold)"></i>Protein</span><span><i style="background:var(--coral)"></i>Carbs</span><span><i style="background:var(--pink)"></i>Fat</span></div>
+    ${currentQty>1?`<div class="nut-multi"><b>Total for ${currentQty}</b><div class="macro-row"><span>${Math.max(0,kcalOf({p:t.p*currentQty,c:t.c*currentQty,f:t.f*currentQty}))} kcal</span>${macroLine({p:t.p*currentQty,c:t.c*currentQty,f:t.f*currentQty,fi:t.fi*currentQty})}</div></div>`:''}
+    ${n.parts.length>1?`<details${wasOpen?' open':''}><summary>See what's counted</summary><ul class="nut-lines">${n.parts.map(x=>`<li><span>${x.label}</span><span class="num">${x.m.p||x.m.c||x.m.f?(kcalOf(x.m)>=0?'+':'')+kcalOf(x.m):'0'} kcal</span></li>`).join('')}</ul></details>`:''}
+    <div class="nut-note">${notes.join(' ')}</div>`;
+}
+
+function setSheetVisual(){
+  const img = itemImg(currentItem, currentSize);
+  const hero = document.getElementById('sheetHero');
+  hero.style.display = img ? '' : 'none';
+  if(img) hero.innerHTML = `<img src="${IMG_BASE+img}" alt="${currentItem.name}" decoding="async">`;
+  document.getElementById('sheetDesc').textContent = itemDesc(currentItem, currentSize) || '';
 }
 
 function openSheet(item){
@@ -524,30 +681,35 @@ function openSheet(item){
   currentSel = {};
   currentRemove = new Set();
   currentQty = 1;
-  currentSize = 'Regular';
+  currentSize = item.sizes ? Object.keys(item.sizes)[0] : '';
   qtyVal.textContent = '1';
   sheetTitle.textContent = item.name;
   sheetBody.innerHTML = '';
 
+  const hero = document.createElement('div'); hero.className = 'sheet-hero'; hero.id = 'sheetHero';
+  sheetBody.appendChild(hero);
+  const descEl = document.createElement('div'); descEl.className = 'sheet-desc'; descEl.id = 'sheetDesc';
+  sheetBody.appendChild(descEl);
+  setSheetVisual();
+
   if(item.sizes){
     const g = document.createElement('div'); g.className='group';
     g.innerHTML = `<div class="group-label">🍽️ Size</div>`;
-    ['Regular','Mini'].forEach(sizeName=>{
+    Object.keys(item.sizes).forEach((sizeName, idx)=>{
       const s = item.sizes[sizeName];
       const row = document.createElement('label'); row.className='option-row';
-      row.innerHTML = `<span class="opt-left"><input type="radio" name="sizeChoice" ${sizeName==='Regular'?'checked':''}> ${sizeName} <span class="size-macro num">(${s.macros.cal} kcal)</span></span><span class="opt-price num">₹${s.price}</span>`;
-      row.querySelector('input').onchange = ()=>{ currentSize = sizeName; updateAddButton(); renderNutritionCallout(item, currentSize); };
+      row.innerHTML = `<span class="opt-left"><input type="radio" name="sizeChoice" ${idx===0?'checked':''}> ${sizeName} <span class="size-macro num">(${kcalOf(s.macros)} kcal)</span></span><span class="opt-price num">₹${s.price}</span>`;
+      row.querySelector('input').onchange = ()=>{ currentSize = sizeName; setSheetVisual(); updateAddButton(); renderNutrition(); };
       g.appendChild(row);
     });
     sheetBody.appendChild(g);
   }
 
-  // Nutrition callout: appears once the customer is in the selection flow, not on the browse card.
+  // Nutrition calculator: totals the dish plus everything picked below, and updates live.
   const nutritionBox = document.createElement('div');
   nutritionBox.className = 'info-callout nutrition';
   nutritionBox.id = 'nutritionBox';
   sheetBody.appendChild(nutritionBox);
-  renderNutritionCallout(item, currentSize);
 
   const allergenBox = document.createElement('div');
   allergenBox.className = 'info-callout allergen';
@@ -562,6 +724,7 @@ function openSheet(item){
       row.innerHTML = `<span class="opt-left"><input type="checkbox" data-remove="${r}"> ${r}</span><span class="opt-price free">Free</span>`;
       row.querySelector('input').onchange = e=>{
         if(e.target.checked) currentRemove.add(r); else currentRemove.delete(r);
+        renderNutrition();
       };
       g.appendChild(row);
     });
@@ -571,14 +734,20 @@ function openSheet(item){
   (item.groups||[]).forEach(grp=>{
     currentSel[grp.key] = new Set();
     const g = document.createElement('div'); g.className='group';
-    g.innerHTML = `<div class="group-label">${grp.icon||''} ${grp.label}</div>${grp.freeCount?`<div class="group-sub">First ${grp.freeCount} selection${grp.freeCount>1?'s':''} free</div>`:''}`;
+    const subText = grp.freeCount ? `First ${grp.freeCount} selection${grp.freeCount>1?'s':''} free` : (grp.sub||'');
+    g.innerHTML = `<div class="group-label">${grp.icon||''} ${grp.label}</div>${subText?`<div class="group-sub">${subText}</div>`:''}`;
     grp.options.forEach(opt=>{
       const row = document.createElement('label'); row.className='option-row';
-      row.innerHTML = `<span class="opt-left"><input type="checkbox" data-group="${grp.key}" data-opt="${opt.n}" data-price="${opt.p}"> ${opt.n}</span><span class="opt-price num" data-pricelabel>+₹${opt.p}</span>`;
-      row.querySelector('input').onchange = ()=>{
-        toggleOption(grp.key, opt.n);
+      row.innerHTML = `<span class="opt-left"><input type="checkbox" data-group="${grp.key}" data-opt="${opt.n}" data-price="${opt.p}"> ${opt.n}</span><span class="opt-price num${opt.p?'':' free'}" data-pricelabel>${opt.p?'+₹'+opt.p:'Free'}</span>`;
+      row.querySelector('input').onchange = (e)=>{
+        if(grp.single && e.target.checked){
+          currentSel[grp.key].clear();
+          g.querySelectorAll('input').forEach(inp=>{ if(inp!==e.target) inp.checked = false; });
+        }
+        toggleOption(grp.key, opt.n, e.target.checked);
         renderFreeDipsPricing(grp, g);
         updateAddButton();
+        renderNutrition();
       };
       g.appendChild(row);
     });
@@ -586,12 +755,14 @@ function openSheet(item){
   });
 
   updateAddButton();
+  renderNutrition();
   overlay.classList.add('open');
+  sheetBody.scrollTop = 0;
 }
 
-function toggleOption(groupKey, optName){
+function toggleOption(groupKey, optName, on){
   const set = currentSel[groupKey];
-  if(set.has(optName)) set.delete(optName); else set.add(optName);
+  if(on) set.add(optName); else set.delete(optName);
 }
 
 function renderFreeDipsPricing(grp, groupEl){
@@ -641,8 +812,8 @@ function updateAddButton(){
   addItemBtn.textContent = `Add Item | ₹${unit * currentQty}`;
 }
 
-document.getElementById('qtyMinus').onclick = ()=>{ if(currentQty>1){currentQty--; qtyVal.textContent=currentQty; updateAddButton();} };
-document.getElementById('qtyPlus').onclick = ()=>{ currentQty++; qtyVal.textContent=currentQty; updateAddButton(); };
+document.getElementById('qtyMinus').onclick = ()=>{ if(currentQty>1){currentQty--; qtyVal.textContent=currentQty; updateAddButton(); renderNutrition();} };
+document.getElementById('qtyPlus').onclick = ()=>{ currentQty++; qtyVal.textContent=currentQty; updateAddButton(); renderNutrition(); };
 document.getElementById('sheetClose').onclick = ()=> overlay.classList.remove('open');
 overlay.onclick = (e)=>{ if(e.target===overlay) overlay.classList.remove('open'); };
 
@@ -650,11 +821,13 @@ addItemBtn.onclick = ()=>{
   const selCopy = {};
   Object.keys(currentSel).forEach(k=> selCopy[k] = new Set(currentSel[k]));
   const unit = currentUnitTotal();
+  const nut = calcNutrition(currentItem, currentSize, currentSel, currentRemove).total;
   cart.push({
     itemId: currentItem.id,
     name: currentItem.name + (currentItem.sizes ? ` (${currentSize})` : ''),
     category: currentItem.category,
     unit: unit,
+    nut: nut,
     qty: currentQty,
     selections: selCopy,
     groups: currentItem.groups||[],
@@ -676,6 +849,7 @@ const cartHeadSub = document.getElementById('cartHeadSub');
 const placeOrderBtn = document.getElementById('placeOrderBtn');
 const skipSurveyBtn = document.getElementById('skipSurveyBtn');
 const surveyFormEl = document.getElementById('surveyForm');
+const cartNutritionEl = document.getElementById('cartNutrition');
 
 // Paste your deployed Google Apps Script Web App URL here (see apps-script-order-backend.gs).
 const ORDERS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz0Rxz-eMm6strIopi4TXAsZxiXIPLp4hQ3l4_bpN85Dh_BJ3FJzuQFwHqiKiBMd8WX/exec';
@@ -704,6 +878,7 @@ function renderCartDrawer(){
   if(cart.length===0){
     cartList.innerHTML = '<div class="empty-cart">Your order is empty. Add something delicious.</div>';
     document.getElementById('cartTotalRow').style.display='none';
+    cartNutritionEl.style.display='none';
     checkoutForm.style.display='none';
     checkoutFoot.style.display='none';
     return;
@@ -719,6 +894,7 @@ function renderCartDrawer(){
     row.innerHTML = `
       <div class="cart-row-top"><span>${c.name} × ${c.qty}</span><span class="num">₹${c.unit*c.qty}</span></div>
       ${detailParts.length?`<div class="cart-row-detail">${detailParts.join(' · ')}</div>`:''}
+      <div class="cart-row-detail num">≈ ${Math.max(0,kcalOf(c.nut))} kcal each · P ${fmt(Math.max(0,c.nut.p))}g · C ${fmt(Math.max(0,c.nut.c))}g · F ${fmt(Math.max(0,c.nut.f))}g</div>
       <div class="cart-row-bottom">
         <button class="remove-link" data-idx="${idx}">Remove</button>
       </div>
@@ -727,6 +903,9 @@ function renderCartDrawer(){
     cartList.appendChild(row);
   });
   const total = cart.reduce((s,c)=>s+c.unit*c.qty,0);
+  const orderNut = cart.reduce((s,c)=>sumM(s,{p:c.nut.p*c.qty,c:c.nut.c*c.qty,f:c.nut.f*c.qty,fi:c.nut.fi*c.qty}), ZERO_M);
+  cartNutritionEl.innerHTML = `<div class="callout-label">🔥 Nutrition for your whole order</div><div class="macro-row"><span>${Math.max(0,kcalOf(orderNut))} kcal</span>${macroLine(orderNut)}</div>`;
+  cartNutritionEl.style.display = 'block';
   document.getElementById('cartTotalRow').style.display='flex';
   document.getElementById('cartTotalVal').textContent = '₹'+total;
   checkoutForm.style.display='block';
@@ -745,6 +924,9 @@ const GROUP_KEY_BUCKET = {
   sauces: 'Sauces', dips: 'Dips', drink: 'Beverages', dessert: 'Sides', fries: 'Sides', combo: 'Sides',
 };
 
+// These groups change the dish itself (extra protein, rice swap, extra rice/sides), so they stay on the dish line.
+const BUNDLED_KEYS = ['protein','rice','extras'];
+
 function optionPrice_(c, key, optName){
   const grp = (c.groups||[]).find(g=>g.key===key);
   const opt = grp && grp.options.find(o=>o.n===optName);
@@ -758,11 +940,11 @@ function cartByBucket(){
 
     let baseParts = [`${c.qty}x ${c.name} (₹${c.unit*c.qty})`];
     if(c.removed && c.removed.size) baseParts.push('without ' + [...c.removed].join(', '));
-    if(c.selections.protein && c.selections.protein.size) baseParts.push([...c.selections.protein].join(', '));
+    BUNDLED_KEYS.forEach(k=>{ if(c.selections[k] && c.selections[k].size) baseParts.push([...c.selections[k]].join(', ')); });
     buckets[itemBucket].push(baseParts.join(' | '));
 
     Object.keys(c.selections).forEach(key=>{
-      if(key === 'protein') return;
+      if(BUNDLED_KEYS.includes(key)) return;
       const set = c.selections[key];
       if(!set || !set.size) return;
       const bucket = GROUP_KEY_BUCKET[key] || 'Sides';
@@ -853,6 +1035,7 @@ function goToSurvey(){
   }
   cartList.style.display = 'none';
   document.getElementById('cartTotalRow').style.display = 'none';
+  cartNutritionEl.style.display = 'none';
   checkoutForm.style.display = 'none';
   checkoutNote.style.display = 'none';
   renderSurveyBody();
@@ -922,6 +1105,7 @@ async function submitOrder(){
   renderCartBar();
   cartList.style.display = 'none';
   document.getElementById('cartTotalRow').style.display = 'none';
+  cartNutritionEl.style.display = 'none';
   checkoutForm.style.display = 'none';
   checkoutNote.style.display = 'none';
   surveyFormEl.style.display = 'none';
