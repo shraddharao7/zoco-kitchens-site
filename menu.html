@@ -158,13 +158,6 @@
   /* nutrition calculator */
   .info-callout.nutrition .nut-kcal{font-size:34px;line-height:1;font-weight:700;margin:2px 0 10px}
   .info-callout.nutrition .nut-kcal small{font-size:15px;font-weight:500;opacity:.75;margin-left:6px}
-  .nut-bar{display:flex;height:8px;border-radius:999px;overflow:hidden;margin:12px 0 6px;background:rgba(255,255,255,.12)}
-  .nut-bar span{display:block;height:100%}
-  .nut-bar .nb-p{background:var(--gold)}
-  .nut-bar .nb-c{background:var(--coral)}
-  .nut-bar .nb-f{background:var(--pink-brand)}
-  .nut-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;opacity:.75}
-  .nut-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
   .nut-multi{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.18);font-size:13.5px}
   .nut-multi .macro-row{font-size:14px;margin-top:4px}
   .info-callout.nutrition details{margin-top:12px;font-size:13.5px}
@@ -686,9 +679,6 @@ function renderNutrition(){
   const n = calcNutrition(currentItem, currentSize, currentSel, currentRemove);
   const t = n.total;
   const kcal = Math.max(0, kcalOf(t));
-  const pk = Math.max(0,4*t.p), ck = Math.max(0,4*t.c), fk = Math.max(0,9*t.f);
-  const sumK = (pk+ck+fk) || 1;
-  const pct = v => (100*v/sumK).toFixed(1);
   const notes = [];
   if(n.hasRemovals) notes.push('Ingredients you remove are not subtracted from these numbers.');
   if(n.noData.length) notes.push(`Not counted (no nutrition data yet): ${n.noData.join(', ')}.`);
@@ -698,8 +688,6 @@ function renderNutrition(){
     <div class="callout-label">🔥 Nutrition calculator${currentItem.sizes?` (${currentSize})`:''}</div>
     <div class="nut-kcal num">${kcal}<small>kcal${currentQty>1?' per serving':''}</small></div>
     <div class="macro-row">${macroLine(t)}</div>
-    <div class="nut-bar"><span class="nb-p" style="width:${pct(pk)}%"></span><span class="nb-c" style="width:${pct(ck)}%"></span><span class="nb-f" style="width:${pct(fk)}%"></span></div>
-    <div class="nut-legend"><span><i style="background:var(--gold)"></i>Protein</span><span><i style="background:var(--coral)"></i>Carbs</span><span><i style="background:var(--pink-brand)"></i>Fat</span></div>
     ${currentQty>1?`<div class="nut-multi"><b>Total for ${currentQty}</b><div class="macro-row"><span>${Math.max(0,kcalOf({p:t.p*currentQty,c:t.c*currentQty,f:t.f*currentQty}))} kcal</span>${macroLine({p:t.p*currentQty,c:t.c*currentQty,f:t.f*currentQty,fi:t.fi*currentQty})}</div></div>`:''}
     ${n.parts.length>1?`<details${wasOpen?' open':''}><summary>See what's counted</summary><ul class="nut-lines">${n.parts.map(x=>`<li><span>${x.label}</span><span class="num">${x.m.p||x.m.c||x.m.f?(kcalOf(x.m)>=0?'+':'')+kcalOf(x.m):'0'} kcal</span></li>`).join('')}</ul></details>`:''}
     <div class="nut-note">${notes.join(' ')}</div>`;
