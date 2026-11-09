@@ -566,6 +566,8 @@ function buildItem(name, vs){
   }
   const c = configFor(name);
   if(c){ item.remove = c.remove||[]; item.groups = buildGroups(c); }
+  // Garlic yogurt sauce (garlic, Greek yogurt, fresh herbs, olive oil) is included by default, so these dishes contain dairy.
+  if(c && (c.defaultSauce||[]).includes(GARLIC_YOGURT_NAME) && !item.allergens.includes('Dairy')) item.allergens.push('Dairy');
   return item;
 }
 
