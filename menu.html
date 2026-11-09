@@ -400,6 +400,9 @@ function o(name, v, label, extra){
 const TOUM = o('Toum','50 ml');
 const GPCO = o('Garlic Peanut Chilli Oil','50 ml');
 const SAUCES_ARABIC = [TOUM, GPCO];
+/* Garlic yogurt sauce is the house sauce on rolls, pockets and Arabian bowls. It is not a sheet row yet, so it has no nutrition data and is priced like the other small-batch sauces. */
+const GARLIC_YOGURT = {n:'Garlic Yogurt Sauce', p:79, m:null};
+const SAUCES_ARABIC_FREE = [GARLIC_YOGURT, ...SAUCES_ARABIC];
 const SAUCES_SIGNATURE = [
   o('Chipotle','50 ml'), o('Pineapple Chilli','50 ml'), o('Mango Chilli','50 ml'),
   o('Avo Crema - Lime Jalapeño','50 ml'), o('Whipped Sour Cream','50 ml'), o('Cheesy Corn','50 ml'),
@@ -419,7 +422,7 @@ const GUAC_50 = [o('Classic Guacamole','50 g'), o('Spicy Guacamole','50 g')];
 const DIPS_BOWL_SIGNATURE = [o('Smoky Tomato Salsa','80 g'), ...GUAC_50, o('Pineapple Salsa','80 g')];
 const DIPS_BOWL_ARABIAN = [...DIPS_ARABIC, ...GUAC_50];
 const DIPS_BOWL_PESTO = [...DIPS_ARABIC, o('Smoky Tomato Salsa','80 g'), ...GUAC_50, o('Pineapple Salsa','80 g')];
-const TOUM_NAME = TOUM.n, CHIPOTLE_NAME = 'Chipotle (50 ml)', PESTO_DIP_NAME = 'Hummus - Pesto (80 g)';
+const GARLIC_YOGURT_NAME = GARLIC_YOGURT.n, TOUM_NAME = TOUM.n, CHIPOTLE_NAME = 'Chipotle (50 ml)', PESTO_DIP_NAME = 'Hummus - Pesto (80 g)';
 const CHEDDAR = {n:'Cheddar Cheese', p:29, m:null};
 
 const FRIES = [
@@ -499,8 +502,8 @@ function buildGroups(c){
 }
 const FULL = {meal:true, drink:true, dessert:true};
 function configFor(name){
-  // Rolls and pockets come with a free garlic sauce (toum), added by default; customers can swap it for free.
-  const arabicWrap = Object.assign({sauces:SAUCES_ARABIC, dips:DIPS_ARABIC, freeSauce:1, defaultSauce:[TOUM_NAME]}, FULL);
+  // Rolls and pockets come with a free garlic yogurt sauce, added by default; customers can swap it for free.
+  const arabicWrap = Object.assign({sauces:SAUCES_ARABIC_FREE, dips:DIPS_ARABIC, freeSauce:1, defaultSauce:[GARLIC_YOGURT_NAME]}, FULL);
   // Tacos and quesadillas come with one free dip, any dip the customer likes.
   const signatureHandheld = Object.assign({sauces:SAUCES_SIGNATURE, dips:ALL_DIPS, freeDip:1}, FULL);
   switch(name){
@@ -522,7 +525,7 @@ function configFor(name){
   }
   if(name.startsWith('Mexican Bowl')) return {remove:REMOVE_MEXICAN, protein:BOWL_PROTEIN[name], swap:SWAP_MEXICAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_BEANS,CHEDDAR], sauces:SAUCES_SIGNATURE, dips:DIPS_BOWL_SIGNATURE, freeSauce:1, defaultSauce:[CHIPOTLE_NAME], ...FULL};
   if(name.startsWith('Pesto Bowl')) return {remove:REMOVE_PESTO, protein:BOWL_PROTEIN[name], swap:SWAP_PESTO, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS,CHEDDAR], sauces:SAUCES_SIGNATURE, dips:DIPS_BOWL_PESTO, freeDip:1, defaultDip:[PESTO_DIP_NAME], ...FULL};
-  if(name.startsWith('Arabian Bowl')) return {remove:REMOVE_ARABIAN, protein:BOWL_PROTEIN[name], swap:SWAP_ARABIAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS,CHEDDAR], sauces:SAUCES_ARABIC, dips:DIPS_BOWL_ARABIAN, freeSauce:1, defaultSauce:[TOUM_NAME], ...FULL};
+  if(name.startsWith('Arabian Bowl')) return {remove:REMOVE_ARABIAN, protein:BOWL_PROTEIN[name], swap:SWAP_ARABIAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS,CHEDDAR], sauces:SAUCES_ARABIC_FREE, dips:DIPS_BOWL_ARABIAN, freeSauce:1, defaultSauce:[GARLIC_YOGURT_NAME], ...FULL};
   return null;
 }
 
