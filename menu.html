@@ -418,6 +418,8 @@ const ALL_DIPS = [...DIPS_ARABIC, ...DIPS_SIGNATURE];
 const GUAC_50 = [o('Classic Guacamole','50 g'), o('Spicy Guacamole','50 g')];
 const DIPS_BOWL_SIGNATURE = [o('Smoky Tomato Salsa','80 g'), ...GUAC_50, o('Pineapple Salsa','80 g')];
 const DIPS_BOWL_ARABIAN = [...DIPS_ARABIC, ...GUAC_50];
+const DIPS_BOWL_PESTO = [...DIPS_ARABIC, o('Smoky Tomato Salsa','80 g'), ...GUAC_50, o('Pineapple Salsa','80 g')];
+const TOUM_NAME = TOUM.n, CHIPOTLE_NAME = 'Chipotle (50 ml)', PESTO_DIP_NAME = 'Hummus - Pesto (80 g)';
 const CHEDDAR = {n:'Cheddar Cheese', p:29, m:null};
 
 const FRIES = [
@@ -485,8 +487,8 @@ function buildGroups(c){
   if(c.protein && c.protein.length) g.push(group('Extra Protein','🍗','protein',c.protein));
   if(c.swap) g.push(group('Swap Your Rice','🍚','rice',c.swap.options,{single:true, base:c.swap.base, sub:'Pick one, or keep the rice it comes with'}));
   if(c.extras && c.extras.length) g.push(group('Extras','➕','extras',c.extras));
-  if(c.sauces) g.push(group('Sauces','🌶️','sauces',c.sauces, c.freeSauce?{freeCount:c.freeSauce}:{}));
-  if(c.dips) g.push(group('Dips','🥣','dips',c.dips));
+  if(c.sauces) g.push(group('Sauces','🌶️','sauces',c.sauces, c.freeSauce?{freeCount:c.freeSauce, noun:'sauce', defaults:c.defaultSauce||[]}:{}));
+  if(c.dips) g.push(group('Dips','🥣','dips',c.dips, c.freeDip?{freeCount:c.freeDip, noun:'dip', defaults:c.defaultDip||[]}:{}));
   if(c.meal){
     g.push(group('Make it a Meal (bundle & save)','🍽️','combo',COMBOS));
     g.push(group('Add Fries','🍟','fries',FRIES));
@@ -497,8 +499,10 @@ function buildGroups(c){
 }
 const FULL = {meal:true, drink:true, dessert:true};
 function configFor(name){
-  const arabicWrap = Object.assign({sauces:SAUCES_ARABIC, dips:DIPS_ARABIC}, FULL);
-  const signatureHandheld = Object.assign({sauces:SAUCES_SIGNATURE, dips:DIPS_SIGNATURE}, FULL);
+  // Rolls and pockets come with a free garlic sauce (toum), added by default; customers can swap it for free.
+  const arabicWrap = Object.assign({sauces:SAUCES_ARABIC, dips:DIPS_ARABIC, freeSauce:1, defaultSauce:[TOUM_NAME]}, FULL);
+  // Tacos and quesadillas come with one free dip, any dip the customer likes.
+  const signatureHandheld = Object.assign({sauces:SAUCES_SIGNATURE, dips:ALL_DIPS, freeDip:1}, FULL);
   switch(name){
     case 'Chicken Shawarma Roll': return Object.assign({protein:[X_CHICKEN]}, arabicWrap);
     case 'Paneer Shawarma Roll': return Object.assign({protein:[X_PANEER]}, arabicWrap);
@@ -516,9 +520,9 @@ function configFor(name){
     case 'Tabbouleh Salad': return {drink:true};
     case 'Green Salad': return {sauces:ALL_SAUCES, freeSauce:1, drink:true};
   }
-  if(name.startsWith('Mexican Bowl')) return {remove:REMOVE_MEXICAN, protein:BOWL_PROTEIN[name], swap:SWAP_MEXICAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_BEANS,CHEDDAR], sauces:SAUCES_SIGNATURE, dips:DIPS_BOWL_SIGNATURE, freeSauce:1, ...FULL};
-  if(name.startsWith('Pesto Bowl')) return {remove:REMOVE_PESTO, protein:BOWL_PROTEIN[name], swap:SWAP_PESTO, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS,CHEDDAR], sauces:SAUCES_SIGNATURE, dips:DIPS_BOWL_SIGNATURE, freeSauce:1, ...FULL};
-  if(name.startsWith('Arabian Bowl')) return {remove:REMOVE_ARABIAN, protein:BOWL_PROTEIN[name], swap:SWAP_ARABIAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS,CHEDDAR], sauces:SAUCES_ARABIC, dips:DIPS_BOWL_ARABIAN, freeSauce:1, ...FULL};
+  if(name.startsWith('Mexican Bowl')) return {remove:REMOVE_MEXICAN, protein:BOWL_PROTEIN[name], swap:SWAP_MEXICAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_BEANS,CHEDDAR], sauces:SAUCES_SIGNATURE, dips:DIPS_BOWL_SIGNATURE, freeSauce:1, defaultSauce:[CHIPOTLE_NAME], ...FULL};
+  if(name.startsWith('Pesto Bowl')) return {remove:REMOVE_PESTO, protein:BOWL_PROTEIN[name], swap:SWAP_PESTO, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS,CHEDDAR], sauces:SAUCES_SIGNATURE, dips:DIPS_BOWL_PESTO, freeDip:1, defaultDip:[PESTO_DIP_NAME], ...FULL};
+  if(name.startsWith('Arabian Bowl')) return {remove:REMOVE_ARABIAN, protein:BOWL_PROTEIN[name], swap:SWAP_ARABIAN, extras:[X_MEX_RICE,X_LIME_RICE,X_QUINOA,X_CHICKPEAS,CHEDDAR], sauces:SAUCES_ARABIC, dips:DIPS_BOWL_ARABIAN, freeSauce:1, defaultSauce:[TOUM_NAME], ...FULL};
   return null;
 }
 
@@ -759,7 +763,7 @@ function openSheet(item){
   (item.groups||[]).forEach(grp=>{
     currentSel[grp.key] = new Set();
     const g = document.createElement('div'); g.className='group';
-    const subText = grp.freeCount ? `${grp.freeCount} sauce${grp.freeCount>1?'s':''} free. Pick any, even the ₹79 ones` : (grp.sub||'');
+    const subText = grp.freeCount ? `${grp.freeCount} ${grp.noun||'sauce'}${grp.freeCount>1?'s':''} free${grp.defaults&&grp.defaults.length?', already added for you. Swap it for any other, no extra charge':'. Pick any, even the priciest'}` : (grp.sub||'');
     g.innerHTML = `<div class="group-label">${grp.icon||''} ${grp.label}</div>${subText?`<div class="group-sub">${subText}</div>`:''}`;
     grp.options.forEach(opt=>{
       const row = document.createElement('label'); row.className='option-row';
@@ -769,6 +773,16 @@ function openSheet(item){
           currentSel[grp.key].clear();
           g.querySelectorAll('input').forEach(inp=>{ if(inp!==e.target) inp.checked = false; });
         }
+        // Picking something else while only the included default is selected swaps it out (free swap).
+        if(grp.defaults && grp.defaults.length && e.target.checked && !grp.defaults.includes(opt.n)){
+          const sel = currentSel[grp.key];
+          if(grp.defaults.every(d=>sel.has(d)) && sel.size===grp.defaults.length){
+            grp.defaults.forEach(d=>{
+              sel.delete(d);
+              const di = g.querySelector(`input[data-opt="${d}"]`); if(di) di.checked = false;
+            });
+          }
+        }
         toggleOption(grp.key, opt.n, e.target.checked);
         renderFreeDipsPricing(grp, g);
         updateAddButton();
@@ -776,6 +790,11 @@ function openSheet(item){
       };
       g.appendChild(row);
     });
+    (grp.defaults||[]).forEach(dn=>{
+      const inp = g.querySelector(`input[data-opt="${dn}"]`);
+      if(inp){ inp.checked = true; currentSel[grp.key].add(dn); }
+    });
+    renderFreeDipsPricing(grp, g);
     sheetBody.appendChild(g);
   });
 
