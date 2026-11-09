@@ -400,8 +400,8 @@ function o(name, v, label, extra){
 const TOUM = o('Toum','50 ml');
 const GPCO = o('Garlic Peanut Chilli Oil','50 ml');
 const SAUCES_ARABIC = [TOUM, GPCO];
-/* Garlic yogurt sauce is the house sauce on rolls, pockets and Arabian bowls. It is not a sheet row yet, so it has no nutrition data and is priced like the other small-batch sauces. */
-const GARLIC_YOGURT = {n:'Garlic Yogurt Sauce', p:79, m:null};
+/* Garlic yogurt sauce is the house sauce on rolls, pockets and Arabian bowls. It is not a sheet row yet, so its nutrition is an estimate and it is priced like the other small-batch sauces. */
+const GARLIC_YOGURT = {n:'Garlic Yogurt Sauce', p:79, m:{p:4.2, c:2.7, f:7, fi:0.2}}; // ESTIMATE per 50 ml: ~40 g Greek yogurt, ~5 g olive oil, garlic and herbs. Replace with lab or recipe numbers.
 const SAUCES_ARABIC_FREE = [GARLIC_YOGURT, ...SAUCES_ARABIC];
 const SAUCES_SIGNATURE = [
   o('Chipotle','50 ml'), o('Pineapple Chilli','50 ml'), o('Mango Chilli','50 ml'),
