@@ -1041,7 +1041,7 @@ const KITCHEN = {lat:17.4431207, lng:78.3970103};
 const DELIVERY_RADIUS_KM = 7;      // road distance from the kitchen
 const GST_RATE = 0.05;             // added on top of menu prices
 const PACK_MEALS = 4, PACK_DISCOUNT = 0.10;   // 4 or more meals in one order: 10% off
-const DELIVERY_FLAT_FEE = 100;     // packaging + delivery inside the radius; beyond it, on actuals
+const DELIVERY_FLAT_FEE = 100;     // always charged; beyond the radius we only collect the difference on actuals
 const PAYMENT_QR = 'brand/zoco-payment-qr.png';
 
 let pin = null;                    // {lat, lng, url, source} once the customer has set a location
@@ -1098,20 +1098,12 @@ function renderCharges(){
   const m = cartMoney(), d = deliveryInfo();
   const base = m.net + m.gst;
   const est = d.km!=null && !d.exact ? ' (approx.)' : '';
-  let feeText, totalText, note;
-  if(d.status==='within'){
-    feeText = '₹'+d.fee; totalText = '₹'+(base+d.fee);
-    note = `Flat packaging and delivery fee, about ${d.km.toFixed(1)} km by road from our kitchen${est}.`;
-  } else if(d.status==='beyond'){
-    feeText = 'On actuals'; totalText = `₹${base} + delivery`;
-    note = `You're about ${d.km.toFixed(1)} km by road${est}, beyond our ${DELIVERY_RADIUS_KM} km flat-fee zone. We'll confirm the delivery charge on WhatsApp.`;
-  } else if(d.status==='unverified'){
-    feeText = 'To be confirmed'; totalText = `₹${base} + delivery`;
-    note = `We'll check the distance from your link and confirm the delivery charge on WhatsApp.`;
-  } else {
-    feeText = `₹${DELIVERY_FLAT_FEE} within ${DELIVERY_RADIUS_KM} km`; totalText = `₹${base} + delivery`;
-    note = `Packaging and delivery is a flat ₹${DELIVERY_FLAT_FEE} within ${DELIVERY_RADIUS_KM} km of our kitchen, and on actuals beyond that. We'll check your distance at the next step.`;
-  }
+  const feeText = '₹'+DELIVERY_FLAT_FEE, totalText = '₹'+(base+DELIVERY_FLAT_FEE);
+  let note;
+  if(d.status==='within') note = `Flat packaging and delivery fee, about ${d.km.toFixed(1)} km by road from our kitchen${est}.`;
+  else if(d.status==='beyond') note = `You're about ${d.km.toFixed(1)} km by road${est}, beyond our ${DELIVERY_RADIUS_KM} km zone. ₹${DELIVERY_FLAT_FEE} is included now, and we'll confirm any extra delivery charge on WhatsApp.`;
+  else if(d.status==='unverified') note = `₹${DELIVERY_FLAT_FEE} is included now. We'll check the distance from your link and confirm any extra delivery charge on WhatsApp.`;
+  else note = `Packaging and delivery is a flat ₹${DELIVERY_FLAT_FEE} within ${DELIVERY_RADIUS_KM} km of our kitchen. Beyond that we only charge the difference on actuals, confirmed on WhatsApp.`;
   let pack = '';
   if(m.disc) pack = `<div class="charge-row pack"><span>4-meal pack, ${Math.round(PACK_DISCOUNT*100)}% off</span><span class="num">−₹${m.disc}</span></div>`;
   else if(m.meals>0 && m.meals<PACK_MEALS) pack = `<div class="charge-note pack-nudge">Add ${PACK_MEALS-m.meals} more meal${PACK_MEALS-m.meals>1?'s':''} to get ${Math.round(PACK_DISCOUNT*100)}% off your order.</div>`;
@@ -1137,7 +1129,7 @@ function updatePinStatus(){
   let t;
   if(d.status==='none') t = pinMap ? 'Tap the map or drag the pin to your door.' : 'Use your current location, or paste a Google Maps link below.';
   else if(d.status==='within') t = `📍 Pin set, about ${d.km.toFixed(1)} km by road from our kitchen${d.exact?'':' (approx.)'}. That's inside our ${DELIVERY_RADIUS_KM} km zone.`;
-  else if(d.status==='beyond') t = `📍 Pin set, about ${d.km.toFixed(1)} km by road from our kitchen${d.exact?'':' (approx.)'}. That's beyond ${DELIVERY_RADIUS_KM} km, so delivery is on actuals.`;
+  else if(d.status==='beyond') t = `📍 Pin set, about ${d.km.toFixed(1)} km by road from our kitchen${d.exact?'':' (approx.)'}. That's beyond ${DELIVERY_RADIUS_KM} km, so we'll confirm any extra delivery charge.`;
   else t = '📍 Link saved. We will check the distance and confirm the delivery charge.';
   pinStatusEl.textContent = t;
 }
@@ -1306,31 +1298,21 @@ function buildWhatsAppMessage(d, del){
   if(m.disc) lines.push(`4-meal pack ${Math.round(PACK_DISCOUNT*100)}% off: -₹${m.disc}`);
   lines.push(`GST ${Math.round(GST_RATE*100)}%: ₹${m.gst}`);
   const dk = d2 => d2.km==null ? '' : `${d2.km.toFixed(1)} km by road${d2.exact?'':', approx.'}`;
-  if(del.status==='within'){
-    lines.push(`Packaging & delivery: ₹${del.fee} (${dk(del)}, within ${DELIVERY_RADIUS_KM} km)`);
-    lines.push(`*Total to pay: ₹${base+del.fee}*`);
-  } else if(del.status==='beyond'){
-    lines.push(`Packaging & delivery: on actuals (${dk(del)}, beyond ${DELIVERY_RADIUS_KM} km). Please confirm the charge.`);
-    lines.push(`*Total: ₹${base} + delivery on actuals*`);
-  } else {
-    lines.push('Packaging & delivery: please check the distance from the pin and confirm the charge.');
-    lines.push(`*Total: ₹${base} + delivery*`);
-  }
+  lines.push(`Packaging & delivery: ₹${DELIVERY_FLAT_FEE} (included)`);
+  lines.push(`*Total to pay: ₹${base+DELIVERY_FLAT_FEE}*`);
+  if(del.status==='beyond') lines.push(`Delivery is ${dk(del)}, beyond ${DELIVERY_RADIUS_KM} km. Please confirm the extra delivery charge on actuals (the difference above ₹${DELIVERY_FLAT_FEE}).`);
+  else if(del.status!=='within') lines.push('Please check the distance from the pin and confirm any extra delivery charge.');
   lines.push('', '*Delivery details*', `Name: ${d.name}`, `WhatsApp: +91 ${d.phone.slice(0,5)} ${d.phone.slice(5)}`, `Address: ${d.address}`, `Pin: ${pin.url}`);
   if(d.notes) lines.push(`Notes: ${d.notes}`);
   return lines.join('\n');
 }
 
 function renderDone(del, payable){
-  const payBlock = del.status==='within'
-    ? `<div class="pay-box">
+  const extra = del.status==='beyond' ? `You're beyond our ${DELIVERY_RADIUS_KM} km zone, so we'll message you on WhatsApp with any extra delivery charge on actuals.` : (del.status==='within' ? '' : "We'll check your distance and message you on WhatsApp with any extra delivery charge.");
+  const payBlock = `<div class="pay-box">
          <div class="pay-title">Pay <span class="num">₹${payable}</span> to confirm</div>
          <img src="${PAYMENT_QR}" alt="Zoco payment QR code" width="760" height="1216">
-         <p>Scan with any UPI app, then send the payment screenshot on WhatsApp.</p>
-       </div>`
-    : `<div class="pay-box">
-         <div class="pay-title">Delivery charge to be confirmed</div>
-         <p>${del.status==='beyond' ? `You're beyond our ${DELIVERY_RADIUS_KM} km flat-fee zone, so delivery is charged on actuals.` : 'We need to check your distance first.'} We'll confirm the total on WhatsApp and send the payment QR code there.</p>
+         <p>Scan with any UPI app, then send the payment screenshot on WhatsApp. ${extra}</p>
        </div>`;
   orderSuccess.innerHTML = `
     <div class="order-success-title">Send your order on WhatsApp</div>
@@ -1355,7 +1337,7 @@ function surveyAnswersForPayload(){
 function submitOrder(){
   const d = readDetails();
   if(d.errs.length){ setStep('details'); formErrorEl.textContent='Please add '+joinList(d.errs)+'.'; formErrorEl.style.display='block'; return; }
-  const del = deliveryInfo(), mny = cartMoney(), payable = mny.net + mny.gst + (del.fee||0);
+  const del = deliveryInfo(), mny = cartMoney(), payable = mny.net + mny.gst + DELIVERY_FLAT_FEE;
   const msg = buildWhatsAppMessage(d, del);
   lastWaUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   // Open WhatsApp straight from the tap so the browser doesn't block it.
@@ -1363,10 +1345,10 @@ function submitOrder(){
 
   // Quietly log the order to the sheet too (best effort).
   const buckets = cartByBucket();
-  const notes = [d.notes, 'Address: '+d.address, 'Pin: '+pin.url, 'Delivery: '+(del.status==='within' ? '₹'+del.fee : del.status==='beyond' ? 'on actuals' : 'tbc')].filter(Boolean).join(' | ');
+  const notes = [d.notes, 'Address: '+d.address, 'Pin: '+pin.url, 'Delivery: ₹'+DELIVERY_FLAT_FEE+(del.status==='within' ? '' : ' + extra tbc')].filter(Boolean).join(' | ');
   const payload = Object.assign({
     name: d.name, phone: d.phone, notes, total: payable,
-    address: d.address, pinUrl: pin.url, deliveryFee: del.fee==null ? '' : del.fee,
+    address: d.address, pinUrl: pin.url, deliveryFee: DELIVERY_FLAT_FEE,
     mainsText: buckets.Mains.join('\n'), saucesText: buckets.Sauces.join('\n'), dipsText: buckets.Dips.join('\n'),
     beveragesText: buckets.Beverages.join('\n'), sidesText: buckets.Sides.join('\n'),
   }, surveyAnswersForPayload());
