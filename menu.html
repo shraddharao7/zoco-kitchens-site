@@ -7,7 +7,7 @@
 <meta name="description" content="Zoco's full menu: shawarma rolls, pita pockets, tacos, protein bowls, quesadillas, small plates, sauces and dips. Build your own order with live pricing and nutrition. Halal, Hyderabad.">
 <link rel="icon" href="brand/favicon.png">
 <link rel="preload" href="fonts/ConcertOne-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/home.css?v=20261116a">
+<link rel="stylesheet" href="css/home.css?v=20261116b">
 <style>
   body{padding-bottom:96px}
   .num{font-family:var(--font-num)}
@@ -180,7 +180,7 @@
 <section class="px-hero px-orange px-slim" id="menutop">
   <div class="px-copy">
     <h1 class="px-title">build your <em>order</em></h1>
-    <p class="px-lede">Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish, and the nutrition calculator updates with every choice you make. Prices are before 5% GST.</p>
+    <p class="px-lede">Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish, and the nutrition calculator updates with every choice you make. Order here and save: 10% off, or 15% off when your items come to ₹500 or more. Prices are before 5% GST, and delivery is ₹50.</p>
   </div>
   <div class="px-strip">
     <img src="img/home/mexican-bowl-chicken-regular.jpg" alt="" width="720" height="720">
@@ -946,7 +946,9 @@ function cartByBucket(){
 // WhatsApp number that takes website orders (country code + number, digits only).
 const WHATSAPP_NUMBER = '917207913443';
 const GST_RATE = 0.05;             // added on top of menu prices
-const ORDER_DISCOUNT = 0.20;       // shown only in the WhatsApp message and the amount to pay, never on the website
+// Website order perks: a discount that grows with the order, plus a small delivery fee.
+const TIERS = [{min:500, pct:0.15}, {min:0, pct:0.10}];   // items under ₹500: 10% off, ₹500 and above: 15% off
+const DELIVERY_FEE = 50;
 const PAYMENT_QR = 'brand/zoco-payment-qr.png';
 
 let step = 'cart';
@@ -961,20 +963,24 @@ const backLinkEl = document.getElementById('backLink');
 const cartSheetBodyEl = document.getElementById('cartSheetBody');
 
 const cartSubtotal = ()=> cart.reduce((s,c)=>s+c.unit*c.qty,0);
-// What the customer sees on the website: items plus 5% GST.
-function siteMoney(){ const sub = cartSubtotal(), gst = Math.round(sub*GST_RATE); return {sub, gst, total: sub+gst}; }
-// What goes in the WhatsApp message and the payment: 20% off the items, then 5% GST.
+function tierFor(sub){ return TIERS.find(x=>sub>=x.min); }
+// Items, tiered discount, 5% GST on the discounted items, then the flat delivery fee.
 function orderMoney(){
-  const sub = cartSubtotal(), disc = Math.round(sub*ORDER_DISCOUNT), net = sub-disc, gst = Math.round(net*GST_RATE);
-  return {sub, disc, net, gst, total: net+gst};
+  const sub = cartSubtotal(), tier = tierFor(sub), pct = tier ? tier.pct : 0;
+  const disc = Math.round(sub*pct), net = sub-disc, gst = Math.round(net*GST_RATE);
+  return {sub, pct, disc, net, gst, fee: DELIVERY_FEE, total: net+gst+DELIVERY_FEE};
 }
 
 function renderCharges(){
-  const m = siteMoney();
+  const m = orderMoney();
+  const next = m.sub < 500 ? `<div class="charge-note pack-nudge">Add ₹${500-m.sub} more to get 15% off instead of 10%.</div>` : '';
   cartChargesEl.innerHTML = `
     <div class="charge-row"><span>Items</span><span class="num">₹${m.sub}</span></div>
+    <div class="charge-row pack"><span>Website discount (${Math.round(m.pct*100)}%)</span><span class="num">−₹${m.disc}</span></div>
     <div class="charge-row"><span>GST (${Math.round(GST_RATE*100)}%)</span><span class="num">₹${m.gst}</span></div>
-    <div class="charge-row total"><span>Total</span><span class="num">₹${m.total}</span></div>`;
+    <div class="charge-row"><span>Delivery</span><span class="num">₹${m.fee}</span></div>
+    <div class="charge-row total"><span>Total</span><span class="num">₹${m.total}</span></div>
+    ${next}`;
 }
 
 /* ---- cart drawer steps: cart -> details -> done ---- */
@@ -1066,8 +1072,9 @@ function buildWhatsAppMessage(d){
     if(parts.length) lines.push('    '+parts.join(' | '));
   });
   lines.push('', `Items: ₹${m.sub}`);
-  lines.push(`Discount (${Math.round(ORDER_DISCOUNT*100)}%): -₹${m.disc}`);
+  lines.push(`Website discount (${Math.round(m.pct*100)}%): -₹${m.disc}`);
   lines.push(`GST (${Math.round(GST_RATE*100)}%): ₹${m.gst}`);
+  lines.push(`Delivery: ₹${m.fee}`);
   lines.push(`*Total to pay: ₹${m.total}*`);
   lines.push('', '*Delivery details*', `Name: ${d.name}`, `WhatsApp: +91 ${d.phone.slice(0,5)} ${d.phone.slice(5)}`, `Address: ${d.address}`);
   return lines.join('\n');
@@ -1100,7 +1107,7 @@ function submitOrder(){
   const buckets = cartByBucket();
   const payload = {
     name: d.name, phone: d.phone, notes: 'Address: '+d.address, address: d.address,
-    total: m.total, discount: m.disc,
+    total: m.total, discount: m.disc, deliveryFee: m.fee,
     mainsText: buckets.Mains.join('\n'), saucesText: buckets.Sauces.join('\n'), dipsText: buckets.Dips.join('\n'),
     beveragesText: buckets.Beverages.join('\n'), sidesText: buckets.Sides.join('\n'),
   };
