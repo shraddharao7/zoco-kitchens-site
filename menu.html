@@ -7,7 +7,7 @@
 <meta name="description" content="Zoco's full menu: shawarma rolls, pita pockets, tacos, protein bowls, quesadillas, small plates, sauces and dips. Build your own order with live pricing and nutrition. Halal, Hyderabad.">
 <link rel="icon" href="brand/favicon.png">
 <link rel="preload" href="fonts/ConcertOne-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/home.css?v=20261116b">
+<link rel="stylesheet" href="css/home.css?v=20261116c">
 <style>
   body{padding-bottom:96px}
   .num{font-family:var(--font-num)}
@@ -116,6 +116,9 @@
   .charge-row{display:flex;justify-content:space-between;font-size:15px;padding:6px 0;color:var(--ink)}
   .charge-row.total{font-family:var(--font-num);font-weight:700;font-size:22px;padding-top:14px;margin-top:6px;border-top:1px solid color-mix(in srgb,var(--ink) 15%,transparent)}
   .charge-row.pack{color:var(--purple);font-weight:700}
+  .loyalty-box{background:color-mix(in srgb,var(--yellow) 35%,white);border-radius:14px;padding:12px 14px;margin:-2px 0 12px;font-size:14px;line-height:1.45;color:var(--indigo)}
+  .loyalty-box label{display:flex;gap:10px;align-items:flex-start;font-weight:700;cursor:pointer}
+  .loyalty-box input{margin-top:3px;accent-color:var(--purple)}
   .pack-nudge{color:var(--purple);opacity:1;font-weight:700}
   .charge-note{font-size:13px;line-height:1.5;opacity:.7;margin-top:6px}
   .back-link{background:none;border:none;color:var(--purple);font-size:14px;font-weight:700;cursor:pointer;padding:0 0 10px;font-family:var(--font-sans)}
@@ -180,7 +183,7 @@
 <section class="px-hero px-orange px-slim" id="menutop">
   <div class="px-copy">
     <h1 class="px-title">build your <em>order</em></h1>
-    <p class="px-lede">Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish, and the nutrition calculator updates with every choice you make. Order here and save: 10% off, or 15% off when your items come to ₹500 or more. Prices are before 5% GST, and delivery is ₹50.</p>
+    <p class="px-lede">Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish, and the nutrition calculator updates with every choice you make. Order here and save: 10% off, or 15% off when your items come to ₹500 or more. Earn Zoco points on every order and redeem them with the same mobile number. Prices are before 5% GST, and delivery is ₹50. Prefer free delivery? <a href="https://ownly.food/app/brand/BR510232" target="_blank" rel="noopener">Order on Ownly</a> (no website discounts).</p>
   </div>
   <div class="px-strip">
     <img src="img/home/mexican-bowl-chicken-regular.jpg" alt="" width="720" height="720">
@@ -237,6 +240,7 @@
       <div class="checkout-form" id="checkoutForm" style="display:none">
         <label class="field-label">Name<input type="text" id="custName" class="field-input" placeholder="Your name" autocomplete="name"></label>
         <label class="field-label">WhatsApp number<input type="tel" id="custPhone" class="field-input" placeholder="10-digit mobile number" autocomplete="tel"></label>
+        <div class="loyalty-box" id="loyaltyBox" style="display:none"></div>
         <label class="field-label">Delivery address<textarea id="custAddress" class="field-input" rows="3" placeholder="Flat / house no., building, street, area, landmark" autocomplete="street-address"></textarea></label>
         <div class="form-error" id="formError"></div>
       </div>
@@ -965,10 +969,17 @@ const cartSheetBodyEl = document.getElementById('cartSheetBody');
 const cartSubtotal = ()=> cart.reduce((s,c)=>s+c.unit*c.qty,0);
 function tierFor(sub){ return TIERS.find(x=>sub>=x.min); }
 // Items, tiered discount, 5% GST on the discounted items, then the flat delivery fee.
+// Zoco points: 25 per ₹500 (5% of items after discount), +100 bonus on every 5th order, 1 point = ₹1.
+const POINTS_RATE = 0.05, BONUS_EVERY = 5, BONUS_POINTS = 100;
+let loyalty = {phone:'', points:0, orders:0};
+let useRedeem = false;
 function orderMoney(){
   const sub = cartSubtotal(), tier = tierFor(sub), pct = tier ? tier.pct : 0;
   const disc = Math.round(sub*pct), net = sub-disc, gst = Math.round(net*GST_RATE);
-  return {sub, pct, disc, net, gst, fee: DELIVERY_FEE, total: net+gst+DELIVERY_FEE};
+  const redeem = useRedeem ? Math.min(loyalty.points, net+gst) : 0;
+  const nextOrder = loyalty.orders+1;
+  const earn = Math.floor(net*POINTS_RATE) + (nextOrder%BONUS_EVERY===0 ? BONUS_POINTS : 0);
+  return {sub, pct, disc, net, gst, fee: DELIVERY_FEE, redeem, earn, bonus: nextOrder%BONUS_EVERY===0, total: net+gst+DELIVERY_FEE-redeem};
 }
 
 function renderCharges(){
@@ -979,7 +990,9 @@ function renderCharges(){
     <div class="charge-row pack"><span>Website discount (${Math.round(m.pct*100)}%)</span><span class="num">−₹${m.disc}</span></div>
     <div class="charge-row"><span>GST (${Math.round(GST_RATE*100)}%)</span><span class="num">₹${m.gst}</span></div>
     <div class="charge-row"><span>Delivery</span><span class="num">₹${m.fee}</span></div>
+    ${m.redeem?`<div class="charge-row pack"><span>Zoco points used</span><span class="num">−₹${m.redeem}</span></div>`:''}
     <div class="charge-row total"><span>Total</span><span class="num">₹${m.total}</span></div>
+    ${step==='details' ? `<div class="charge-note pack-nudge">You'll earn ${m.earn} Zoco points on this order${m.bonus?' (includes your 5th-order bonus)':''}.</div>` : ''}
     ${next}`;
 }
 
@@ -1041,6 +1054,34 @@ function renderCartDrawer(){
   setStep('cart');
 }
 
+function renderLoyaltyBox(){
+  const box = document.getElementById('loyaltyBox');
+  if(!loyalty.phone || loyalty.points<=0){ box.style.display='none'; box.innerHTML=''; return; }
+  const m = orderMoney();
+  const use = Math.min(loyalty.points, m.net+m.gst);
+  box.style.display = 'block';
+  box.innerHTML = `<label><input type="checkbox" id="useRedeem" ${useRedeem?'checked':''}><span>You have ${loyalty.points} Zoco points. Use ${use} (₹${use} off) on this order.</span></label>`;
+  document.getElementById('useRedeem').onchange = e=>{ useRedeem = e.target.checked; renderCharges(); };
+}
+let loyaltyReq = 0;
+function lookupLoyalty(){
+  let digits = custPhoneEl.value.replace(/\D/g,'');
+  if(digits.length===12 && digits.startsWith('91')) digits = digits.slice(2);
+  if(digits.length===11 && digits.startsWith('0')) digits = digits.slice(1);
+  if(!/^[6-9]\d{9}$/.test(digits)){ loyalty = {phone:'',points:0,orders:0}; useRedeem=false; renderLoyaltyBox(); renderCharges(); return; }
+  if(digits===loyalty.phone) return;
+  const req = ++loyaltyReq;
+  loyalty = {phone:digits, points:0, orders:0}; useRedeem = false;
+  if(!ORDERS_ENDPOINT) return;
+  const ctl = new AbortController(); setTimeout(()=>ctl.abort(), 8000);
+  fetch(ORDERS_ENDPOINT+'?phone='+digits, {signal:ctl.signal}).then(r=>r.json()).then(j=>{
+    if(req!==loyaltyReq) return;
+    loyalty = {phone:digits, points:Number(j.points)||0, orders:Number(j.orders)||0};
+    renderLoyaltyBox(); renderCharges();
+  }).catch(()=>{});
+}
+custPhoneEl.addEventListener('input', lookupLoyalty);
+
 function goToDetails(){
   setStep('details');
   formErrorEl.style.display = 'none';
@@ -1075,12 +1116,14 @@ function buildWhatsAppMessage(d){
   lines.push(`Website discount (${Math.round(m.pct*100)}%): -₹${m.disc}`);
   lines.push(`GST (${Math.round(GST_RATE*100)}%): ₹${m.gst}`);
   lines.push(`Delivery: ₹${m.fee}`);
+  if(m.redeem) lines.push(`Zoco points used: -₹${m.redeem}`);
   lines.push(`*Total to pay: ₹${m.total}*`);
+  lines.push(`Points earned on this order: ${m.earn}`);
   lines.push('', '*Delivery details*', `Name: ${d.name}`, `WhatsApp: +91 ${d.phone.slice(0,5)} ${d.phone.slice(5)}`, `Address: ${d.address}`);
   return lines.join('\n');
 }
 
-function renderDone(payable){
+function renderDone(payable, earned){
   orderSuccess.innerHTML = `
     <div class="order-success-title">Send your order on WhatsApp</div>
     <p>WhatsApp should have opened with your order ready to go. Tap <b>Send</b> to place it with us. Your order isn't with us until you send it.</p>
@@ -1089,7 +1132,8 @@ function renderDone(payable){
       <div class="pay-title">Pay <span class="num">₹${payable}</span> to confirm</div>
       <img src="${PAYMENT_QR}" alt="Zoco payment QR code" width="760" height="1216">
       <p>Scan with any UPI app, then send the payment screenshot on WhatsApp.</p>
-    </div>`;
+    </div>
+    ${earned?`<p class="charge-note pack-nudge">You've earned ${earned} Zoco points. Use the same mobile number next time to redeem them.</p>`:''}`;
   setStep('done');
 }
 
@@ -1107,7 +1151,7 @@ function submitOrder(){
   const buckets = cartByBucket();
   const payload = {
     name: d.name, phone: d.phone, notes: 'Address: '+d.address, address: d.address,
-    total: m.total, discount: m.disc, deliveryFee: m.fee,
+    total: m.total, discount: m.disc, deliveryFee: m.fee, netItems: m.net, redeemPoints: m.redeem,
     mainsText: buckets.Mains.join('\n'), saucesText: buckets.Sauces.join('\n'), dipsText: buckets.Dips.join('\n'),
     beveragesText: buckets.Beverages.join('\n'), sidesText: buckets.Sides.join('\n'),
   };
@@ -1116,8 +1160,9 @@ function submitOrder(){
   }
 
   cart = [];
+  loyalty = {phone:'', points:0, orders:0}; useRedeem = false; renderLoyaltyBox();
   renderCartBar();
-  renderDone(m.total);
+  renderDone(m.total, m.earn);
 }
 
 /* Floating category bar: highlights the section you're in and keeps the active tab in view. */
