@@ -16,9 +16,6 @@
  *    it just hands back a different URL that has to be re-pasted into
  *    ORDERS_ENDPOINT in menu.html and CATERING_ENDPOINT in catering.html.)
  *
- * Loyalty: a "Loyalty" tab (Phone, Name, Orders, Points, Last Order) is created
- * automatically. doGet?phone=... returns the balance; each order POST deducts
- * redeemed points and credits earned ones.
  *
  * Two kinds of submissions land here, routed by the `type` field the page
  * sends:
@@ -38,76 +35,13 @@ const ORDERS_HEADER = [
   'Age Group', 'Occupation', 'Order Frequency', 'Group Size', 'Spend Per Person',
   'Meal Time', 'Go-To Cuisine', 'Priorities', 'Checks Nutrition', 'Recommends to Others',
   'Meal Plan Interest (times/month)',
-  'Discount (₹)', 'Delivery (₹)', 'Points Redeemed', 'Points Earned',
+  'Discount (₹)', 'Delivery (₹)',
 ];
 
-// Zoco points: 25 points per Rs 500 spent (5% of items after discount),
-// every 5th order earns a bonus of 100 points, 1 point = Rs 1.
-const POINTS_RATE = 0.05;
-const BONUS_EVERY = 5;
-const BONUS_POINTS = 100;
-const LOYALTY_HEADER = ['Phone', 'Name', 'Orders', 'Points', 'Last Order'];
 
 const CATERING_HEADER = [
   'Timestamp', 'Name', 'Phone', 'Number of People', 'Event Type', 'Event Date', 'Event Time',
 ];
-
-// Balance lookup: GET ...?phone=9876543210 -> {status, points, orders}
-function doGet(e) {
-  const phone = cleanPhone_(e && e.parameter && e.parameter.phone);
-  let out = { status: 'ok', points: 0, orders: 0 };
-  if (phone) {
-    const found = findLoyalty_(phone);
-    if (found) out = { status: 'ok', points: found.points, orders: found.orders };
-  }
-  return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
-}
-
-function cleanPhone_(v) {
-  const d = String(v || '').replace(/\D/g, '').slice(-10);
-  return /^[6-9]\d{9}$/.test(d) ? d : '';
-}
-
-function getLoyaltySheet_() {
-  const ss = SpreadsheetApp.openById(SHEET_ID);
-  let sheet = ss.getSheetByName('Loyalty');
-  if (!sheet) sheet = ss.insertSheet('Loyalty');
-  sheet.getRange(1, 1, 1, LOYALTY_HEADER.length).setValues([LOYALTY_HEADER]);
-  sheet.setFrozenRows(1);
-  sheet.getRange('A:A').setNumberFormat('@');
-  return sheet;
-}
-
-function findLoyalty_(phone) {
-  const sheet = getLoyaltySheet_();
-  const last = sheet.getLastRow();
-  if (last < 2) return null;
-  const rows = sheet.getRange(2, 1, last - 1, 4).getValues();
-  for (let i = 0; i < rows.length; i++) {
-    if (String(rows[i][0]) === phone) {
-      return { row: i + 2, orders: Number(rows[i][2]) || 0, points: Number(rows[i][3]) || 0 };
-    }
-  }
-  return null;
-}
-
-// Deduct redeemed points, then credit earned points (+ bonus on every 5th order).
-// Returns { redeemed, earned }.
-function applyLoyalty_(phone, name, netItems, redeemRequested) {
-  const sheet = getLoyaltySheet_();
-  const found = findLoyalty_(phone);
-  const orders = (found ? found.orders : 0) + 1;
-  const balance = found ? found.points : 0;
-  const redeemed = Math.max(0, Math.min(Math.floor(redeemRequested) || 0, balance));
-  const earned = Math.floor(Math.max(0, netItems) * POINTS_RATE) + (orders % BONUS_EVERY === 0 ? BONUS_POINTS : 0);
-  const points = balance - redeemed + earned;
-  if (found) {
-    sheet.getRange(found.row, 2, 1, 4).setValues([[name, orders, points, new Date()]]);
-  } else {
-    sheet.appendRow([phone, name, orders, points, new Date()]);
-  }
-  return { redeemed: redeemed, earned: earned };
-}
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -135,10 +69,6 @@ function handlePost_(e) {
     ]);
   } else {
     const sheet = getOrdersSheet_();
-    const phone = cleanPhone_(data.phone);
-    const loyalty = phone
-      ? applyLoyalty_(phone, data.name || '', Number(data.netItems) || 0, Number(data.redeemPoints) || 0)
-      : { redeemed: 0, earned: 0 };
     sheet.appendRow([
       new Date(),
       data.name || '',
@@ -163,8 +93,6 @@ function handlePost_(e) {
       data.subscriptionFrequency || '',
       data.discount || 0,
       data.deliveryFee || 0,
-      loyalty.redeemed,
-      loyalty.earned,
     ]);
   }
 
