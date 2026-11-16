@@ -7,9 +7,7 @@
 <meta name="description" content="Zoco's full menu: shawarma rolls, pita pockets, tacos, protein bowls, quesadillas, small plates, sauces and dips. Build your own order with live pricing and nutrition. Halal, Hyderabad.">
 <link rel="icon" href="brand/favicon.png">
 <link rel="preload" href="fonts/ConcertOne-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/home.css?v=20261109b">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
+<link rel="stylesheet" href="css/home.css?v=20261116a">
 <style>
   body{padding-bottom:96px}
   .num{font-family:var(--font-num)}
@@ -121,10 +119,6 @@
   .pack-nudge{color:var(--purple);opacity:1;font-weight:700}
   .charge-note{font-size:13px;line-height:1.5;opacity:.7;margin-top:6px}
   .back-link{background:none;border:none;color:var(--purple);font-size:14px;font-weight:700;cursor:pointer;padding:0 0 10px;font-family:var(--font-sans)}
-  .pin-map{height:230px;border-radius:14px;margin-top:8px;z-index:0}
-  .pin-actions{display:flex;gap:8px;margin-top:8px}
-  .pin-btn{background:var(--purple);color:#fff;border:none;border-radius:999px;padding:10px 16px;font-family:var(--font-sans);font-weight:700;font-size:14px;cursor:pointer}
-  .pin-status{font-size:13px;line-height:1.5;margin-top:8px;color:var(--ink)}
   .form-error{display:none;background:color-mix(in srgb,var(--magenta) 14%,#fff);color:var(--ink);border-radius:12px;padding:10px 14px;font-size:14px;margin-top:16px}
   .pay-box{margin-top:22px;background:var(--cream);border-radius:18px;padding:18px}
   .pay-box img{width:min(100%,260px);height:auto;border-radius:12px;display:block;margin:12px auto}
@@ -135,15 +129,6 @@
   .order-success p{margin-top:10px;color:var(--ink);opacity:.75;font-size:16px;font-weight:300;max-width:40ch;margin-left:auto;margin-right:auto}
 
   /* survey step */
-  .survey-intro{font-size:14px;line-height:1.6;color:var(--ink);opacity:.75;margin-bottom:18px}
-  .survey-section{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:15px;letter-spacing:.04em;color:var(--purple);margin:22px 0 10px}
-  .survey-section:first-child{margin-top:0}
-  .survey-q{background:var(--white);border-radius:16px;padding:16px 18px;margin-bottom:12px}
-  .survey-label{font-family:var(--font-serif);font-weight:600;font-size:16px;color:var(--ink)}
-  .survey-note{font-size:12.5px;color:var(--ink);opacity:.6;margin-top:4px;line-height:1.5}
-  .survey-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-  .survey-chip{background:var(--cream);border:none;border-radius:999px;padding:9px 16px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer}
-  .survey-chip.active{background:var(--coral);color:var(--white)}
 
   /* item photos */
   .item-media{flex:none;width:128px;height:128px;border-radius:16px;overflow:hidden;background:rgba(43,18,16,.06)}
@@ -195,7 +180,7 @@
 <section class="px-hero px-orange px-slim" id="menutop">
   <div class="px-copy">
     <h1 class="px-title">build your <em>order</em></h1>
-    <p class="px-lede">Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish, and the nutrition calculator updates with every choice you make. Prices are before 5% GST. Order 4 or more meals and get 10% off.</p>
+    <p class="px-lede">Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish, and the nutrition calculator updates with every choice you make. Prices are before 5% GST.</p>
   </div>
   <div class="px-strip">
     <img src="img/home/mexican-bowl-chicken-regular.jpg" alt="" width="720" height="720">
@@ -240,7 +225,7 @@
     <div class="sheet-head">
       <div>
         <h3 id="cartHeadTitle">Your Order</h3>
-        <div class="sheet-sub" id="cartHeadSub" style="display:none">Totally optional, helps us build a better menu</div>
+        
       </div>
       <button class="sheet-close" id="cartClose">✕</button>
     </div>
@@ -253,25 +238,17 @@
         <label class="field-label">Name<input type="text" id="custName" class="field-input" placeholder="Your name" autocomplete="name"></label>
         <label class="field-label">WhatsApp number<input type="tel" id="custPhone" class="field-input" placeholder="10-digit mobile number" autocomplete="tel"></label>
         <label class="field-label">Delivery address<textarea id="custAddress" class="field-input" rows="3" placeholder="Flat / house no., building, street, area, landmark" autocomplete="street-address"></textarea></label>
-        <div class="field-label">Pin your location</div>
-        <div class="pin-actions"><button type="button" class="pin-btn" id="useLocBtn">📍 Use my current location</button></div>
-        <div class="pin-map" id="pinMap"></div>
-        <div class="pin-status" id="pinStatus"></div>
-        <label class="field-label">Or paste a Google Maps link<input type="url" id="pinLink" class="field-input" placeholder="https://maps.app.goo.gl/..."></label>
-        <label class="field-label">Notes (optional)<textarea id="custNotes" class="field-input" rows="2" placeholder="Anything we should know?"></textarea></label>
         <div class="form-error" id="formError"></div>
       </div>
       <div class="checkout-note" id="checkoutNote" style="display:none">
-        <b>How ordering works:</b> Tap Continue and your order opens in WhatsApp, ready to send to us. We take every order on WhatsApp, and we'll confirm it there. Once you send it, scan the payment QR code to pay.
+        <b>How ordering works:</b> Tap Place order and your order opens in WhatsApp, ready to send to us. We take every order on WhatsApp and confirm it there. Once you send it, scan the payment QR code to pay.
       </div>
-      <div id="surveyForm" style="display:none"></div>
       <div class="order-success" id="orderSuccess" style="display:none">
         
       </div>
     </div>
     <div class="sheet-foot" id="checkoutFoot" style="display:none;flex-direction:column">
       <button class="add-item-btn" id="placeOrderBtn" style="width:100%">Place Order</button>
-      <button class="skip-link" id="skipSurveyBtn" style="display:none">Skip this and place my order →</button>
     </div>
   </div>
 </div>
@@ -902,10 +879,7 @@ const checkoutNote = document.getElementById('checkoutNote');
 const checkoutFoot = document.getElementById('checkoutFoot');
 const orderSuccess = document.getElementById('orderSuccess');
 const cartHeadTitle = document.getElementById('cartHeadTitle');
-const cartHeadSub = document.getElementById('cartHeadSub');
 const placeOrderBtn = document.getElementById('placeOrderBtn');
-const skipSurveyBtn = document.getElementById('skipSurveyBtn');
-const surveyFormEl = document.getElementById('surveyForm');
 const cartNutritionEl = document.getElementById('cartNutrition');
 
 // Paste your deployed Google Apps Script Web App URL here (see apps-script-order-backend.gs).
@@ -968,230 +942,42 @@ function cartByBucket(){
   return buckets;
 }
 
-// ---- Section E research survey (Sections A-E, as specified) ----
-const SURVEY_QUESTIONS = [
-  { section:"About you", key:"ageGroup", label:"What's your age group?", type:"single",
-    options:["Under 18","18–24","25–34","35–44","45–54","55+"] },
-  { section:"About you", key:"occupation", label:"What best describes you?", type:"single",
-    options:["Working full-time","Working part-time","Self-employed / Business owner","Student","Homemaker","Retired","Other"] },
-  { section:"Your ordering habits", key:"orderFrequency", label:"How often do you order lunch or dinner from restaurants?", type:"single",
-    options:["Less than once a week","1–2 times a week","3–4 times a week","5+ times a week","Almost every day"] },
-  { section:"Your ordering habits", key:"groupSize", label:"How many people do you typically order food for?", type:"single",
-    options:["Just myself","2–3 people","4+ people"] },
-  { section:"Your ordering habits", key:"spendPerPerson", label:"How much do you typically spend per person on a meal, including taxes and delivery?", type:"single",
-    note:"A good way to estimate this: check your Swiggy/Zomato history and divide the final bill by the number of people you ordered for.",
-    options:["₹200–350","₹350–500","₹500+"] },
-  { section:"Your ordering habits", key:"mealTime", label:"How much time do you typically get for lunch/dinner?", type:"single",
-    options:["Under 15 min","15–30 min","30–45 min","45–60 min","Over an hour"] },
-  { section:"Your ordering habits", key:"cuisine", label:"What's your go-to cuisine when ordering food?", type:"single",
-    options:["Indian","Chinese / Asian","Italian","Mexican","Middle Eastern","Continental","Fast food","Other"] },
-  { section:"What matters when you choose food", key:"priorities", label:"What do you typically look for when ordering food?", type:"multi",
-    options:["Protein","Fibre","Nutritional value","Fresh / raw ingredients","Baked options","Roasted options","Fried options","Taste","Cost","Portion size","Convenience","Non-messy food","Brand","Something different / interesting"] },
-  { section:"What matters when you choose food", key:"nutritionAttention", label:"Do you typically look at the nutritional value of food before ordering?", type:"single",
-    options:["Always","Often","Sometimes","Rarely","Never"] },
-  { section:"Food discovery & advocacy", key:"recommend", label:"Do you usually recommend food/restaurant options to your friends and family?", type:"single",
-    options:["Frequently","Sometimes","Rarely","Never"] },
-  { section:"If Zoco had a meal plan", key:"subscriptionFrequency", label:"If you had a subscription-based meal plan, how often would you be willing to eat from the same brand in a month?", type:"single",
-    options:["3–5 times","5–10 times","10+ times"] },
-];
-let surveyAnswers = {};
-
-function renderSurveyBody(){
-  surveyFormEl.innerHTML = '<div class="survey-intro">Totally optional, and helps us build a better Zoco for you. Pick whatever applies.</div>';
-  surveyAnswers = {};
-  let lastSection = null;
-  SURVEY_QUESTIONS.forEach(q=>{
-    if(q.section !== lastSection){
-      const h = document.createElement('div');
-      h.className = 'survey-section';
-      h.textContent = q.section;
-      surveyFormEl.appendChild(h);
-      lastSection = q.section;
-    }
-    const block = document.createElement('div');
-    block.className = 'survey-q';
-    block.innerHTML = `<div class="survey-label">${q.label}</div>${q.note?`<div class="survey-note">${q.note}</div>`:''}`;
-    const chipWrap = document.createElement('div');
-    chipWrap.className = 'survey-chips';
-    if(q.type==='multi') surveyAnswers[q.key] = new Set();
-    q.options.forEach(opt=>{
-      const chip = document.createElement('button');
-      chip.type = 'button';
-      chip.className = 'survey-chip';
-      chip.textContent = opt;
-      chip.onclick = ()=>{
-        if(q.type==='single'){
-          chipWrap.querySelectorAll('.survey-chip').forEach(c=>c.classList.remove('active'));
-          chip.classList.add('active');
-          surveyAnswers[q.key] = opt;
-        } else {
-          chip.classList.toggle('active');
-          if(chip.classList.contains('active')) surveyAnswers[q.key].add(opt);
-          else surveyAnswers[q.key].delete(opt);
-        }
-      };
-      chipWrap.appendChild(chip);
-    });
-    block.appendChild(chipWrap);
-    surveyFormEl.appendChild(block);
-  });
-}
-
-/* ---- Delivery charge, location pin and WhatsApp ordering ---- */
+/* ---- Checkout: details -> WhatsApp ---- */
 // WhatsApp number that takes website orders (country code + number, digits only).
 const WHATSAPP_NUMBER = '917207913443';
-// Kitchen location (Google Maps pin of Zoco Kitchens) used to measure delivery distance.
-const KITCHEN = {lat:17.4431207, lng:78.3970103};
-const DELIVERY_RADIUS_KM = 7;      // road distance from the kitchen
 const GST_RATE = 0.05;             // added on top of menu prices
-const PACK_MEALS = 4, PACK_DISCOUNT = 0.10;   // 4 or more meals in one order: 10% off
-const DELIVERY_FLAT_FEE = 100;     // always charged; beyond the radius we only collect the difference on actuals
+const ORDER_DISCOUNT = 0.20;       // shown only in the WhatsApp message and the amount to pay, never on the website
 const PAYMENT_QR = 'brand/zoco-payment-qr.png';
 
-let pin = null;                    // {lat, lng, url, source} once the customer has set a location
-let pinMap = null, pinMarker = null;
 let step = 'cart';
 let lastWaUrl = '';
 
 const custNameEl = document.getElementById('custName');
 const custPhoneEl = document.getElementById('custPhone');
 const custAddressEl = document.getElementById('custAddress');
-const custNotesEl = document.getElementById('custNotes');
 const formErrorEl = document.getElementById('formError');
 const cartChargesEl = document.getElementById('cartCharges');
 const backLinkEl = document.getElementById('backLink');
-const pinStatusEl = document.getElementById('pinStatus');
 const cartSheetBodyEl = document.getElementById('cartSheetBody');
 
-function distKm(a, b){
-  const R = 6371, rad = d=>d*Math.PI/180;
-  const dLat = rad(b.lat-a.lat), dLng = rad(b.lng-a.lng);
-  const h = Math.sin(dLat/2)**2 + Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLng/2)**2;
-  return 2*R*Math.asin(Math.sqrt(h));
-}
 const cartSubtotal = ()=> cart.reduce((s,c)=>s+c.unit*c.qty,0);
-const cartMeals = ()=> cart.reduce((s,c)=> s + (CATEGORY_BUCKET[c.category]==='Mains' ? c.qty : 0), 0);
-function cartMoney(){
-  const sub = cartSubtotal(), meals = cartMeals();
-  const disc = meals>=PACK_MEALS ? Math.round(sub*PACK_DISCOUNT) : 0;
-  const net = sub - disc;
-  const gst = Math.round(net*GST_RATE);
-  return {sub, meals, disc, net, gst};
-}
-
-// status: none (no pin yet) | within (flat fee) | beyond (actuals) | unverified (pasted short link, distance unknown)
-// km is the road distance when the routing service answered, otherwise an estimate (straight line x 1.3).
-function deliveryInfo(){
-  if(!pin) return {status:'none', km:null, fee:null};
-  if(pin.lat==null) return {status:'unverified', km:null, fee:null};
-  const exact = pin.roadKm!=null;
-  const km = exact ? pin.roadKm : distKm(KITCHEN, pin)*1.3;
-  return km <= DELIVERY_RADIUS_KM ? {status:'within', km, fee:DELIVERY_FLAT_FEE, exact} : {status:'beyond', km, fee:null, exact};
-}
-async function fetchRoadKm(lat, lng){
-  const url = `https://router.project-osrm.org/route/v1/driving/${KITCHEN.lng},${KITCHEN.lat};${lng},${lat}?overview=false`;
-  const ctl = new AbortController(); const to = setTimeout(()=>ctl.abort(), 8000);
-  try{
-    const r = await fetch(url, {signal:ctl.signal}); const j = await r.json();
-    if(j && j.routes && j.routes[0]) return j.routes[0].distance/1000;
-  }catch(e){} finally{ clearTimeout(to); }
-  return null;
+// What the customer sees on the website: items plus 5% GST.
+function siteMoney(){ const sub = cartSubtotal(), gst = Math.round(sub*GST_RATE); return {sub, gst, total: sub+gst}; }
+// What goes in the WhatsApp message and the payment: 20% off the items, then 5% GST.
+function orderMoney(){
+  const sub = cartSubtotal(), disc = Math.round(sub*ORDER_DISCOUNT), net = sub-disc, gst = Math.round(net*GST_RATE);
+  return {sub, disc, net, gst, total: net+gst};
 }
 
 function renderCharges(){
-  const m = cartMoney(), d = deliveryInfo();
-  const base = m.net + m.gst;
-  const est = d.km!=null && !d.exact ? ' (approx.)' : '';
-  const feeText = '₹'+DELIVERY_FLAT_FEE, totalText = '₹'+(base+DELIVERY_FLAT_FEE);
-  let note;
-  if(d.status==='within') note = `Flat packaging and delivery fee, about ${d.km.toFixed(1)} km by road from our kitchen${est}.`;
-  else if(d.status==='beyond') note = `You're about ${d.km.toFixed(1)} km by road${est}, beyond our ${DELIVERY_RADIUS_KM} km zone. ₹${DELIVERY_FLAT_FEE} is included now, and we'll confirm any extra delivery charge on WhatsApp.`;
-  else if(d.status==='unverified') note = `₹${DELIVERY_FLAT_FEE} is included now. We'll check the distance from your link and confirm any extra delivery charge on WhatsApp.`;
-  else note = `Packaging and delivery is a flat ₹${DELIVERY_FLAT_FEE} within ${DELIVERY_RADIUS_KM} km of our kitchen. Beyond that we only charge the difference on actuals, confirmed on WhatsApp.`;
-  let pack = '';
-  if(m.disc) pack = `<div class="charge-row pack"><span>4-meal pack, ${Math.round(PACK_DISCOUNT*100)}% off</span><span class="num">−₹${m.disc}</span></div>`;
-  else if(m.meals>0 && m.meals<PACK_MEALS) pack = `<div class="charge-note pack-nudge">Add ${PACK_MEALS-m.meals} more meal${PACK_MEALS-m.meals>1?'s':''} to get ${Math.round(PACK_DISCOUNT*100)}% off your order.</div>`;
+  const m = siteMoney();
   cartChargesEl.innerHTML = `
     <div class="charge-row"><span>Items</span><span class="num">₹${m.sub}</span></div>
-    ${m.disc?pack:''}
     <div class="charge-row"><span>GST (${Math.round(GST_RATE*100)}%)</span><span class="num">₹${m.gst}</span></div>
-    <div class="charge-row"><span>Packaging &amp; delivery</span><span class="num">${feeText}</span></div>
-    <div class="charge-row total"><span>Total</span><span class="num">${totalText}</span></div>
-    ${m.disc?'':pack}
-    <div class="charge-note">${note}</div>`;
+    <div class="charge-row total"><span>Total</span><span class="num">₹${m.total}</span></div>`;
 }
 
-/* ---- location pin ---- */
-function parseMapsCoords(u){
-  let s = u; try{ s = decodeURIComponent(u); }catch(e){}
-  const pats = [/@(-?\d+\.\d+),(-?\d+\.\d+)/, /[?&](?:q|ll|query|destination|center)=(-?\d+\.\d+),\s*(-?\d+\.\d+)/, /!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/];
-  for(const re of pats){ const m = s.match(re); if(m) return {lat:+m[1], lng:+m[2]}; }
-  return null;
-}
-function updatePinStatus(){
-  const d = deliveryInfo();
-  let t;
-  if(d.status==='none') t = pinMap ? 'Tap the map or drag the pin to your door.' : 'Use your current location, or paste a Google Maps link below.';
-  else if(d.status==='within') t = `📍 Pin set, about ${d.km.toFixed(1)} km by road from our kitchen${d.exact?'':' (approx.)'}. That's inside our ${DELIVERY_RADIUS_KM} km zone.`;
-  else if(d.status==='beyond') t = `📍 Pin set, about ${d.km.toFixed(1)} km by road from our kitchen${d.exact?'':' (approx.)'}. That's beyond ${DELIVERY_RADIUS_KM} km, so we'll confirm any extra delivery charge.`;
-  else t = '📍 Link saved. We will check the distance and confirm the delivery charge.';
-  pinStatusEl.textContent = t;
-}
-function pinIcon(){
-  return L.divIcon({className:'pin-icon', iconSize:[30,40], iconAnchor:[15,40],
-    html:'<svg viewBox="0 0 24 32" width="30" height="40"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0z" fill="#FF5429"/><circle cx="12" cy="12" r="4.5" fill="#fff"/></svg>'});
-}
-function placeMarker(){
-  if(!pinMap || !pin || pin.lat==null) return;
-  const ll = [pin.lat, pin.lng];
-  if(!pinMarker){
-    pinMarker = L.marker(ll, {draggable:true, icon:pinIcon()}).addTo(pinMap);
-    pinMarker.on('dragend', ()=>{ const p = pinMarker.getLatLng(); setPin(p.lat, p.lng, 'map'); });
-  } else pinMarker.setLatLng(ll);
-  pinMap.setView(ll, Math.max(pinMap.getZoom(), 15));
-}
-function setPin(lat, lng, source){
-  lat = Number(lat); lng = Number(lng);
-  if(!isFinite(lat) || !isFinite(lng) || Math.abs(lat)>90 || Math.abs(lng)>180) return;
-  const mine = pin = {lat, lng, source, roadKm:null, url:`https://www.google.com/maps?q=${lat.toFixed(6)},${lng.toFixed(6)}`};
-  placeMarker(); updatePinStatus(); renderCharges();
-  fetchRoadKm(lat, lng).then(km=>{ if(pin===mine && km!=null){ mine.roadKm = km; updatePinStatus(); renderCharges(); } });
-}
-function setPinFromLink(raw){
-  const url = raw.trim();
-  if(!url) return;
-  if(!/^https?:\/\/(www\.)?(maps\.app\.goo\.gl|goo\.gl\/maps|google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)/i.test(url)){
-    pinStatusEl.textContent = "That doesn't look like a Google Maps link. Open the place in Google Maps, tap Share, and paste the link.";
-    return;
-  }
-  const c = parseMapsCoords(url);
-  if(c){ setPin(c.lat, c.lng, 'link'); }
-  else { pin = {lat:null, lng:null, source:'link', url}; updatePinStatus(); renderCharges(); }
-}
-function initPinMap(){
-  const el = document.getElementById('pinMap');
-  if(typeof L === 'undefined'){ el.style.display = 'none'; updatePinStatus(); return; }
-  if(!pinMap){
-    pinMap = L.map(el, {scrollWheelZoom:false}).setView([KITCHEN.lat, KITCHEN.lng], 12);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'© OpenStreetMap contributors'}).addTo(pinMap);
-    pinMap.on('click', e=> setPin(e.latlng.lat, e.latlng.lng, 'map'));
-  }
-  setTimeout(()=>{ pinMap.invalidateSize(); placeMarker(); }, 60);
-  updatePinStatus();
-}
-document.getElementById('useLocBtn').onclick = ()=>{
-  if(!navigator.geolocation){ pinStatusEl.textContent = "Your browser can't share its location. Tap the map or paste a Google Maps link instead."; return; }
-  pinStatusEl.textContent = 'Finding you...';
-  navigator.geolocation.getCurrentPosition(
-    p=> setPin(p.coords.latitude, p.coords.longitude, 'device'),
-    ()=>{ pinStatusEl.textContent = "We couldn't get your location. Tap the map or paste a Google Maps link instead."; },
-    {enableHighAccuracy:true, timeout:12000}
-  );
-};
-document.getElementById('pinLink').addEventListener('change', e=> setPinFromLink(e.target.value));
-document.getElementById('pinLink').addEventListener('paste', e=> setTimeout(()=> setPinFromLink(e.target.value), 0));
-
-/* ---- cart drawer steps: cart -> details -> survey -> done ---- */
+/* ---- cart drawer steps: cart -> details -> done ---- */
 const show = (el, on, disp)=>{ el.style.display = on ? (disp||'block') : 'none'; };
 function setStep(s){
   step = s;
@@ -1200,18 +986,15 @@ function setStep(s){
   show(cartChargesEl, (s==='cart' || s==='details') && cart.length>0);
   show(checkoutForm, s==='details');
   show(checkoutNote, s==='details');
-  show(surveyFormEl, s==='survey');
   show(orderSuccess, s==='done');
   show(checkoutFoot, s!=='done' && cart.length>0, 'flex');
-  show(backLinkEl, s==='details' || s==='survey');
-  show(skipSurveyBtn, s==='survey');
-  show(cartHeadSub, s==='survey');
-  cartHeadTitle.textContent = {cart:'Your Order', details:'Delivery details', survey:'Quick questions', done:'Send your order'}[s];
-  placeOrderBtn.textContent = {cart:'Continue', details:'Continue', survey:'Place order on WhatsApp'}[s] || '';
-  placeOrderBtn.onclick = {cart:goToDetails, details:goToSurvey, survey:submitOrder}[s] || null;
+  show(backLinkEl, s==='details');
+  cartHeadTitle.textContent = {cart:'Your Order', details:'Your details', done:'Send your order'}[s];
+  placeOrderBtn.textContent = {cart:'Continue', details:'Place order on WhatsApp'}[s] || '';
+  placeOrderBtn.onclick = {cart:goToDetails, details:submitOrder}[s] || null;
   cartSheetBodyEl.scrollTop = 0;
 }
-backLinkEl.onclick = ()=> setStep(step==='survey' ? 'details' : 'cart');
+backLinkEl.onclick = ()=> setStep('cart');
 
 function cartDetailParts(c){
   const parts = [];
@@ -1256,7 +1039,6 @@ function goToDetails(){
   setStep('details');
   formErrorEl.style.display = 'none';
   renderCharges();
-  initPinMap();
 }
 
 const joinList = a => a.length<2 ? a.join('') : a.slice(0,-1).join(', ')+' and '+a[a.length-1];
@@ -1267,31 +1049,16 @@ function readDetails(){
   if(digits.length===12 && digits.startsWith('91')) digits = digits.slice(2);
   if(digits.length===11 && digits.startsWith('0')) digits = digits.slice(1);
   const address = custAddressEl.value.trim();
-  const notes = custNotesEl.value.trim();
   const errs = [];
   if(name.length<2) errs.push('your name');
   if(!/^[6-9]\d{9}$/.test(digits)) errs.push('a 10-digit WhatsApp number');
   if(address.length<10) errs.push('your full delivery address');
-  if(!pin) errs.push('your location pin');
-  return {name, phone:digits, address, notes, errs};
-}
-
-function goToSurvey(){
-  const d = readDetails();
-  if(d.errs.length){
-    formErrorEl.textContent = 'Please add '+joinList(d.errs)+'.';
-    formErrorEl.style.display = 'block';
-    formErrorEl.scrollIntoView({behavior:'smooth', block:'nearest'});
-    return;
-  }
-  formErrorEl.style.display = 'none';
-  renderSurveyBody();
-  setStep('survey');
+  return {name, phone:digits, address, errs};
 }
 
 /* ---- the order message that goes to the kitchen's WhatsApp ---- */
-function buildWhatsAppMessage(d, del){
-  const m = cartMoney(), base = m.net + m.gst;
+function buildWhatsAppMessage(d){
+  const m = orderMoney();
   const lines = ['*New Zoco order (website)*', '', '*Order*'];
   cart.forEach((c,i)=>{
     lines.push(`${i+1}. ${c.name} × ${c.qty} (₹${c.unit*c.qty})`);
@@ -1299,70 +1066,51 @@ function buildWhatsAppMessage(d, del){
     if(parts.length) lines.push('    '+parts.join(' | '));
   });
   lines.push('', `Items: ₹${m.sub}`);
-  if(m.disc) lines.push(`4-meal pack ${Math.round(PACK_DISCOUNT*100)}% off: -₹${m.disc}`);
-  lines.push(`GST ${Math.round(GST_RATE*100)}%: ₹${m.gst}`);
-  const dk = d2 => d2.km==null ? '' : `${d2.km.toFixed(1)} km by road${d2.exact?'':', approx.'}`;
-  lines.push(`Packaging & delivery: ₹${DELIVERY_FLAT_FEE} (included)`);
-  lines.push(`*Total to pay: ₹${base+DELIVERY_FLAT_FEE}*`);
-  if(del.status==='beyond') lines.push(`Delivery is ${dk(del)}, beyond ${DELIVERY_RADIUS_KM} km. Please confirm the extra delivery charge on actuals (the difference above ₹${DELIVERY_FLAT_FEE}).`);
-  else if(del.status!=='within') lines.push('Please check the distance from the pin and confirm any extra delivery charge.');
-  lines.push('', '*Delivery details*', `Name: ${d.name}`, `WhatsApp: +91 ${d.phone.slice(0,5)} ${d.phone.slice(5)}`, `Address: ${d.address}`, `Pin: ${pin.url}`);
-  if(d.notes) lines.push(`Notes: ${d.notes}`);
+  lines.push(`Discount (${Math.round(ORDER_DISCOUNT*100)}%): -₹${m.disc}`);
+  lines.push(`GST (${Math.round(GST_RATE*100)}%): ₹${m.gst}`);
+  lines.push(`*Total to pay: ₹${m.total}*`);
+  lines.push('', '*Delivery details*', `Name: ${d.name}`, `WhatsApp: +91 ${d.phone.slice(0,5)} ${d.phone.slice(5)}`, `Address: ${d.address}`);
   return lines.join('\n');
 }
 
-function renderDone(del, payable){
-  const extra = del.status==='beyond' ? `You're beyond our ${DELIVERY_RADIUS_KM} km zone, so we'll message you on WhatsApp with any extra delivery charge on actuals.` : (del.status==='within' ? '' : "We'll check your distance and message you on WhatsApp with any extra delivery charge.");
-  const payBlock = `<div class="pay-box">
-         <div class="pay-title">Pay <span class="num">₹${payable}</span> to confirm</div>
-         <img src="${PAYMENT_QR}" alt="Zoco payment QR code" width="760" height="1216">
-         <p>Scan with any UPI app, then send the payment screenshot on WhatsApp. ${extra}</p>
-       </div>`;
+function renderDone(payable){
   orderSuccess.innerHTML = `
     <div class="order-success-title">Send your order on WhatsApp</div>
     <p>WhatsApp should have opened with your order ready to go. Tap <b>Send</b> to place it with us. Your order isn't with us until you send it.</p>
     <a class="wa-btn" href="${lastWaUrl}" target="_blank" rel="noopener">Open WhatsApp again</a>
-    ${payBlock}`;
+    <div class="pay-box">
+      <div class="pay-title">Pay <span class="num">₹${payable}</span> to confirm</div>
+      <img src="${PAYMENT_QR}" alt="Zoco payment QR code" width="760" height="1216">
+      <p>Scan with any UPI app, then send the payment screenshot on WhatsApp.</p>
+    </div>`;
   setStep('done');
-}
-
-skipSurveyBtn.onclick = submitOrder;
-
-function surveyAnswersForPayload(){
-  const out = {};
-  SURVEY_QUESTIONS.forEach(q=>{
-    const v = surveyAnswers[q.key];
-    if(v instanceof Set) out[q.key] = [...v].join(', ');
-    else out[q.key] = v || '';
-  });
-  return out;
 }
 
 function submitOrder(){
   const d = readDetails();
-  if(d.errs.length){ setStep('details'); formErrorEl.textContent='Please add '+joinList(d.errs)+'.'; formErrorEl.style.display='block'; return; }
-  const del = deliveryInfo(), mny = cartMoney(), payable = mny.net + mny.gst + DELIVERY_FLAT_FEE;
-  const msg = buildWhatsAppMessage(d, del);
+  if(d.errs.length){ formErrorEl.textContent='Please add '+joinList(d.errs)+'.'; formErrorEl.style.display='block'; formErrorEl.scrollIntoView({behavior:'smooth', block:'nearest'}); return; }
+  formErrorEl.style.display = 'none';
+  const m = orderMoney();
+  const msg = buildWhatsAppMessage(d);
   lastWaUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   // Open WhatsApp straight from the tap so the browser doesn't block it.
   window.open(lastWaUrl, '_blank');
 
   // Quietly log the order to the sheet too (best effort).
   const buckets = cartByBucket();
-  const notes = [d.notes, 'Address: '+d.address, 'Pin: '+pin.url, 'Delivery: ₹'+DELIVERY_FLAT_FEE+(del.status==='within' ? '' : ' + extra tbc')].filter(Boolean).join(' | ');
-  const payload = Object.assign({
-    name: d.name, phone: d.phone, notes, total: payable,
-    address: d.address, pinUrl: pin.url, deliveryFee: DELIVERY_FLAT_FEE,
+  const payload = {
+    name: d.name, phone: d.phone, notes: 'Address: '+d.address, address: d.address,
+    total: m.total, discount: m.disc,
     mainsText: buckets.Mains.join('\n'), saucesText: buckets.Sauces.join('\n'), dipsText: buckets.Dips.join('\n'),
     beveragesText: buckets.Beverages.join('\n'), sidesText: buckets.Sides.join('\n'),
-  }, surveyAnswersForPayload());
+  };
   if(ORDERS_ENDPOINT){
     try{ fetch(ORDERS_ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(payload), keepalive:true}).catch(()=>{}); }catch(e){}
   }
 
   cart = [];
   renderCartBar();
-  renderDone(del, payable);
+  renderDone(m.total);
 }
 
 /* Floating category bar: highlights the section you're in and keeps the active tab in view. */
