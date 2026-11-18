@@ -116,6 +116,11 @@
   .charge-row{display:flex;justify-content:space-between;font-size:15px;padding:6px 0;color:var(--ink)}
   .charge-row.total{font-family:var(--font-num);font-weight:700;font-size:22px;padding-top:14px;margin-top:6px;border-top:1px solid color-mix(in srgb,var(--ink) 15%,transparent)}
   .charge-row.pack{color:var(--purple);font-weight:700}
+  .wsa-card{background:var(--cream,#fff);color:var(--indigo,#180161);border-radius:24px;padding:28px 26px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center}
+  .wsa-tag{font-family:var(--font-display);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--magenta,#ED3778)}
+  .wsa-card h3{font-family:var(--font-display);font-weight:400;font-size:28px;line-height:1.1;margin:8px 0 12px}
+  .wsa-card p{font-size:16px;line-height:1.5}
+  .wsa-ok{margin-top:18px;width:100%;border:0;border-radius:999px;padding:14px;font-size:17px;font-weight:700;background:var(--orange,#FF5429);color:#fff;cursor:pointer}
   .pack-nudge{color:var(--purple);opacity:1;font-weight:700}
   .charge-note{font-size:13px;line-height:1.5;opacity:.7;margin-top:6px}
   .back-link{background:none;border:none;color:var(--purple);font-size:14px;font-weight:700;cursor:pointer;padding:0 0 10px;font-family:var(--font-sans)}
@@ -180,7 +185,7 @@
 <section class="px-hero px-orange px-slim" id="menutop">
   <div class="px-copy">
     <h1 class="px-title">build your <em>order</em></h1>
-    <p class="px-lede">Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish, and the nutrition calculator updates with every choice you make. Order here and save: 10% off, or 15% off when your items come to ₹500 or more. Earn Zoco points on every order, tied to your mobile number. Prices are before 5% GST, and delivery is ₹50. Prefer free delivery? <a href="https://ownly.food/app/brand/BR510232" target="_blank" rel="noopener">Order on Ownly</a> (no website discounts).</p>
+    <p class="px-lede">Pick a size, add what you want, and watch the total update as you go. Allergen info is listed on every dish, and the nutrition calculator updates with every choice you make. Order here and save: 10% off, or 15% off when your items come to ₹500 or more. Earn Zoco points on every order, tied to your mobile number. Prices are before 5% GST, and delivery and packaging is ₹70. Prefer free delivery? <a href="https://ownly.food/app/brand/BR510232" target="_blank" rel="noopener">Order on Ownly</a> (no website discounts).</p>
   </div>
   <div class="px-strip">
     <img src="img/home/mexican-bowl-chicken-regular.jpg" alt="" width="720" height="720">
@@ -220,6 +225,14 @@
   </div>
 </div>
 
+<div class="overlay" id="wsaPopup" style="z-index:80;align-items:center;padding:20px">
+  <div class="wsa-card" role="dialog" aria-modal="true" aria-labelledby="wsaTitle">
+    <div class="wsa-tag">Whitespace Alpha</div>
+    <h3 id="wsaTitle">You have a custom discount for 18th to 20th Nov</h3>
+    <p>Discount is <b>50% off</b> on all bowls, wraps, quesadillas, tacos and pita pockets only. Max discount is ₹250.</p>
+    <button type="button" class="wsa-ok" id="wsaOk">Got it</button>
+  </div>
+</div>
 <div class="overlay" id="cartOverlay">
   <div class="sheet">
     <div class="sheet-head">
@@ -948,7 +961,7 @@ const WHATSAPP_NUMBER = '917207913443';
 const GST_RATE = 0.05;             // added on top of menu prices
 // Website order perks: a discount that grows with the order, plus a small delivery fee.
 const TIERS = [{min:500, pct:0.15}, {min:0, pct:0.10}];   // items under ₹500: 10% off, ₹500 and above: 15% off
-const DELIVERY_FEE = 50;
+const DELIVERY_FEE = 70;   // delivery and packaging
 const PAYMENT_QR = 'brand/zoco-payment-qr.png';
 
 let step = 'cart';
@@ -965,20 +978,33 @@ const cartSheetBodyEl = document.getElementById('cartSheetBody');
 const cartSubtotal = ()=> cart.reduce((s,c)=>s+c.unit*c.qty,0);
 function tierFor(sub){ return TIERS.find(x=>sub>=x.min); }
 // Items, tiered discount, 5% GST on the discounted items, then the flat delivery fee.
+/* Whitespace Alpha staff offer: 18-20 Nov 2026 (IST). Address mentions wsa / whitespace alpha.
+   50% off bowls, wraps, quesadillas, tacos and pita pockets only, max ₹250. Replaces the tier discount. */
+const WSA = {from:'2026-11-18', to:'2026-11-20', pct:0.5, max:250, cats:['Protein Bowls','Shawarma Rolls','Quesadillas','Tacos','Pita Pockets']};
+const wsaDateOk = ()=>{ const d = new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'}); return d>=WSA.from && d<=WSA.to; };
+const wsaMatch = a => /(^|[^a-z])wsa/i.test(a) || /white[\s\-_.]*space[\s\-_.]*alpha/i.test(a);
+const wsaActive = ()=> wsaDateOk() && wsaMatch(custAddressEl.value);
 function orderMoney(){
-  const sub = cartSubtotal(), tier = tierFor(sub), pct = tier ? tier.pct : 0;
-  const disc = Math.round(sub*pct), net = sub-disc, gst = Math.round(net*GST_RATE);
-  return {sub, pct, disc, net, gst, fee: DELIVERY_FEE, total: net+gst+DELIVERY_FEE};
+  const sub = cartSubtotal(), wsa = wsaActive();
+  let pct, disc;
+  if(wsa){
+    const elig = cart.filter(c=>WSA.cats.includes(c.category)).reduce((s,c)=>s+c.unit*c.qty,0);
+    disc = Math.min(WSA.max, Math.round(elig*WSA.pct)); pct = sub ? disc/sub : 0;
+  } else {
+    const tier = tierFor(sub); pct = tier ? tier.pct : 0; disc = Math.round(sub*pct);
+  }
+  const net = sub-disc, gst = Math.round(sub*GST_RATE);   // GST on the subtotal, before discount
+  return {sub, pct, disc, net, gst, wsa, fee: DELIVERY_FEE, total: net+gst+DELIVERY_FEE};
 }
 
 function renderCharges(){
   const m = orderMoney();
-  const next = m.sub < 500 ? `<div class="charge-note pack-nudge">Add ₹${500-m.sub} more to get 15% off instead of 10%.</div>` : '';
+  const next = (m.sub < 500 && !m.wsa) ? `<div class="charge-note pack-nudge">Add ₹${500-m.sub} more to get 15% off instead of 10%.</div>` : '';
   cartChargesEl.innerHTML = `
     <div class="charge-row"><span>Items</span><span class="num">₹${m.sub}</span></div>
-    <div class="charge-row pack"><span>Website discount (${Math.round(m.pct*100)}%)</span><span class="num">−₹${m.disc}</span></div>
+    <div class="charge-row pack"><span>${m.wsa?'Whitespace Alpha offer (50%, max ₹250)':`Website discount (${Math.round(m.pct*100)}%)`}</span><span class="num">−₹${m.disc}</span></div>
     <div class="charge-row"><span>GST (${Math.round(GST_RATE*100)}%)</span><span class="num">₹${m.gst}</span></div>
-    <div class="charge-row"><span>Delivery</span><span class="num">₹${m.fee}</span></div>
+    <div class="charge-row"><span>Delivery &amp; packaging</span><span class="num">₹${m.fee}</span></div>
     <div class="charge-row total"><span>Total</span><span class="num">₹${m.total}</span></div>
     ${next}`;
 }
@@ -1041,6 +1067,16 @@ function renderCartDrawer(){
   setStep('cart');
 }
 
+let wsaShown = false;
+function checkWsa(){
+  const hit = wsaActive();
+  renderCharges();
+  if(hit && !wsaShown){ wsaShown = true; document.getElementById('wsaPopup').classList.add('open'); }
+  if(!hit) wsaShown = false;
+}
+custAddressEl.addEventListener('input', checkWsa);
+document.getElementById('wsaOk').onclick = ()=> document.getElementById('wsaPopup').classList.remove('open');
+
 function goToDetails(){
   setStep('details');
   formErrorEl.style.display = 'none';
@@ -1072,9 +1108,9 @@ function buildWhatsAppMessage(d){
     if(parts.length) lines.push('    '+parts.join(' | '));
   });
   lines.push('', `Items: ₹${m.sub}`);
-  lines.push(`Website discount (${Math.round(m.pct*100)}%): -₹${m.disc}`);
+  lines.push(m.wsa ? `Whitespace Alpha offer (50%, max ₹250): -₹${m.disc}` : `Website discount (${Math.round(m.pct*100)}%): -₹${m.disc}`);
   lines.push(`GST (${Math.round(GST_RATE*100)}%): ₹${m.gst}`);
-  lines.push(`Delivery: ₹${m.fee}`);
+  lines.push(`Delivery & packaging: ₹${m.fee}`);
   lines.push(`*Total to pay: ₹${m.total}*`);
   lines.push('', '*Delivery details*', `Name: ${d.name}`, `WhatsApp: +91 ${d.phone.slice(0,5)} ${d.phone.slice(5)}`, `Address: ${d.address}`);
   return lines.join('\n');
